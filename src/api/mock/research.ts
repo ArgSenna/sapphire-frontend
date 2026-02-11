@@ -2,7 +2,7 @@ import { randomId } from '@/utils'
 import { mockStocks } from './stocks'
 
 import type { Evidence } from '../types'
-import type { ResearchType, Rating, ResearchElement, ResearchCounterArgument, ResearchReport } from '../types'
+import type { ResearchType, Rating, ResearchElement, ResearchCounterArgument, ResearchReport, ResearcherNote } from '../types'
 
 const ratings: Rating[] = ['strongBuy', 'buy', 'neutral', 'reduce', 'sell']
 
@@ -550,7 +550,7 @@ function generateReport(code: string, type: ResearchType): ResearchReport {
     conclusion: isInnovation
       ? '综合五大创新要素分析，该标的新品竞争力突出，研发效率行业领先，商业化留存质量优异。竞争格局尚未固化但公司处于第一梯队，KPI验证体系完整且多数达标。主要风险在于大厂入局冲击与自由现金流尚未转正。建议以中长期视角配置，重点跟踪规模化放量节奏与现金流拐点。'
       : isService
-        ? '综合五大服务要素分析，亚朵酒店处于快速扩张期，单店经济模型成熟，会员体系构成强复购护城河。运营效率持续优化，KPI验证体系10项中7项达标。主要风险在于店长储备不足制约开店节奏、租金成本上升压缩利润空间。建议以中长期视角配置，重点跟踪门店扩张质量与人效提升节奏。'
+        ? '【推荐】综合五大服务要素分析，亚朵处于快速扩张期，单店GOP利润率35-38%、Payback 22个月的经济模型已验证成熟，7200万A-Card会员（复购率42%、LTV 4倍于非会员）构成强需求侧护城河。运营效率行业领先（RevPAR 398元、人均毛利4.8万/季），管理杠杆持续释放（费用率8.2%且仍在下降），场景零售GMV 12.4亿开辟第二增长曲线。KPI验证10项中7项绿灯。核心风险在于：店长储备缺口15%制约开店节奏、一线城市租金占比升至28.5%逼近警戒线、同城自我竞争初现（高密度城市RevPAR下降5-8%）、加盟商坏账率从1.2%升至1.8%。若SSSG连续两季低于通胀则品牌力透支信号明确。建议买入并中长期持有，硬止损线为单店Payback超30个月或坏账率破3%。'
         : pick(conclusions),
     elements: isInnovation ? generateInnovationElements() : isService ? generateServiceElements() : titles.map(t => generateElement(t)),
     counterArgument: isInnovation ? {
@@ -577,6 +577,26 @@ function generateReport(code: string, type: ResearchType): ResearchReport {
       model: 'Manus-Agent-v1',
       analyzedAt: new Date().toISOString(),
     } : generateCounterArgument(),
+    researcherNotes: isService ? {
+      keyVariables: [
+        '实地探店观察员工精神面貌与服务主动性——亚朵强调"温暖感"文化，店长是否真正践行直接决定复购体验，这是财报无法量化的软实力',
+        '加盟商实际满意度与续约意愿——通过加盟商私下访谈获取真实经营感受，关注是否存在"报喜不报忧"的信息过滤',
+        'IP主题店的实际客户反馈与溢价接受度——25%新店为IP店，需验证溢价是否可持续还是仅靠新鲜感驱动',
+        '二三线城市新店周边竞品密度与客源结构——下沉市场商旅需求是否足以支撑ADR 400+的定价',
+      ],
+      hardConstraints: [
+        '若单店Payback中位数拉长至30个月以上，立即暂停扩张逻辑，说明单店模型在新区域不成立',
+        '若加盟商坏账率突破3%或C级加盟商占比超15%，触发加盟体系健康度红线，需重新评估扩张节奏',
+        '若租金+人工合计占比突破55%，GOP利润率将被压缩至30%以下，单店盈利模型面临重构',
+        '若SSSG连续两个季度低于CPI（约2%），说明品牌力已透支，同店增长逻辑不再成立',
+      ],
+      tradingPlan: [
+        '加仓信号：SSSG连续两季≥6% + Payback缩短至20个月以内 + 管理费用率降至7%以下，说明规模效应加速释放，目标仓位可提升至组合的8-10%',
+        '持有观察：SSSG 3-5% + Payback 22-26个月 + 员工流失率稳定在35-40%，维持当前仓位（5-6%），季度跟踪',
+        '减仓信号：SSSG降至2%以下 或 坏账率升至2.5%+ 或 新店OCC连续两季低于72%，减仓至3%以下并暂停加仓计划',
+        '清仓信号：Payback超30个月 + SSSG转负 + 加盟商大规模退出（年退出率>5%），说明商业模型遭遇系统性挑战',
+      ],
+    } : undefined,
     createdAt: new Date(Date.now() - Math.random() * 30 * 86400000).toISOString(),
     model: 'Manus-Agent-v1',
   }

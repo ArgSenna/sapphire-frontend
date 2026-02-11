@@ -23,6 +23,12 @@ export interface ResearchCounterArgument {
   analyzedAt: string
 }
 
+export interface ResearcherNote {
+  keyVariables: string[]
+  hardConstraints: string[]
+  tradingPlan: string[]
+}
+
 export interface ResearchReport {
   id: string
   stockCode: string
@@ -32,6 +38,7 @@ export interface ResearchReport {
   conclusion: string
   elements: ResearchElement[]
   counterArgument: ResearchCounterArgument
+  researcherNotes?: ResearcherNote
   createdAt: string
   model: string
 }
