@@ -10,9 +10,9 @@ import ResearchElementCard from './components/ResearchElementCard'
 import type { ResearchReport, ResearchType, Evidence } from '@/api/types'
 
 const typeLabels: Record<ResearchType, { label: string; color: string }> = {
-  investment: { label: '投资研究', color: 'bg-amber-500/20 text-amber-400' },
-  service: { label: '服务研究', color: 'bg-blue-500/20 text-blue-400' },
-  innovation: { label: '创新研究', color: 'bg-purple-500/20 text-purple-400' },
+  investment: { label: '投资驱动', color: 'bg-amber-500/20 text-amber-400' },
+  service: { label: '服务驱动', color: 'bg-blue-500/20 text-blue-400' },
+  innovation: { label: '创新驱动', color: 'bg-purple-500/20 text-purple-400' },
 }
 
 export default function ResearchDetail() {

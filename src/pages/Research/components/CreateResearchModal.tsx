@@ -7,9 +7,9 @@ import { cn } from '@/utils'
 import type { ResearchType, ResearchReport } from '@/api/types'
 
 const typeOptions: { value: ResearchType; label: string; desc: string }[] = [
-  { value: 'investment', label: '投资研究', desc: '聚焦财务、估值、竞争力等投资维度' },
-  { value: 'service', label: '服务研究', desc: '聚焦单位经济模型、运营效率、客户LTV、竞争格局与KPI验证' },
-  { value: 'innovation', label: '创新研究', desc: '聚焦新品竞争力、研发效率、商业化留存、竞争格局与KPI验证' },
+  { value: 'investment', label: '投资驱动', desc: '聚焦财务、估值、竞争力等投资维度' },
+  { value: 'service', label: '服务驱动', desc: '聚焦单位经济模型、运营效率、客户LTV、竞争格局与KPI验证' },
+  { value: 'innovation', label: '创新驱动', desc: '聚焦新品竞争力、研发效率、商业化留存、竞争格局与KPI验证' },
 ]
 
 interface CreateResearchModalProps {
