@@ -17,6 +17,7 @@ export default function AppLayout() {
 
   // 判断是否在 portfolio detail 页面（移动端底部导航高亮"组合"）
   const isPortfolioActive = location.pathname.startsWith('/portfolio')
+  const isResearchActive = location.pathname.startsWith('/research')
 
   return (
     <div className="flex h-screen overflow-hidden bg-slate-950">
@@ -70,7 +71,9 @@ export default function AppLayout() {
               ? location.pathname === '/'
               : item.to === '/portfolio'
                 ? isPortfolioActive
-                : location.pathname === item.to
+                : item.to === '/research'
+                  ? isResearchActive
+                  : location.pathname === item.to
 
             return (
               <NavLink

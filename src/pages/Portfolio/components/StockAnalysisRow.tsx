@@ -10,7 +10,6 @@ import EvidenceDrawer from './EvidenceDrawer'
 import type { Stock, StockQuote, AnalysisData, AnalysisDimension, Evidence } from '@/api/types'
 
 const dimensionKeys: AnalysisDimension[] = ['dailySummary', 'eventPrediction', 'capitalFlow', 'riskControl']
-const allDimensions = new Set(dimensionKeys)
 
 interface StockAnalysisRowProps {
   stock: Stock

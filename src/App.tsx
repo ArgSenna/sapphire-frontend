@@ -5,6 +5,7 @@ import HomePage from '@/pages/Home'
 import PortfolioPage from '@/pages/Portfolio'
 import PortfolioDetail from '@/pages/Portfolio/PortfolioDetail'
 import ResearchPage from '@/pages/Research'
+import ResearchDetail from '@/pages/Research/ResearchDetail'
 
 export default function App() {
   return (
@@ -15,6 +16,7 @@ export default function App() {
           <Route path="/portfolio" element={<PortfolioPage />} />
           <Route path="/portfolio/:id" element={<PortfolioDetail />} />
           <Route path="/research" element={<ResearchPage />} />
+          <Route path="/research/:id" element={<ResearchDetail />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Route>
       </Routes>

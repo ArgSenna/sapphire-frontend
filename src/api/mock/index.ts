@@ -9,3 +9,9 @@ export {
   addStockToPortfolio,
   removeStockFromPortfolio,
 } from './portfolio'
+export {
+  getMockResearchReports,
+  getMockResearchById,
+  createMockResearch,
+  deleteMockResearch,
+} from './research'

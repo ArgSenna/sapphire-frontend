@@ -5,9 +5,11 @@ import {
   createMockPortfolio, updateMockPortfolio, deleteMockPortfolio,
   addStockToPortfolio, removeStockFromPortfolio,
   generateMockAnalysis,
+  getMockResearchReports, getMockResearchById,
+  createMockResearch, deleteMockResearch,
 } from '../mock'
 
-import type { Stock, StockQuote, Portfolio, PortfolioFormData, AnalysisData } from '../types'
+import type { Stock, StockQuote, Portfolio, PortfolioFormData, AnalysisData, ResearchReport, ResearchType } from '../types'
 
 const DELAY = 300
 
@@ -62,6 +64,25 @@ export const api = {
     async getForStock(code: string): Promise<AnalysisData> {
       await delay(DELAY + 200)
       return generateMockAnalysis(code)
+    },
+  },
+
+  research: {
+    async list(): Promise<ResearchReport[]> {
+      await delay(DELAY)
+      return getMockResearchReports()
+    },
+    async getById(id: string): Promise<ResearchReport | undefined> {
+      await delay(DELAY)
+      return getMockResearchById(id)
+    },
+    async create(stockCode: string, type: ResearchType): Promise<ResearchReport> {
+      await delay(DELAY + 500)
+      return createMockResearch(stockCode, type)
+    },
+    async delete(id: string): Promise<boolean> {
+      await delay(DELAY)
+      return deleteMockResearch(id)
     },
   },
 }

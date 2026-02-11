@@ -18,3 +18,4 @@ export const signalLabels: Record<SignalColor, string> = {
 export type { Stock, StockQuote } from './stock'
 export type { Portfolio, PortfolioStock, StockAnalysisSummary, DimensionSummary, PortfolioFormData, PortfolioListItem } from './portfolio'
 export type { AgentAnalysis, Evidence, DailySummaryData, EventPredictionData, CapitalFlowData, RiskControlData, AnalysisData } from './analysis'
+export type { ResearchType, Rating, ResearchElement, ResearchCounterArgument, ResearchReport } from './research'
