@@ -28,12 +28,28 @@ function rand(min: number, max: number) {
   return Math.random() * (max - min) + min
 }
 
+// 贵州茅台真实行情（2026-02-11收盘，来源：东方财富API日K线）
+const maotaiQuote: StockQuote = {
+  code: '600519',
+  price: 1504.33,
+  change: -0.47,
+  changePercent: -0.03,
+  volume: 30928,
+  turnover: 4648360030,
+  high: 1514.00,
+  low: 1496.00,
+  open: 1504.80,
+  prevClose: 1504.80,
+}
+
 export function generateMockQuote(code: string): StockQuote {
+  if (code === '600519') return maotaiQuote
+
   const bases: Record<string, number> = {
-    '600519': 1680, '000858': 145, '601318': 48, '600036': 36,
+    '000858': 106, '601318': 48, '600036': 36,
     '000333': 62, '600900': 28, '601012': 22, 'NVDA': 138,
     '002594': 245, '600276': 43, '000001': 11, '601888': 68,
-    '002475': 35, '600809': 215, '002714': 38, '601899': 16,
+    '002475': 35, '600809': 170, '002714': 38, '601899': 16,
     '300059': 16, '688981': 48, '002415': 32, '600030': 22, 'ATAT': 22,
   }
   const base = bases[code] ?? 50

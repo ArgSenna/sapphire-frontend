@@ -69,224 +69,202 @@ function generateMaotaiAnalysis(): AnalysisData {
   const now = new Date().toISOString()
   const model = 'Manus-Agent-v1'
 
+  // 以下数据基于东方财富API真实行情（2026-02-11收盘）
+  // K线来源: push2his.eastmoney.com/api/qt/stock/kline/get?secid=1.600519
+  // 资金流来源: push2his.eastmoney.com/api/qt/stock/fflow/daykline/get?secid=1.600519
+  // 板块来源: push2.eastmoney.com/api/qt/clist/get?fs=b:BK0477
+  // 公告来源: np-anotice-stock.eastmoney.com/api/security/ann?stock_list=600519
+  // 北向来源: datacenter-web.eastmoney.com RPT_MUTUAL_HOLDSTOCKNORTH_STA
+
   return {
     dailySummary: {
-      signal: 'green',
+      signal: 'yellow',
       title: '每日信息汇总',
-      summary: '白酒板块走强，茅台放量上涨，主力资金积极介入',
-      content: '贵州茅台今日高开高走，收盘报1688.50元，涨幅1.82%，成交额42.3亿元，换手率0.34%，振幅2.15%。技术面上，股价站稳MA5(1672)与MA10(1658)上方，MA20(1645)形成有力支撑，均线多头排列延续。MACD红柱持续放大，KDJ金叉向上运行，RSI(62)处于强势区间但未超买，布林带中轨上行、股价运行于中上轨之间。消息面上，公司公告2024年度分红方案每股派现30.876元，股息率约1.83%；白酒行业春节旺季动销数据超预期，渠道库存处于健康水平。板块联动方面，白酒板块整体上涨1.35%，五粮液涨1.56%、山西汾酒涨2.10%，茅台作为龙头表现稳健。',
+      summary: '缩量微跌收1504.33，跌破MA5，白酒板块全线走弱',
+      content: `【行情数据】
+开盘1504.80 | 收盘1504.33 | 最高1514.00 | 最低1496.00
+成交3.09万手/46.48亿 | 换手率0.25% | 振幅1.20% | 跌幅0.03%
+
+【技术指标】
+MA5(1520.82) > 现价，已跌破5日线；MA10(1489.17)仍构成支撑
+春节后冲高回落：02/05高点1565→连续回调至1504
+
+【消息面】
+股份回购持续推进中（最新进展公告02-03）
+
+【板块联动】
+白酒板块全线下跌：金徽酒-1.86%、酒鬼酒-1.05%、水井坊-0.74%、五粮液-0.43%、山西汾酒-0.36%，无一上涨`,
       evidences: [
         {
-          source: '东方财富行情数据',
-          url: 'https://www.eastmoney.com',
-          date: '2025-02-11',
-          snippet: '贵州茅台(600519)收盘价1688.50元，涨1.82%，成交额42.3亿元，换手率0.34%。MA5/MA10/MA20均线多头排列，MACD红柱放大。',
+          source: '东方财富API-日K线数据',
+          url: 'https://quote.eastmoney.com/sh600519.html',
+          date: '2026-02-11',
+          snippet: '贵州茅台(600519) 2026-02-11收盘数据：开盘1504.80 收盘1504.33 最高1514.00 最低1496.00，成交量30928手，成交额4,648,360,030元。',
           reliability: 'high',
           children: [
             {
-              source: '同花顺技术分析',
-              url: 'https://www.10jqka.com.cn',
-              date: '2025-02-11',
-              snippet: 'KDJ指标金叉运行(K:72, D:65, J:86)，RSI(14)=62处于强势区间，布林带开口向上，股价沿中上轨运行，短期上行动能充足。',
+              source: '东方财富API-近10日K线',
+              url: 'https://quote.eastmoney.com/sh600519.html',
+              date: '2026-02-11',
+              snippet: '近10日收盘序列：01/29:1437.72 | 01/30:1401.00 | 02/02:1427.00 | 02/03:1474.92 | 02/04:1525.00 | 02/05:1555.00 | 02/06:1515.01 | 02/09:1524.96 | 02/10:1504.80 | 02/11:1504.33。MA5≈1520.82，MA10≈1489.17。',
               reliability: 'high',
             },
           ],
         },
         {
-          source: '公司公告',
-          url: 'https://www.cninfo.com.cn',
-          date: '2025-02-10',
-          snippet: '贵州茅台发布2024年度利润分配预案：拟每股派发现金红利30.876元(含税)，分红总额约387.9亿元，分红比例达75.5%，股息率约1.83%。',
+          source: '巨潮资讯网-公司公告',
+          url: 'https://www.cninfo.com.cn/new/disclosure/detail?stockCode=600519',
+          date: '2026-02-03',
+          snippet: '贵州茅台关于回购股份实施进展的公告（2026-02-03）；控股股东增持股份结果公告（2025-12-29）；2025年中期权益分派实施公告（2025-12-10）。',
           reliability: 'high',
         },
         {
-          source: '财联社',
-          url: 'https://www.cls.cn',
-          date: '2025-02-11',
-          snippet: '春节期间白酒动销数据出炉：飞天茅台批价稳定在2200-2250元区间，渠道库存约1.5个月处于健康水平，经销商补货意愿积极。',
+          source: '东方财富API-白酒板块(BK0477)行情',
+          url: 'https://quote.eastmoney.com/center/boardlist.html#boards-BK0477',
+          date: '2026-02-11',
+          snippet: '白酒板块今日全线下跌。五粮液-0.43%、山西汾酒-0.36%、酒鬼酒-1.05%、水井坊-0.74%、金徽酒-1.86%、口子窖-0.31%，板块内无一上涨。',
           reliability: 'high',
-          children: [
-            {
-              source: '券商研报-中信证券',
-              url: 'https://data.eastmoney.com',
-              date: '2025-02-10',
-              snippet: '中信证券发布白酒行业跟踪报告：春节旺季茅台动销同比增长约8%，批价企稳回升，维持贵州茅台"买入"评级，目标价1900元。',
-              reliability: 'medium',
-            },
-          ],
         },
       ],
-      promptVersion: 'v1.0.0',
+      promptVersion: 'v2.0.0',
       model,
       analyzedAt: now,
       data: {
-        marketSentiment: '积极',
+        marketSentiment: '偏弱',
         keyNews: [
-          '2024年度分红方案公布：每股派现30.876元，分红比例75.5%',
-          '春节旺季飞天茅台动销同比增长约8%，批价稳定在2200-2250元',
-          '中信证券维持"买入"评级，目标价1900元',
+          '股份回购持续推进中，最新进展公告02-03发布（来源：巨潮资讯网）',
         ],
-        priceAnalysis: '股价站稳MA5/MA10上方，均线多头排列，MACD红柱放大，短期趋势偏多',
+        priceAnalysis: '跌破MA5(1520.82)，MA10(1489.17)为短期支撑，冲高回落形态',
       },
     },
     eventPrediction: {
-      signal: 'green',
+      signal: 'yellow',
       title: '重大事件预测',
-      summary: '年报披露窗口临近，业绩确定性高，分红落地构成正面催化',
-      content: '基于多源信息交叉验证，贵州茅台未来1-3个月存在多个关键事件节点。首先，2024年年报预计于3月底前披露，结合已公布的前三季度营收1207亿元(+16.9%)和净利润608亿元(+15.0%)，全年业绩大概率延续双位数增长，市场预期充分但仍有超预期可能。其次，年度分红方案已公告待股东大会审议，每股30.876元的高分红将在4月除权，对长线资金具有吸引力。此外，茅台1935等系列酒持续放量，i茅台数字化直销平台GMV稳步增长，产品矩阵优化构成中期催化。风险方面，大股东贵州省国资委持股比例稳定(54%)，质押比例为零，无减持风险；但需关注宏观消费复苏节奏及白酒行业库存周期变化。',
+      summary: '2025年报3月底前披露，回购持续推进中',
+      content: `【已确定事件日历】
+• 2025年年报：预计2026年3月底前披露，尚未发布业绩快报
+• 股份回购进行中：最新进展公告2026-02-03
+
+【高概率事件推演】
+业绩面：市场关注2025全年营收及净利润增速是否放缓
+技术面：若跌破MA10(≈1489)可能回踩1月低点1329元
+
+【事件影响评估】
+2025年报披露 → 中性(中) | 业绩稳健但市场已有预期
+回购持续推进 → 利好(中) | 构成股价底部支撑
+年度分红方案 → 利好(中) | 随年报披露`,
       evidences: [
         {
-          source: '公司公告',
-          url: 'https://www.cninfo.com.cn',
-          date: '2025-02-10',
-          snippet: '贵州茅台2024年前三季度实现营收1207.03亿元，同比增长16.9%；归母净利润608.28亿元，同比增长15.0%。年报预计于2025年3月底前披露。',
-          reliability: 'high',
-          children: [
-            {
-              source: '券商研报-国泰君安',
-              url: 'https://data.eastmoney.com',
-              date: '2025-02-08',
-              snippet: '国泰君安预计贵州茅台2024年全年营收约1650亿元(+15.5%)，归母净利润约830亿元(+15.2%)，Q4单季度收入增速有望达14%以上。',
-              reliability: 'medium',
-            },
-          ],
-        },
-        {
-          source: '证券时报',
-          url: 'https://www.stcn.com',
-          date: '2025-02-09',
-          snippet: '贵州茅台2024年度股东大会定于2025年3月召开，审议利润分配方案。拟每股派现30.876元，分红总额387.9亿元，分红比例75.5%，创近三年新高。',
+          source: '巨潮资讯网-回购进展公告',
+          url: 'https://www.cninfo.com.cn/new/disclosure/detail?stockCode=600519',
+          date: '2026-02-03',
+          snippet: '贵州茅台关于回购股份实施进展的公告（2026-02-03）。',
           reliability: 'high',
         },
         {
-          source: '财联社',
-          url: 'https://www.cls.cn',
-          date: '2025-02-07',
-          snippet: 'i茅台平台2024年GMV突破200亿元，注册用户超5000万。茅台1935全年销售额预计超150亿元，系列酒收入占比提升至约25%，产品矩阵持续优化。',
-          reliability: 'high',
-          children: [
-            {
-              source: '雪球用户调研',
-              url: 'https://xueqiu.com',
-              date: '2025-02-06',
-              snippet: '多地经销商反馈茅台1935终端动销良好，部分区域出现阶段性供不应求，渠道利润空间约15-20%，经销商积极性较高。',
-              reliability: 'medium',
-            },
-          ],
-        },
-        {
-          source: '东方财富股东研究',
-          url: 'https://www.eastmoney.com',
-          date: '2025-02-11',
-          snippet: '贵州茅台大股东贵州省国资委持股54.00%，无质押无减持计划。前十大流通股东中，香港中央结算(陆股通)持股比例约7.8%，较上季度增持0.3个百分点。',
+          source: '东方财富API-K线数据',
+          url: 'https://quote.eastmoney.com/sh600519.html',
+          date: '2026-02-11',
+          snippet: '春节后走势：01/29收1437.72→02/05最高1565.00→02/11回落至1504.33。MA10≈1489为关键支撑。',
           reliability: 'high',
         },
       ],
-      promptVersion: 'v1.0.0',
+      promptVersion: 'v2.0.0',
       model,
       analyzedAt: now,
       data: {
         events: [
-          { event: '2024年年报披露', probability: 0.95, impact: 'green', timeframe: '1-2个月' },
-          { event: '年度分红除权(每股30.876元)', probability: 0.98, impact: 'green', timeframe: '2-3个月' },
-          { event: '系列酒提价预期', probability: 0.45, impact: 'green', timeframe: '3-6个月' },
-          { event: '白酒消费税改革传闻', probability: 0.2, impact: 'red', timeframe: '6个月以上' },
+          { event: '2025年年报披露', probability: 0.95, impact: 'yellow', timeframe: '1-2个月' },
+          { event: '股份回购持续推进', probability: 0.9, impact: 'green', timeframe: '持续中' },
+          { event: '年度分红方案公布', probability: 0.95, impact: 'green', timeframe: '2-3个月' },
         ],
       },
     },
     capitalFlow: {
-      signal: 'green',
+      signal: 'red',
       title: '资金流分析',
-      summary: '主力资金连续净流入，北向资金持续增持，筹码集中度提升',
-      content: '贵州茅台今日主力资金净流入3.28亿元，其中超大单净买入1.85亿元、大单净买入1.43亿元，主力资金占成交额比例达38.2%。近5日主力累计净流入8.76亿元，呈现持续加仓态势。北向资金方面，陆股通今日净买入1.12亿元，近10个交易日累计净买入约9.5亿元，持仓市值约1650亿元，占流通盘比例升至7.8%。融资融券数据显示，融资余额98.6亿元，较上周增加2.3亿元，融券余额仅1.2亿元，多空比约82:1，多头力量占绝对优势。筹码分布上，1600-1700元区间为主要成本密集区，集中度约65%，当前价位获利盘比例约72%，套牢盘主要集中在1750-1850元区间。机构方面，近一个月共有12家机构调研，包括3家外资机构，关注重点为2025年经营目标和渠道改革进展。',
+      summary: '主力连续3日净流出累计14.5亿，成交额持续萎缩，资金面偏空',
+      content: `【主力资金】
+今日主力净流出1.70亿（大单+1.71亿，中单-1.33亿，小单-0.37亿）
+近3日持续净流出：02/09 -6.42亿 | 02/10 -6.38亿 | 02/11 -1.70亿
+成交额连续萎缩：02/05 141.8亿 → 02/11 46.5亿
+
+【北向资金】
+陆股通持股5504.88万股，占流通A股4.40%（截至2025-12-31）
+
+【筹码分布】
+近期成交密集区1496-1565元，当前价处于下沿
+01/29跳空缺口1329-1437元存在支撑`,
       evidences: [
         {
-          source: '东方财富资金流向',
-          url: 'https://www.eastmoney.com',
-          date: '2025-02-11',
-          snippet: '贵州茅台今日主力净流入3.28亿元(超大单+1.85亿，大单+1.43亿)，近5日累计净流入8.76亿元。散户资金净流出2.15亿元，主力吸筹特征明显。',
+          source: '东方财富API-日资金流向',
+          url: 'https://data.eastmoney.com/zjlx/600519.html',
+          date: '2026-02-11',
+          snippet: '贵州茅台近10日主力资金流向(单位:亿元)：01/29 +33.39 | 01/30 -4.49 | 02/02 +5.46 | 02/03 +12.12 | 02/04 +14.89 | 02/05 +4.21 | 02/06 -5.44 | 02/09 -6.42 | 02/10 -6.38 | 02/11 -1.70。近3日累计净流出14.50亿。',
           reliability: 'high',
           children: [
             {
-              source: '同花顺大单分析',
-              url: 'https://www.10jqka.com.cn',
-              date: '2025-02-11',
-              snippet: '今日超大单(>100万)成交占比18.5%，大单(20-100万)占比19.7%，合计主力成交占比38.2%，较昨日提升3.1个百分点，资金介入力度加大。',
+              source: '东方财富API-分钟资金流',
+              url: 'https://data.eastmoney.com/zjlx/600519.html',
+              date: '2026-02-11',
+              snippet: '2026-02-11 15:00 资金流数据：主力净流出1.70亿，超大单约持平(-34万)，大单净流入1.71亿，中单净流出1.33亿，小单净流出0.37亿。',
               reliability: 'high',
             },
           ],
         },
         {
-          source: '东方财富北向资金',
-          url: 'https://www.eastmoney.com',
-          date: '2025-02-11',
-          snippet: '陆股通今日净买入贵州茅台1.12亿元，近10日累计净买入9.5亿元。当前北向持仓9800万股，持仓市值约1650亿元，占流通盘7.8%。',
+          source: '东方财富-北向资金持股',
+          url: 'https://data.eastmoney.com/hsgtcg/StockHdStatistics/600519.html',
+          date: '2025-12-31',
+          snippet: '截至2025-12-31，陆股通持有贵州茅台5504.88万股，持仓市值758.12亿元，占流通A股4.40%，占总股本4.39%。当日收盘价1377.18元。',
           reliability: 'high',
         },
         {
-          source: '同花顺融资融券',
-          url: 'https://www.10jqka.com.cn',
-          date: '2025-02-11',
-          snippet: '贵州茅台融资余额98.6亿元(+2.3亿)，融券余额1.2亿元(-0.1亿)，融资净买入2.4亿元。多空比82:1，杠杆资金看多情绪浓厚。',
+          source: '东方财富API-K线成交额',
+          url: 'https://quote.eastmoney.com/sh600519.html',
+          date: '2026-02-11',
+          snippet: '近5日成交额持续萎缩：02/05 141.8亿 → 02/06 120.2亿 → 02/09 78.1亿 → 02/10 59.5亿 → 02/11 46.5亿。量能衰减明显，市场观望情绪浓厚。',
           reliability: 'high',
-          children: [
-            {
-              source: '雪球筹码分析',
-              url: 'https://xueqiu.com',
-              date: '2025-02-11',
-              snippet: '当前筹码主要集中在1600-1700元(约65%)，获利盘72%，套牢盘集中在1750-1850元(约18%)。筹码集中度较上月提升，主力控盘程度增强。',
-              reliability: 'medium',
-            },
-          ],
         },
       ],
-      promptVersion: 'v1.0.0',
+      promptVersion: 'v2.0.0',
       model,
       analyzedAt: now,
       data: {
-        mainForce: { inflow: 628000000, outflow: 300000000, net: 328000000 },
-        northbound: 112000000,
-        institutionRatio: 38.2,
+        mainForce: { inflow: 170682624, outflow: 340983608, net: -170341984 },
+        northbound: -55048844,
+        institutionRatio: 4.4,
       },
     },
     riskControl: {
-      signal: 'green',
+      signal: 'yellow',
       title: '风险控制',
-      summary: '风险可控，趋势健康，均线支撑有力',
-      content: '当前贵州茅台整体风险水平较低。股价运行在MA5/MA10/MA20均线系统上方，多头排列完好，MA60(1620)构成中期强支撑。技术指标方面，MACD处于零轴上方且红柱放大，趋势向好；RSI(62)处于强势区间但距超买(70)仍有空间；布林带开口适中，股价沿中上轨运行，无极端偏离。建议止损设置在MA20(1645元)下方约3%位置即1595元，止盈目标参考前高1780元及券商一致目标价1900元。需关注的风险点：一是白酒行业整体估值处于历史中位数偏上，若宏观经济数据不及预期可能引发板块回调；二是飞天茅台批价若跌破2100元可能影响市场信心。当前大股东持股稳定、无质押风险、无诉讼或审计异常，基本面风险极低。',
+      summary: '跌破MA5，主力连续流出，短期偏弱。MA10(1489)为关键支撑，回购构成底部安全垫。',
+      content: `股价跌破MA5(1520.82)，MA10(1489)为短期关键支撑，跌破则看1401和1329。主力连续3日净流出14.5亿，板块全线下跌，缩量明显。止损建议1459(MA10下方2%)，止盈看1565(春节后高点)。公司回购进行中，构成底部支撑。`,
       evidences: [
         {
-          source: '同花顺技术诊断',
-          url: 'https://www.10jqka.com.cn',
-          date: '2025-02-11',
-          snippet: '贵州茅台技术评分82/100。均线多头排列(MA5>MA10>MA20>MA60)，MACD金叉运行，RSI=62未超买，布林带中上轨运行。综合技术面健康，短期支撑位1645元(MA20)，压力位1780元(前高)。',
+          source: '东方财富API-K线数据',
+          url: 'https://quote.eastmoney.com/sh600519.html',
+          date: '2026-02-11',
+          snippet: 'MA5≈1520.82，MA10≈1489.17。股价跌破MA5，MA10为关键支撑。近5日成交额：141.8→120.2→78.1→59.5→46.5亿，持续萎缩。',
           reliability: 'high',
         },
         {
-          source: '新浪财经估值分析',
-          url: 'https://finance.sina.com.cn',
-          date: '2025-02-11',
-          snippet: '贵州茅台当前PE(TTM)约25.5倍，处于近5年估值中位数(28倍)下方，PB约9.8倍。白酒板块平均PE约30倍，茅台估值具有相对优势。',
-          reliability: 'medium',
-          children: [
-            {
-              source: '券商研报-招商证券',
-              url: 'https://data.eastmoney.com',
-              date: '2025-02-09',
-              snippet: '招商证券认为茅台2025年合理PE区间为25-30倍，对应股价区间1650-1980元。当前价位处于合理估值下沿，安全边际充足，维持"强烈推荐"评级。',
-              reliability: 'medium',
-            },
-          ],
+          source: '巨潮资讯网-回购进展公告',
+          url: 'https://www.cninfo.com.cn/new/disclosure/detail?stockCode=600519',
+          date: '2026-02-03',
+          snippet: '贵州茅台正在实施股份回购（2026-02-03进展公告），构成股价底部安全垫。',
+          reliability: 'high',
         },
       ],
-      promptVersion: 'v1.0.0',
+      promptVersion: 'v2.0.0',
       model,
       analyzedAt: now,
       data: {
-        riskLevel: 'low',
-        stopLoss: 5.5,
-        takeProfit: 12.5,
-        warnings: [],
+        riskLevel: 'medium',
+        stopLoss: 3.0,
+        takeProfit: 4.0,
+        warnings: ['主力资金连续3日净流出累计14.5亿', '白酒板块全线下跌', '成交量持续萎缩'],
       },
     },
   }
