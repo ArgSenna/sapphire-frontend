@@ -13,12 +13,12 @@ export default function EvidenceDrawer({ open, onClose, evidences, title }: Evid
   return (
     <div className="fixed inset-0 z-50 flex justify-end">
       <div className="absolute inset-0 bg-black/50" onClick={onClose} />
-      <div className="relative z-10 h-full w-full max-w-md overflow-y-auto border-l border-slate-700 bg-slate-900 p-6">
-        <div className="mb-6 flex items-center justify-between">
+      <div className="relative z-10 h-full w-full overflow-y-auto border-l border-slate-700 bg-slate-900 p-4 sm:max-w-md sm:p-6">
+        <div className="mb-5 flex items-center justify-between">
           <h3 className="text-base font-medium text-slate-100">证据链 - {title}</h3>
           <button
             onClick={onClose}
-            className="rounded-lg p-1 text-slate-400 hover:bg-slate-800 hover:text-slate-200"
+            className="rounded-lg p-1.5 text-slate-400 hover:bg-slate-800 hover:text-slate-200"
             aria-label="关闭"
           >
             <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -27,9 +27,9 @@ export default function EvidenceDrawer({ open, onClose, evidences, title }: Evid
           </button>
         </div>
 
-        <div className="space-y-4">
+        <div className="space-y-3">
           {evidences.map((ev, i) => (
-            <div key={i} className="rounded-lg border border-slate-800 bg-slate-800/30 p-4">
+            <div key={i} className="rounded-lg border border-slate-800 bg-slate-800/30 p-3.5">
               <div className="mb-2 flex items-center justify-between">
                 <span className="text-sm font-medium text-slate-200">{ev.source}</span>
                 <span className={

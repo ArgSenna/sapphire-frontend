@@ -28,7 +28,7 @@ export default function AnalysisCard({
     )}>
       <button
         onClick={onToggle}
-        className="flex w-full items-center gap-3 px-4 py-3 text-left"
+        className="flex w-full items-center gap-3 px-3.5 py-3 text-left sm:px-4"
       >
         <SignalLight color={signal} />
         <div className="flex-1">
@@ -44,12 +44,12 @@ export default function AnalysisCard({
       </button>
 
       {expanded && (
-        <div className="border-t border-slate-800 px-4 py-4">
+        <div className="border-t border-slate-800 px-3.5 py-3.5 sm:px-4 sm:py-4">
           <div className="whitespace-pre-wrap text-sm leading-relaxed text-slate-300">
             {content}
           </div>
-          <div className="mt-4 flex items-center justify-between border-t border-slate-800 pt-3">
-            <div className="flex gap-4 text-[10px] text-slate-600">
+          <div className="mt-4 flex flex-col gap-2 border-t border-slate-800 pt-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
+            <div className="flex flex-wrap gap-3 text-[10px] text-slate-600">
               <span>Prompt {promptVersion}</span>
               <span>{model}</span>
               <span>{new Date(analyzedAt).toLocaleString('zh-CN')}</span>

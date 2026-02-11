@@ -42,7 +42,7 @@ export default function StockAnalysisRow({ stock, onRemove }: StockAnalysisRowPr
   return (
     <div className="rounded-xl border border-slate-800 bg-slate-900/30 transition-colors hover:border-slate-700">
       <div
-        className="flex cursor-pointer items-center gap-4 px-5 py-4"
+        className="flex cursor-pointer items-center gap-3 px-4 py-3.5 sm:gap-4 sm:px-5 sm:py-4"
         onClick={handleExpand}
       >
         <div className="min-w-0 flex-1">
@@ -69,7 +69,7 @@ export default function StockAnalysisRow({ stock, onRemove }: StockAnalysisRowPr
 
         <button
           onClick={e => { e.stopPropagation(); onRemove() }}
-          className="rounded-lg p-1.5 text-slate-600 hover:bg-red-500/10 hover:text-red-400"
+          className="rounded-lg p-2 text-slate-600 hover:bg-red-500/10 hover:text-red-400 active:bg-red-500/10"
           aria-label="移除"
         >
           <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -79,7 +79,7 @@ export default function StockAnalysisRow({ stock, onRemove }: StockAnalysisRowPr
       </div>
 
       {expanded && (
-        <div className="border-t border-slate-800 px-5 py-4">
+        <div className="border-t border-slate-800 px-4 py-3 sm:px-5 sm:py-4">
           {loading ? (
             <Spinner className="py-6" />
           ) : analysis ? (

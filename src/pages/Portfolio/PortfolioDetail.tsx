@@ -24,7 +24,7 @@ export default function PortfolioDetail() {
       <div className="mb-6">
         <button
           onClick={() => navigate('/portfolio')}
-          className="mb-3 flex items-center gap-1 text-xs text-slate-500 hover:text-slate-300"
+          className="mb-3 flex items-center gap-1 rounded-lg py-1.5 text-xs text-slate-500 hover:text-slate-300 active:text-slate-300"
         >
           <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />

@@ -58,15 +58,15 @@ export default function HomePage() {
 
   return (
     <div>
-      <h1 className="mb-6 text-xl font-semibold text-slate-100">投资总览</h1>
-      <div className="space-y-6">
+      <h1 className="mb-4 text-lg font-semibold text-slate-100 sm:mb-6 sm:text-xl">投资总览</h1>
+      <div className="space-y-4 sm:space-y-6">
         {data.map(({ portfolio, stockSignals }) => (
           <div
             key={portfolio.id}
-            className="cursor-pointer rounded-xl border border-slate-800 bg-slate-900/50 p-5 transition-colors hover:border-slate-700"
+            className="cursor-pointer rounded-xl border border-slate-800 bg-slate-900/50 p-4 transition-colors hover:border-slate-700 active:bg-slate-900/80 sm:p-5"
             onClick={() => navigate(`/portfolio/${portfolio.id}`)}
           >
-            <div className="mb-4 flex items-center justify-between">
+            <div className="mb-3 flex items-center justify-between sm:mb-4">
               <div>
                 <h2 className="text-base font-medium text-slate-100">{portfolio.name}</h2>
                 <p className="mt-0.5 text-xs text-slate-500">{portfolio.description}</p>
@@ -81,7 +81,7 @@ export default function HomePage() {
                     <tr className="border-b border-slate-800 text-xs text-slate-500">
                       <th className="pb-2 text-left font-medium">标的</th>
                       {dimensions.map(d => (
-                        <th key={d.key} className="pb-2 text-center font-medium">{d.label}</th>
+                        <th key={d.key} className="pb-2 text-center font-medium whitespace-nowrap">{d.label}</th>
                       ))}
                     </tr>
                   </thead>

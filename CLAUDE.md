@@ -19,11 +19,12 @@
 ## 项目概述
 
 本项目是 **AI赋能投资决策系统** 的前端原型，提供投资标的的全维度信息聚合与洞察功能。
+移动端为主要使用方式，必须以移动端体验为第一优先
 
 **技术栈**: Vite + React 18 + TypeScript + Tailwind CSS 4 + ECharts + Zustand
 
 ## 补充信息
-需要补充查询项目结构，实现或设计方式时优先阅读 E:\smyze\obsidian\frontend\docs\architecture\architecture.md
+需要补充查询项目结构，实现或设计方式时优先阅读 E:\smyze\sapphire\frontend\docs\architecture\architecture.md
 
 ## 构建/开发命令
 

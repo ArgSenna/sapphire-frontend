@@ -32,7 +32,7 @@ export default function PortfolioPage() {
       {portfolios.length === 0 ? (
         <EmptyState message="还没有投资组合，点击上方按钮创建" />
       ) : (
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {portfolios.map(p => (
             <PortfolioCard
               key={p.id}

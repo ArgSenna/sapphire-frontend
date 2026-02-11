@@ -29,7 +29,10 @@ body {
   min-height: 100vh;
 }
 
-/* 自定义滚动条 */
+/* safe area for mobile bottom nav */
+.safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;

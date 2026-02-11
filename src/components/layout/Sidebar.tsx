@@ -8,16 +8,33 @@ const navItems = [
   { to: '/research', label: '标的研究', icon: 'M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z', disabled: true },
 ]
 
-export default function Sidebar() {
+interface SidebarProps {
+  onClose?: () => void
+}
+
+export default function Sidebar({ onClose }: SidebarProps) {
   return (
-    <aside className="flex h-screen w-56 flex-col border-r border-slate-800 bg-slate-900/50">
-      <div className="flex h-14 items-center gap-2 border-b border-slate-800 px-4">
-        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-amber-500/20">
-          <svg className="h-5 w-5 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
-          </svg>
+    <aside className="flex h-screen w-56 flex-col border-r border-slate-800 bg-slate-900/50 lg:w-56">
+      <div className="flex h-14 items-center justify-between border-b border-slate-800 px-4">
+        <div className="flex items-center gap-2">
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-amber-500/20">
+            <svg className="h-5 w-5 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+          </div>
+          <span className="text-sm font-bold tracking-wide text-slate-100">Sapphire</span>
         </div>
-        <span className="text-sm font-bold tracking-wide text-slate-100">Sapphire</span>
+        {onClose && (
+          <button
+            onClick={onClose}
+            className="rounded-lg p-1 text-slate-400 hover:bg-slate-800 lg:hidden"
+            aria-label="关闭菜单"
+          >
+            <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        )}
       </div>
 
       <nav className="flex-1 space-y-1 p-3">
@@ -38,6 +55,7 @@ export default function Sidebar() {
               key={item.to}
               to={item.to}
               end={item.to === '/'}
+              onClick={onClose}
               className={({ isActive }) => cn(
                 'flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition-colors',
                 isActive
