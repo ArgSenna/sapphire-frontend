@@ -6,6 +6,7 @@ export interface Evidence {
   date: string
   snippet: string
   reliability: 'high' | 'medium' | 'low'
+  children?: Evidence[]
 }
 
 export interface AgentAnalysis {

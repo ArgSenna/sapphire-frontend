@@ -21,6 +21,7 @@ export const mockStocks: Stock[] = [
   { code: '688981', name: '中芯国际', market: 'SH', sector: '半导体' },
   { code: '002415', name: '海康威视', market: 'SZ', sector: '安防' },
   { code: '600030', name: '中信证券', market: 'SH', sector: '券商' },
+  { code: 'ATAT', name: '亚朵', market: 'NASDAQ', sector: '酒店' },
 ]
 
 function rand(min: number, max: number) {
@@ -33,7 +34,7 @@ export function generateMockQuote(code: string): StockQuote {
     '000333': 62, '600900': 28, '601012': 22, '300750': 195,
     '002594': 245, '600276': 43, '000001': 11, '601888': 68,
     '002475': 35, '600809': 215, '002714': 38, '601899': 16,
-    '300059': 16, '688981': 48, '002415': 32, '600030': 22,
+    '300059': 16, '688981': 48, '002415': 32, '600030': 22, 'ATAT': 22,
   }
   const base = bases[code] ?? 50
   const changePercent = rand(-5, 5)

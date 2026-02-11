@@ -1,4 +1,61 @@
+import { useState } from 'react'
+
+import { cn } from '@/utils'
+
 import type { Evidence } from '@/api/types'
+
+function EvidenceItem({ ev, depth = 0 }: { ev: Evidence; depth?: number }) {
+  const [expanded, setExpanded] = useState(false)
+  const hasChildren = ev.children && ev.children.length > 0
+
+  return (
+    <div className={cn(
+      'rounded-lg border bg-slate-800/30 p-3.5',
+      depth === 0 ? 'border-slate-800' : 'border-slate-700/50',
+    )}>
+      <div className="mb-2 flex items-center justify-between">
+        <span className="text-sm font-medium text-slate-200">{ev.source}</span>
+        <span className={
+          ev.reliability === 'high' ? 'text-[10px] text-green-400' :
+          ev.reliability === 'medium' ? 'text-[10px] text-yellow-400' :
+          'text-[10px] text-slate-500'
+        }>
+          {ev.reliability === 'high' ? '高可信度' : ev.reliability === 'medium' ? '中可信度' : '低可信度'}
+        </span>
+      </div>
+      <p className="whitespace-pre-wrap text-xs leading-relaxed text-slate-400">{ev.snippet}</p>
+      <div className="mt-2 flex items-center justify-between text-[10px] text-slate-600">
+        <span>{ev.date}</span>
+        <div className="flex items-center gap-3">
+          {hasChildren && (
+            <button
+              onClick={() => setExpanded(!expanded)}
+              className="flex items-center gap-0.5 text-amber-500/70 hover:text-amber-400"
+            >
+              <span>支撑证据 ({ev.children!.length})</span>
+              <svg
+                className={cn('h-3 w-3 transition-transform', expanded && 'rotate-180')}
+                fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+          )}
+          <a href={ev.url} target="_blank" rel="noopener noreferrer" className="text-amber-500/70 hover:text-amber-400">
+            来源链接
+          </a>
+        </div>
+      </div>
+      {hasChildren && expanded && (
+        <div className="mt-3 space-y-2 border-l-2 border-slate-700/50 pl-3">
+          {ev.children!.map((child, i) => (
+            <EvidenceItem key={i} ev={child} depth={depth + 1} />
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}
 
 interface EvidenceDrawerProps {
   open: boolean
@@ -29,25 +86,7 @@ export default function EvidenceDrawer({ open, onClose, evidences, title }: Evid
 
         <div className="space-y-3">
           {evidences.map((ev, i) => (
-            <div key={i} className="rounded-lg border border-slate-800 bg-slate-800/30 p-3.5">
-              <div className="mb-2 flex items-center justify-between">
-                <span className="text-sm font-medium text-slate-200">{ev.source}</span>
-                <span className={
-                  ev.reliability === 'high' ? 'text-[10px] text-green-400' :
-                  ev.reliability === 'medium' ? 'text-[10px] text-yellow-400' :
-                  'text-[10px] text-slate-500'
-                }>
-                  {ev.reliability === 'high' ? '高可信度' : ev.reliability === 'medium' ? '中可信度' : '低可信度'}
-                </span>
-              </div>
-              <p className="text-xs leading-relaxed text-slate-400">{ev.snippet}</p>
-              <div className="mt-2 flex items-center justify-between text-[10px] text-slate-600">
-                <span>{ev.date}</span>
-                <a href={ev.url} target="_blank" rel="noopener noreferrer" className="text-amber-500/70 hover:text-amber-400">
-                  来源链接
-                </a>
-              </div>
-            </div>
+            <EvidenceItem key={i} ev={ev} />
           ))}
         </div>
       </div>

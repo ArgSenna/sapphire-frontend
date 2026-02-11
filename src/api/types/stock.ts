@@ -1,7 +1,7 @@
 export interface Stock {
   code: string
   name: string
-  market: 'SH' | 'SZ'
+  market: 'SH' | 'SZ' | 'NASDAQ' | 'NYSE'
   sector: string
 }
 
