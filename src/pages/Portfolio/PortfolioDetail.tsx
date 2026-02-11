@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 
 import Spinner from '@/components/ui/Spinner'
@@ -11,10 +11,26 @@ export default function PortfolioDetail() {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
   const { current, loading, fetchPortfolio, openForm } = usePortfolioStore()
+  const [expandedCodes, setExpandedCodes] = useState<Set<string>>(new Set())
 
   useEffect(() => {
     if (id) fetchPortfolio(id)
   }, [id, fetchPortfolio])
+
+  // 默认全部展开
+  useEffect(() => {
+    if (!current) return
+    setExpandedCodes(new Set(current.stocks.map(ps => ps.stock.code)))
+  }, [current])
+
+  const handleToggle = useCallback((code: string) => {
+    setExpandedCodes(prev => {
+      const next = new Set(prev)
+      if (next.has(code)) next.delete(code)
+      else next.add(code)
+      return next
+    })
+  }, [])
 
   if (loading) return <Spinner />
   if (!current) return <EmptyState message="组合不存在" />
@@ -53,6 +69,8 @@ export default function PortfolioDetail() {
             <StockAnalysisRow
               key={ps.stock.code}
               stock={ps.stock}
+              expanded={expandedCodes.has(ps.stock.code)}
+              onToggle={handleToggle}
             />
           ))}
         </div>
