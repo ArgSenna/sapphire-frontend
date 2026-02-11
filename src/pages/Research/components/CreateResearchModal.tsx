@@ -9,7 +9,7 @@ import type { ResearchType, ResearchReport } from '@/api/types'
 const typeOptions: { value: ResearchType; label: string; desc: string }[] = [
   { value: 'investment', label: '投资研究', desc: '聚焦财务、估值、竞争力等投资维度' },
   { value: 'service', label: '服务研究', desc: '聚焦服务质量、客户粘性、收入模式' },
-  { value: 'innovation', label: '创新研究', desc: '聚焦技术创新、研发管线、专利布局' },
+  { value: 'innovation', label: '创新研究', desc: '聚焦新品竞争力、研发效率、商业化留存、竞争格局与KPI验证' },
 ]
 
 interface CreateResearchModalProps {
