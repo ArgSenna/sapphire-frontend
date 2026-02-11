@@ -24,7 +24,7 @@
 **技术栈**: Vite + React 18 + TypeScript + Tailwind CSS 4 + ECharts + Zustand
 
 ## 补充信息
-需要补充查询项目结构，实现或设计方式时优先阅读 E:\smyze\sapphire\frontend\docs\architecture\architecture.md
+需要查询项目结构，实现或设计方式时优先阅读 docs\architecture\architecture.md
 项目对应的后端在E:\smyze\sapphire\backend，需要补充实现或设计方式时可查看, 当前使用Mock数据
 
 ## 构建/开发命令

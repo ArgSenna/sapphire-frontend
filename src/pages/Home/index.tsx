@@ -1,113 +1,52 @@
-import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import { api } from '@/api/services'
-import SignalLight from '@/components/ui/SignalLight'
-import Spinner from '@/components/ui/Spinner'
-import EmptyState from '@/components/ui/EmptyState'
-import { generateMockAnalysis } from '@/api/mock'
-
-import type { Portfolio, SignalColor, AnalysisDimension } from '@/api/types'
-
-const dimensions: { key: AnalysisDimension; label: string }[] = [
-  { key: 'dailySummary', label: '每日汇总' },
-  { key: 'eventPrediction', label: '事件预测' },
-  { key: 'capitalFlow', label: '资金流' },
-  { key: 'riskControl', label: '风险控制' },
+const quickLinks = [
+  {
+    to: '/portfolio',
+    label: '投资组合',
+    desc: '管理和监控你的投资组合',
+    icon: 'M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10',
+  },
+  {
+    to: '/research',
+    label: '标的研究',
+    desc: '深度研究投资标的',
+    icon: 'M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z',
+  },
 ]
 
-interface PortfolioOverview {
-  portfolio: Portfolio
-  stockSignals: Array<{
-    code: string
-    name: string
-    signals: Record<AnalysisDimension, SignalColor>
-  }>
-}
-
 export default function HomePage() {
-  const [data, setData] = useState<PortfolioOverview[]>([])
-  const [loading, setLoading] = useState(true)
   const navigate = useNavigate()
 
-  useEffect(() => {
-    api.portfolio.list().then(portfolios => {
-      const overviews = portfolios.map(portfolio => ({
-        portfolio,
-        stockSignals: portfolio.stocks.map(ps => {
-          const analysis = generateMockAnalysis(ps.stock.code)
-          return {
-            code: ps.stock.code,
-            name: ps.stock.name,
-            signals: {
-              dailySummary: analysis.dailySummary.signal,
-              eventPrediction: analysis.eventPrediction.signal,
-              capitalFlow: analysis.capitalFlow.signal,
-              riskControl: analysis.riskControl.signal,
-            },
-          }
-        }),
-      }))
-      setData(overviews)
-      setLoading(false)
-    })
-  }, [])
-
-  if (loading) return <Spinner />
-  if (data.length === 0) return <EmptyState message="暂无投资组合，请先创建" />
-
   return (
-    <div>
-      <h1 className="mb-4 text-lg font-semibold text-slate-100 sm:mb-6 sm:text-xl">投资总览</h1>
-      <div className="space-y-4 sm:space-y-6">
-        {data.map(({ portfolio, stockSignals }) => (
-          <div
-            key={portfolio.id}
-            className="cursor-pointer rounded-xl border border-slate-800 bg-slate-900/50 p-4 transition-colors hover:border-slate-700 active:bg-slate-900/80 sm:p-5"
-            onClick={() => navigate(`/portfolio/${portfolio.id}`)}
-          >
-            <div className="mb-3 flex items-center justify-between sm:mb-4">
-              <div>
-                <h2 className="text-base font-medium text-slate-100">{portfolio.name}</h2>
-                <p className="mt-0.5 text-xs text-slate-500">{portfolio.description}</p>
-              </div>
-              <span className="text-xs text-slate-600">{portfolio.stocks.length} 只标的</span>
-            </div>
+    <div className="flex flex-col items-center px-2 pt-8 sm:pt-16">
+      {/* Logo & 欢迎语 */}
+      <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-amber-500/20 sm:h-16 sm:w-16">
+        <svg className="h-8 w-8 text-amber-400 sm:h-9 sm:w-9" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+        </svg>
+      </div>
+      <h1 className="mt-5 text-xl font-semibold text-slate-100 sm:text-2xl">欢迎使用 Sapphire</h1>
+      <p className="mt-2 text-center text-sm text-slate-400">AI 赋能投资决策，让每一笔投资更有洞察</p>
 
-            {stockSignals.length > 0 ? (
-              <div className="overflow-x-auto">
-                <table className="w-full text-sm">
-                  <thead>
-                    <tr className="border-b border-slate-800 text-xs text-slate-500">
-                      <th className="pb-2 text-left font-medium">标的</th>
-                      {dimensions.map(d => (
-                        <th key={d.key} className="pb-2 text-center font-medium whitespace-nowrap">{d.label}</th>
-                      ))}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {stockSignals.map(stock => (
-                      <tr key={stock.code} className="border-b border-slate-800/50 last:border-0">
-                        <td className="py-2.5 text-slate-300">
-                          <span className="font-medium">{stock.name}</span>
-                          <span className="ml-2 text-xs text-slate-600">{stock.code}</span>
-                        </td>
-                        {dimensions.map(d => (
-                          <td key={d.key} className="py-2.5 text-center">
-                            <span className="inline-flex justify-center">
-                              <SignalLight color={stock.signals[d.key]} size="sm" />
-                            </span>
-                          </td>
-                        ))}
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            ) : (
-              <p className="text-xs text-slate-600">暂无标的</p>
-            )}
-          </div>
+      {/* 快捷入口 */}
+      <div className="mt-8 grid w-full max-w-md gap-3 sm:mt-10 sm:gap-4">
+        {quickLinks.map(link => (
+          <button
+            key={link.to}
+            onClick={() => navigate(link.to)}
+            className="flex items-center gap-4 rounded-xl border border-slate-800 bg-slate-900/50 p-4 text-left transition-colors hover:border-slate-700 active:bg-slate-900/80"
+          >
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-slate-800">
+              <svg className="h-5 w-5 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d={link.icon} />
+              </svg>
+            </div>
+            <div>
+              <div className="text-sm font-medium text-slate-100">{link.label}</div>
+              <div className="mt-0.5 text-xs text-slate-500">{link.desc}</div>
+            </div>
+          </button>
         ))}
       </div>
     </div>
