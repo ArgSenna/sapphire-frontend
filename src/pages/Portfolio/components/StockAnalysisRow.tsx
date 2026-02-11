@@ -13,10 +13,9 @@ const dimensionKeys: AnalysisDimension[] = ['dailySummary', 'eventPrediction', '
 
 interface StockAnalysisRowProps {
   stock: Stock
-  onRemove: () => void
 }
 
-export default function StockAnalysisRow({ stock, onRemove }: StockAnalysisRowProps) {
+export default function StockAnalysisRow({ stock }: StockAnalysisRowProps) {
   const [expanded, setExpanded] = useState(false)
   const [expandedDim, setExpandedDim] = useState<AnalysisDimension | null>(null)
   const [quote, setQuote] = useState<StockQuote | null>(null)
@@ -67,15 +66,6 @@ export default function StockAnalysisRow({ stock, onRemove }: StockAnalysisRowPr
           </div>
         )}
 
-        <button
-          onClick={e => { e.stopPropagation(); onRemove() }}
-          className="rounded-lg p-2 text-slate-600 hover:bg-red-500/10 hover:text-red-400 active:bg-red-500/10"
-          aria-label="移除"
-        >
-          <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        </button>
       </div>
 
       {expanded && (

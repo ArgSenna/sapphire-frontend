@@ -73,6 +73,11 @@ export const usePortfolioStore = create<PortfolioState>((set, get) => ({
 
   openForm(editingId) {
     set({ formOpen: true, editingId: editingId ?? null })
+    if (editingId && get().current?.id !== editingId) {
+      api.portfolio.getById(editingId).then(p => {
+        if (p) set({ current: p })
+      })
+    }
   },
 
   closeForm() {

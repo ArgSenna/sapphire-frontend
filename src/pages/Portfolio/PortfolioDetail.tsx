@@ -4,13 +4,13 @@ import { useParams, useNavigate } from 'react-router-dom'
 import Spinner from '@/components/ui/Spinner'
 import EmptyState from '@/components/ui/EmptyState'
 import { usePortfolioStore } from '@/stores'
-import AddStockForm from './components/AddStockForm'
+import PortfolioForm from './components/PortfolioForm'
 import StockAnalysisRow from './components/StockAnalysisRow'
 
 export default function PortfolioDetail() {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
-  const { current, loading, fetchPortfolio, removeStock } = usePortfolioStore()
+  const { current, loading, fetchPortfolio, openForm } = usePortfolioStore()
 
   useEffect(() => {
     if (id) fetchPortfolio(id)
@@ -36,27 +36,29 @@ export default function PortfolioDetail() {
             <h1 className="text-xl font-semibold text-slate-100">{current.name}</h1>
             <p className="mt-1 text-xs text-slate-500">{current.description}</p>
           </div>
-          <span className="text-xs text-slate-600">{current.stocks.length} 只标的</span>
+          <button
+            onClick={() => openForm(current.id)}
+            className="rounded-lg border border-slate-700 px-3 py-1.5 text-xs text-slate-400 hover:bg-slate-800 hover:text-slate-200"
+          >
+            编辑组合
+          </button>
         </div>
       </div>
 
-      <div className="mb-4">
-        <AddStockForm />
-      </div>
-
       {current.stocks.length === 0 ? (
-        <EmptyState message="暂无标的，请通过上方搜索框添加" />
+        <EmptyState message="暂无标的，请在编辑组合中添加" />
       ) : (
         <div className="space-y-3">
           {current.stocks.map(ps => (
             <StockAnalysisRow
               key={ps.stock.code}
               stock={ps.stock}
-              onRemove={() => removeStock(ps.stock.code)}
             />
           ))}
         </div>
       )}
+
+      <PortfolioForm />
     </div>
   )
 }
