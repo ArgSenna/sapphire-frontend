@@ -8,7 +8,7 @@ export const mockStocks: Stock[] = [
   { code: '000333', name: '美的集团', market: 'SZ', sector: '家电' },
   { code: '600900', name: '长江电力', market: 'SH', sector: '电力' },
   { code: '601012', name: '隆基绿能', market: 'SH', sector: '光伏' },
-  { code: '300750', name: '宁德时代', market: 'SZ', sector: '电池' },
+  { code: 'NVDA', name: '英伟达', market: 'NASDAQ', sector: 'AI芯片' },
   { code: '002594', name: '比亚迪', market: 'SZ', sector: '汽车' },
   { code: '600276', name: '恒瑞医药', market: 'SH', sector: '医药' },
   { code: '000001', name: '平安银行', market: 'SZ', sector: '银行' },
@@ -31,7 +31,7 @@ function rand(min: number, max: number) {
 export function generateMockQuote(code: string): StockQuote {
   const bases: Record<string, number> = {
     '600519': 1680, '000858': 145, '601318': 48, '600036': 36,
-    '000333': 62, '600900': 28, '601012': 22, '300750': 195,
+    '000333': 62, '600900': 28, '601012': 22, 'NVDA': 138,
     '002594': 245, '600276': 43, '000001': 11, '601888': 68,
     '002475': 35, '600809': 215, '002714': 38, '601899': 16,
     '300059': 16, '688981': 48, '002415': 32, '600030': 22, 'ATAT': 22,
