@@ -1,5 +1,6 @@
 import { randomId } from '@/utils'
 import { mockStocks } from './stocks'
+import { investmentElements, investmentCounterArgument, investmentResearcherNotes } from './investmentData'
 
 import type { Evidence } from '../types'
 import type { ResearchType, Rating, ResearchElement, ResearchCounterArgument, ResearchReport, ResearcherNote } from '../types'
@@ -43,13 +44,12 @@ function generateEvidence(count: number): Evidence[] {
 
 const elementTitles: Record<ResearchType, string[]> = {
   investment: [
-    '行业空间与增长潜力',
-    '核心竞争力与护城河',
-    '财务健康度与盈利质量',
-    '竞争格局与市场地位',
-    '关键经营指标追踪',
-    '估值水平与安全边际',
-    '催化剂与风险因素',
+    '资源禀赋与成本竞争力',
+    '供需关系与行业周期',
+    '资本开支与产能周期',
+    '资产负债表与现金流分析',
+    '利润弹性与投资结论',
+    'KPI验证体系（投资型≥12项）',
   ],
   service: [
     '单位经济模型（UE）与标准化能力',
@@ -519,6 +519,15 @@ const conclusions = [
   '该标的在多个维度表现优异，具备中长期投资价值。短期内可能受市场情绪影响出现波动，但核心逻辑未变。建议以中长期视角持有，短期波动可视为加仓机会。',
 ]
 
+function generateInvestmentElements(): ResearchElement[] {
+  const now = new Date().toISOString()
+  const order = elementTitles.investment
+  return order.map(title => {
+    const el = investmentElements.find(e => e.title === title)!
+    return { ...el, promptVersion: 'v1.2.0', model: 'Manus-Agent-v1', analyzedAt: now }
+  })
+}
+
 function generateServiceElements(): ResearchElement[] {
   const now = new Date().toISOString()
   return serviceElements.map(e => ({
@@ -544,18 +553,21 @@ function generateReport(code: string, type: ResearchType): ResearchReport {
   const titles = elementTitles[type]
   const isInnovation = type === 'innovation'
   const isService = type === 'service'
+  const isInvestment = type === 'investment'
   return {
     id: randomId(),
     stockCode: code,
     stockName: stock?.name ?? code,
     type,
-    rating: isInnovation ? 'buy' : isService ? 'buy' : pick(ratings),
+    rating: isInnovation ? 'buy' : isService ? 'buy' : isInvestment ? 'buy' : pick(ratings),
     conclusion: isInnovation
       ? '【推荐买入】综合五大创新要素分析，NVIDIA处于规模化放量期。Blackwell架构性能领先竞品40%+，CUDA生态锁定极高切换成本（迁移成本占项目30-50%），数据中心季度收入355亿美元（+93%）验证产品-市场匹配度极高。研发效率行业第一（每1美元研发产出12美元营收），架构2年一代从未延迟。客户结构从Hyperscaler向企业/主权AI多元化扩散，NRR约145%，软件ARR突破20亿美元开启平台化转型。12项KPI中10项绿灯。核心风险：Hyperscaler CapEx周期性回调（历史上曾骤降）、自研芯片替代加速（当前占AI算力15-20%且上升）、出口管制进一步收紧。当前估值隐含高增长预期，建议买入并中长期持有，硬止损线为数据中心收入连续两季环比增速<5%或毛利率跌破70%。'
       : isService
         ? '【推荐】综合五大服务要素分析，亚朵处于快速扩张期，单店GOP利润率35-38%、Payback 22个月的经济模型已验证成熟，7200万A-Card会员（复购率42%、LTV 4倍于非会员）构成强需求侧护城河。运营效率行业领先（RevPAR 398元、人均毛利4.8万/季），管理杠杆持续释放（费用率8.2%且仍在下降），场景零售GMV 12.4亿开辟第二增长曲线。KPI验证10项中7项绿灯。核心风险在于：店长储备缺口15%制约开店节奏、一线城市租金占比升至28.5%逼近警戒线、同城自我竞争初现（高密度城市RevPAR下降5-8%）、加盟商坏账率从1.2%升至1.8%。若SSSG连续两季低于通胀则品牌力透支信号明确。建议买入并中长期持有，硬止损线为单店Payback超30个月或坏账率破3%。'
-        : pick(conclusions),
-    elements: isInnovation ? generateInnovationElements() : isService ? generateServiceElements() : titles.map(t => generateElement(t)),
+        : isInvestment
+          ? '【买入】综合五大投资要素分析，紫金矿业处于供给紧张期+产能释放的双重受益窗口。资源禀赋突出：矿产铜C1成本约1500美元/吨，处于全球25%分位，成本优势显著且可持续。供需格局有利：全球铜缺口约50万吨，新能源驱动需求增速15-20%/年，而矿山供给增速仅2-3%，供给紧张预计持续至2028年。产能释放确定性高：卡莫阿三期（2026Q4）、巨龙二期（2027Q2）将新增铜产能约35万吨，IRR 18-22%。财务健康度良好：经营现金流/净利润1.15，净负债/EBITDA 1.6x且持续改善。12项KPI中9项绿灯。核心风险：刚果金地缘政治（卡莫阿占铜产量30%）、铜价周期性回调、竞争对手成本追赶。建议买入，硬止损线为供需缺口消失或净负债/EBITDA>2.5x。'
+          : pick(conclusions),
+    elements: isInnovation ? generateInnovationElements() : isService ? generateServiceElements() : isInvestment ? generateInvestmentElements() : titles.map(t => generateElement(t)),
     counterArgument: isInnovation ? {
       summary: '针对要素1-5的最小反证集合：若Hyperscaler CapEx增速降至<15%、自研芯片占AI算力>30%、或Rubin延迟>6个月，当前"规模化放量"结论将被推翻。最脆弱假设是AI CapEx持续高增长，最大不确定性是Hyperscaler自研芯片的替代速度。',
       content: `针对要素1（新品竞争力）的反证条件：若AMD MI400发布后MLPerf基准差距从40%缩小至<15%，且ROCm生态覆盖从40%升至>70%，则CUDA生态锁定的护城河将被实质性削弱，"极高切换成本"结论需改写为"中等"。验证时间点：2026H2 MI400发布后的首次MLPerf测试。
@@ -589,6 +601,11 @@ function generateReport(code: string, type: ResearchType): ResearchReport {
         { source: '同城竞争分析', url: 'https://xueqiu.com/S/ATAT', date: '2025-12-12', snippet: '上海/杭州单城>30家后存量店RevPAR下降5-8%，IP主题店差异化仅部分缓解。二三线城市单城天花板约15-20家，自我竞争拐点更早。', reliability: 'medium' },
         { source: '加盟商健康度', url: 'https://xueqiu.com/S/ATAT', date: '2025-12-10', snippet: '坏账率从1.2%升至1.8%，C级加盟商10%。若SSSG连续两季低于通胀（约2%），说明品牌力已透支，加盟商退出风险将加速暴露。', reliability: 'medium' },
       ],
+      promptVersion: 'v1.2.0',
+      model: 'Manus-Agent-v1',
+      analyzedAt: new Date().toISOString(),
+    } : isInvestment ? {
+      ...investmentCounterArgument,
       promptVersion: 'v1.2.0',
       model: 'Manus-Agent-v1',
       analyzedAt: new Date().toISOString(),
@@ -629,7 +646,7 @@ function generateReport(code: string, type: ResearchType): ResearchReport {
         '减仓信号：SSSG降至2%以下 或 坏账率升至2.5%+ 或 新店OCC连续两季低于72%，减仓至3%以下并暂停加仓计划',
         '清仓信号：Payback超30个月 + SSSG转负 + 加盟商大规模退出（年退出率>5%），说明商业模型遭遇系统性挑战',
       ],
-    } : undefined,
+    } : isInvestment ? investmentResearcherNotes : undefined,
     createdAt: new Date(Date.now() - Math.random() * 30 * 86400000).toISOString(),
     model: 'Manus-Agent-v1',
   }
@@ -637,7 +654,7 @@ function generateReport(code: string, type: ResearchType): ResearchReport {
 
 // in-memory store
 const reports: ResearchReport[] = [
-  generateReport('600519', 'investment'),
+  generateReport('601899', 'investment'),
   generateReport('NVDA', 'innovation'),
   generateReport('ATAT', 'service'),
 ]
