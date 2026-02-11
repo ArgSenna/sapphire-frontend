@@ -3,7 +3,7 @@ import { mockStocks } from './stocks'
 import { investmentElements, investmentCounterArgument, investmentResearcherNotes } from './investmentData'
 
 import type { Evidence } from '../types'
-import type { ResearchType, Rating, ResearchElement, ResearchCounterArgument, ResearchReport, ResearcherNote } from '../types'
+import type { ResearchType, Rating, ResearchElement, ResearchCounterArgument, ResearchReport } from '../types'
 
 const ratings: Rating[] = ['strongBuy', 'buy', 'neutral', 'reduce', 'sell']
 
