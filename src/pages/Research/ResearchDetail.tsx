@@ -21,7 +21,7 @@ export default function ResearchDetail() {
   const [report, setReport] = useState<ResearchReport | null>(null)
   const [loading, setLoading] = useState(true)
   const [expandedSet, setExpandedSet] = useState<Set<number>>(new Set())
-  const [counterExpanded, setCounterExpanded] = useState(false)
+  const [counterExpanded, setCounterExpanded] = useState(true)
   const [drawerOpen, setDrawerOpen] = useState(false)
   const [drawerEvidences, setDrawerEvidences] = useState<Evidence[]>([])
   const [drawerTitle, setDrawerTitle] = useState('')
@@ -31,7 +31,11 @@ export default function ResearchDetail() {
     api.research.getById(id)
       .then(r => {
         if (!r) navigate('/research', { replace: true })
-        else setReport(r)
+        else {
+          setReport(r)
+          setExpandedSet(new Set(r.elements.map((_, i) => i)))
+          setCounterExpanded(true)
+        }
       })
       .finally(() => setLoading(false))
   }, [id, navigate])
@@ -92,7 +96,6 @@ export default function ResearchDetail() {
           </div>
         </div>
         <div className="mt-3 flex flex-wrap gap-3 text-[11px] text-slate-600">
-          <span>模型: {report.model}</span>
           <span>生成时间: {new Date(report.createdAt).toLocaleString('zh-CN')}</span>
         </div>
       </div>
@@ -137,7 +140,6 @@ export default function ResearchDetail() {
             </svg>
             <div className="flex-1 min-w-0">
               <span className="text-sm font-medium text-slate-200">反方观点</span>
-              <p className="mt-0.5 truncate text-xs text-slate-500">{report.counterArgument.summary}</p>
             </div>
             <svg
               className={cn('h-4 w-4 shrink-0 text-slate-500 transition-transform', counterExpanded && 'rotate-180')}
@@ -151,13 +153,7 @@ export default function ResearchDetail() {
             <div className="border-t border-slate-800 px-3.5 py-3.5 sm:px-4 sm:py-4">
               <div className="whitespace-pre-wrap text-sm leading-relaxed text-slate-300">
                 {report.counterArgument.content}
-              </div>
-              <div className="mt-4 flex flex-col gap-2 border-t border-slate-800 pt-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
-                <div className="flex flex-wrap gap-3 text-[10px] text-slate-600">
-                  <span>Prompt {report.counterArgument.promptVersion}</span>
-                  <span>{report.counterArgument.model}</span>
-                  <span>{new Date(report.counterArgument.analyzedAt).toLocaleString('zh-CN')}</span>
-                </div>
+                {' '}
                 <button
                   onClick={() => showEvidence(report.counterArgument.evidences, '反方观点')}
                   className="text-xs text-amber-500 hover:text-amber-400"

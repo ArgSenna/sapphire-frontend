@@ -1,6 +1,6 @@
 # 投资标的研究系统 - 前端架构文档
 
-> **版本**: v0.2.0 Beta
+> **版本**: v0.3.0 Beta
 > **最后更新**: 2026-02-11
 > **技术栈**: Vite + React 18 + TypeScript + Tailwind CSS 4 + ECharts + Zustand
 
@@ -8,7 +8,7 @@
 
 ## 1. 系统概述
 
-本项目是 **AI赋能投资决策系统** 的前端应用，提供投资组合管理与 AI 多维度分析功能。系统核心围绕"组合管理 → 4维度AI分析 → 信号灯决策"的投资工作流，通过三色信号灯（green/red/yellow）快速纵览投资标的状态。
+本项目是 **AI赋能投资决策系统** 的前端应用，提供投资组合管理、AI 多维度分析与标的深度研究功能。系统核心围绕"组合管理 → 4维度AI分析 → 信号灯决策"和"标的研究 → 7要素分析 → 5档推荐等级"两条投资工作流。
 
 以移动端为核心使用场景
 
@@ -18,7 +18,7 @@
 |------|------|------|------|
 | 投资总览 | 首页仪表盘，所有组合概览 + 信号灯矩阵 | `/` | ✅ 已实现 |
 | 投资组合管理 | 组合 CRUD、标的管理、4维度AI分析 | `/portfolio`, `/portfolio/:id` | ✅ 已实现 |
-| 标的研究 | 单股票深度研究（数据采集/信息提取/舆情/对标/研报） | `/research` | 🔲 占位 |
+| 标的研究 | 三种研报类型（投资/服务/创新），7要素分析 + AI反方意见 + 5档推荐等级 | `/research`, `/research/:id` | ✅ 已实现 |
 
 ### 4维度 AI 分析体系
 
@@ -30,6 +30,23 @@
 | 重大事件预测 | 未来事件概率、影响方向、时间窗口 | green=正面催化 / red=负面风险 / yellow=中性 |
 | 资金流分析 | 主力资金、北向资金、机构持仓 | green=流入 / red=流出 / yellow=中性 |
 | 风险控制 | 风险等级、止损止盈、预警信号 | green=可控 / red=偏高 / yellow=需关注 |
+
+### 标的研究 — 5档推荐等级体系
+
+标的研究模块使用券商研报5档推荐等级替代信号灯体系，支持三种研报类型（投资/服务/创新），每种包含7个分析要素 + AI反方意见 + 研究员补充。
+
+| 等级 | Rating 值 | 颜色 | 含义 |
+|------|----------|------|------|
+| 强烈推荐 | `strongBuy` | `red-500` | 强烈看好 |
+| 推荐 | `buy` | `orange-400` | 看好 |
+| 中性 | `neutral` | `slate-400` | 观望 |
+| 减持 | `reduce` | `teal-400` | 谨慎 |
+| 卖出 | `sell` | `green-500` | 看空 |
+
+三种研报类型各有不同的7要素标题：
+- **投资研究**: 行业空间、核心竞争力、财务健康度、竞争格局、关键经营指标、估值水平、催化剂与风险
+- **服务研究**: 服务市场规模、服务差异化、收入模式、竞争对标、客户满意度KPI、扩张能力、监管环境
+- **创新研究**: 技术创新能力、专利布局、产品管线、竞争技术路线、研发效率KPI、市场接受度、技术迭代风险
 
 ---
 
@@ -80,13 +97,15 @@ frontend/
     │   │   ├── index.ts              #     统一导出 + SignalColor / AnalysisDimension
     │   │   ├── stock.ts              #     Stock, StockQuote
     │   │   ├── portfolio.ts          #     Portfolio, PortfolioStock, PortfolioFormData
-    │   │   └── analysis.ts           #     AgentAnalysis, Evidence, AnalysisData
+    │   │   ├── analysis.ts           #     AgentAnalysis, Evidence, AnalysisData
+    │   │   └── research.ts           #     ResearchType, Rating, ResearchReport, ResearchElement
     │   │
     │   ├── mock/                     #   Mock 数据生成（内存 CRUD）
     │   │   ├── index.ts              #     统一导出
     │   │   ├── stocks.ts             #     20只A股 mock + 行情生成
     │   │   ├── portfolio.ts          #     组合内存 CRUD（3个预置组合）
-    │   │   └── analysis.ts           #     4维度分析数据生成（含证据链）
+    │   │   ├── analysis.ts           #     4维度分析数据生成（含证据链）
+    │   │   └── research.ts           #     研究报告内存 CRUD（3个预置报告）
     │   │
     │   └── services/
     │       └── index.ts              #   API 服务封装（全异步 Promise + delay）
@@ -118,7 +137,13 @@ frontend/
     │   │       ├── AnalysisCard.tsx   #       单维度分析卡片
     │   │       └── EvidenceDrawer.tsx #       证据链侧边面板
     │   └── Research/
-    │       └── index.tsx             #     占位页面
+    │       ├── index.tsx             #     研究报告列表页（CRUD + 新建弹窗）
+    │       ├── ResearchDetail.tsx    #     研究报告详情页（7要素 + 反方意见）
+    │       └── components/
+    │           ├── RatingBadge.tsx    #       5档推荐等级徽章
+    │           ├── ResearchCard.tsx   #       报告列表卡片
+    │           ├── ResearchElementCard.tsx #  要素分析卡片（默认展开，证据链入口内联）
+    │           └── CreateResearchModal.tsx # 新建研究弹窗
     │
     ├── stores/                       # -------- 状态管理 --------
     │   ├── index.ts                  #     统一导出
@@ -140,7 +165,7 @@ frontend/
 ```
 ┌─────────────────────────────────────────────────┐
 │                   Pages 页面层                    │
-│       Home / Portfolio / PortfolioDetail         │
+│  Home / Portfolio / PortfolioDetail / Research  │
 ├─────────────────────────────────────────────────┤
 │               Components 组件层                   │
 │   Layout (AppLayout / Sidebar)                  │
@@ -199,6 +224,11 @@ api.portfolio.addStock(id,code)    → 添加标的
 api.portfolio.removeStock(id,code) → 移除标的
 
 api.analysis.getForStock(code) → 获取4维度AI分析
+
+api.research.list()            → 获取研究报告列表
+api.research.getById(id)       → 获取报告详情
+api.research.create(code,type) → 创建研究报告（投资/服务/创新）
+api.research.delete(id)        → 删除报告
 ```
 
 ---
@@ -213,7 +243,8 @@ BrowserRouter
     ├── /                                  # 投资总览仪表盘
     ├── /portfolio                         # 组合列表（CRUD）
     ├── /portfolio/:id                     # 组合详情（4维度分析）
-    ├── /research                          # 标的研究（占位）
+    ├── /research                          # 研究报告列表（CRUD）
+    ├── /research/:id                      # 研究报告详情（7要素分析）
     └── *                                  # 重定向到 /
 ```
 
@@ -252,6 +283,18 @@ BrowserRouter
 - 展开时按需加载
 - 组件卸载自动清理
 
+### 典型数据流（以标的研究为例）
+
+1. 用户在 `/research` 列表页点击"新建研究"
+2. `CreateResearchModal` 弹窗中搜索选股 + 选择报告类型（投资/服务/创新）
+3. 调用 `api.research.create(stockCode, type)` 生成报告
+4. 生成完成后跳转 `/research/:id` 详情页
+5. `ResearchDetail` 从 URL 提取 `id`，调用 `api.research.getById(id)` 获取报告
+6. 页面渲染报告头部（股票信息 + 类型标签 + 总推荐等级）+ 总体结论
+7. 7个要素渲染为 `ResearchElementCard`，默认展开展示完整 AI 分析内容，标题不再生成摘要
+8. 证据链入口以内联方式紧跟在 AI 内容后展示，不再单独起一行强调
+9. AI反方意见区块遵循同样规则（默认展开 + 内联证据链入口）
+
 ---
 
 ## 7. 布局系统
@@ -283,6 +326,8 @@ BrowserRouter
 ```typescript
 type SignalColor = 'green' | 'red' | 'yellow'
 type AnalysisDimension = 'dailySummary' | 'eventPrediction' | 'capitalFlow' | 'riskControl'
+type ResearchType = 'investment' | 'service' | 'innovation'
+type Rating = 'strongBuy' | 'buy' | 'neutral' | 'reduce' | 'sell'
 ```
 
 ### 业务类型模块
@@ -292,6 +337,7 @@ type AnalysisDimension = 'dailySummary' | 'eventPrediction' | 'capitalFlow' | 'r
 | `stock.ts` | `Stock`, `StockQuote` | 股票基础数据 + 行情 |
 | `portfolio.ts` | `Portfolio`, `PortfolioStock`, `PortfolioFormData`, `PortfolioListItem`, `DimensionSummary`, `StockAnalysisSummary` | 投资组合全链路 |
 | `analysis.ts` | `AgentAnalysis`, `Evidence`, `AnalysisData`, `DailySummaryData`, `EventPredictionData`, `CapitalFlowData`, `RiskControlData` | 4维度分析 + 证据链 |
+| `research.ts` | `ResearchType`, `Rating`, `ResearchReport`, `ResearchElement`, `ResearchCounterArgument` | 标的研究报告 + 5档推荐等级 |
 
 ---
 
@@ -309,7 +355,7 @@ interface AgentPrompt {
 }
 ```
 
-Prompt 版本信息展示在分析报告底部，便于追溯分析结果对应的 Prompt 版本。
+Prompt 版本信息仅用于内部追溯与调试，不在研究报告页面展示给研究员。
 
 ---
 
@@ -374,4 +420,8 @@ pnpm lint           # ESLint 代码检查
 2. **Mock 层内存 CRUD**: 数组 + 闭包模拟持久化，刷新重置，原型阶段足够
 3. **API 全异步**: 即使 mock 也返回 Promise + delay，未来替换零改动
 4. **分析数据跟随组件**: 不单独放 store，通过组件内 useState 按需加载
-5. **Prompt 版本管理**: 每个维度独立模板，含 version/name/template，展示在分析报告底部
+5. **Prompt 版本管理**: 每个维度独立模板，含 version/name/template，用于内部追溯，不在研究报告页面展示
+6. **研究报告5档推荐等级**: 使用券商研报等级体系（强烈推荐/推荐/中性/减持/卖出）替代信号灯，更贴合投研场景
+7. **研究报告默认全展开**: 7个要素与反方意见默认展开，标题不展示摘要，重点信息直接在内容区完整呈现
+8. **证据链入口内联**: 证据链入口紧跟 AI 内容末尾展示，减少视觉跳跃和额外区块干扰
+9. **研究数据跟随页面组件**: 研究报告数据通过页面级 `useState` 管理，不使用全局 store，保持简洁
