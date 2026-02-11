@@ -10,39 +10,44 @@ import EvidenceDrawer from './EvidenceDrawer'
 import type { Stock, StockQuote, AnalysisData, AnalysisDimension, Evidence } from '@/api/types'
 
 const dimensionKeys: AnalysisDimension[] = ['dailySummary', 'eventPrediction', 'capitalFlow', 'riskControl']
+const allDimensions = new Set(dimensionKeys)
 
 interface StockAnalysisRowProps {
   stock: Stock
+  expanded: boolean
+  onToggle: (code: string) => void
 }
 
-export default function StockAnalysisRow({ stock }: StockAnalysisRowProps) {
-  const [expanded, setExpanded] = useState(false)
-  const [expandedDim, setExpandedDim] = useState<AnalysisDimension | null>(null)
+export default function StockAnalysisRow({ stock, expanded, onToggle }: StockAnalysisRowProps) {
+  const [collapsedDims, setCollapsedDims] = useState<Set<AnalysisDimension>>(new Set())
   const [quote, setQuote] = useState<StockQuote | null>(null)
   const [analysis, setAnalysis] = useState<AnalysisData | null>(null)
-  const [loading, setLoading] = useState(false)
   const [evidence, setEvidence] = useState<{ title: string; items: Evidence[] } | null>(null)
 
   useEffect(() => {
     api.stock.quote(stock.code).then(setQuote)
+    api.analysis.getForStock(stock.code).then(setAnalysis)
   }, [stock.code])
 
-  function handleExpand() {
-    if (!expanded && !analysis) {
-      setLoading(true)
-      api.analysis.getForStock(stock.code).then(data => {
-        setAnalysis(data)
-        setLoading(false)
-      })
-    }
-    setExpanded(!expanded)
+  // 展开时重置折叠状态
+  useEffect(() => {
+    if (expanded) setCollapsedDims(new Set())
+  }, [expanded])
+
+  function toggleDim(key: AnalysisDimension) {
+    setCollapsedDims(prev => {
+      const next = new Set(prev)
+      if (next.has(key)) next.delete(key)
+      else next.add(key)
+      return next
+    })
   }
 
   return (
     <div className="rounded-xl border border-slate-800 bg-slate-900/30 transition-colors hover:border-slate-700">
       <div
         className="flex cursor-pointer items-center gap-3 px-4 py-3.5 sm:gap-4 sm:px-5 sm:py-4"
-        onClick={handleExpand}
+        onClick={() => onToggle(stock.code)}
       >
         <div className="min-w-0 flex-1">
           <div className="flex items-center gap-2">
@@ -65,14 +70,13 @@ export default function StockAnalysisRow({ stock }: StockAnalysisRowProps) {
             ))}
           </div>
         )}
-
       </div>
 
       {expanded && (
         <div className="border-t border-slate-800 px-4 py-3 sm:px-5 sm:py-4">
-          {loading ? (
+          {!analysis ? (
             <Spinner className="py-6" />
-          ) : analysis ? (
+          ) : (
             <div className="space-y-3">
               {dimensionKeys.map(key => {
                 const dim = analysis[key]
@@ -86,14 +90,14 @@ export default function StockAnalysisRow({ stock }: StockAnalysisRowProps) {
                     promptVersion={dim.promptVersion}
                     model={dim.model}
                     analyzedAt={dim.analyzedAt}
-                    expanded={expandedDim === key}
-                    onToggle={() => setExpandedDim(expandedDim === key ? null : key)}
+                    expanded={!collapsedDims.has(key)}
+                    onToggle={() => toggleDim(key)}
                     onShowEvidence={() => setEvidence({ title: dim.title, items: dim.evidences })}
                   />
                 )
               })}
             </div>
-          ) : null}
+          )}
         </div>
       )}
 
