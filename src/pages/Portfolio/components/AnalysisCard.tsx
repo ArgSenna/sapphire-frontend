@@ -8,9 +8,6 @@ interface AnalysisCardProps {
   title: string
   summary: string
   content: string
-  promptVersion: string
-  model: string
-  analyzedAt: string
   expanded: boolean
   onToggle: () => void
   onShowEvidence: () => void
@@ -18,7 +15,6 @@ interface AnalysisCardProps {
 
 export default function AnalysisCard({
   signal, title, summary, content,
-  promptVersion, model, analyzedAt,
   expanded, onToggle, onShowEvidence,
 }: AnalysisCardProps) {
   return (
@@ -47,15 +43,9 @@ export default function AnalysisCard({
         <div className="border-t border-slate-800 px-3.5 py-3.5 sm:px-4 sm:py-4">
           <div className="whitespace-pre-wrap text-sm leading-relaxed text-slate-300">
             {content}
-          </div>
-          <div className="mt-4 flex flex-col gap-2 border-t border-slate-800 pt-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
-            <div className="flex flex-wrap gap-3 text-[10px] text-slate-600">
-              <span>Prompt {promptVersion}</span>
-              <span>{model}</span>
-              <span>{new Date(analyzedAt).toLocaleString('zh-CN')}</span>
-            </div>
+            {' '}
             <button
-              onClick={e => { e.stopPropagation(); onShowEvidence() }}
+              onClick={onShowEvidence}
               className="text-xs text-amber-500 hover:text-amber-400"
             >
               查看证据链

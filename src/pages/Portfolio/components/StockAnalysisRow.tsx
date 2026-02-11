@@ -86,9 +86,6 @@ export default function StockAnalysisRow({ stock, expanded, onToggle }: StockAna
                     title={dim.title}
                     summary={dim.summary}
                     content={dim.content}
-                    promptVersion={dim.promptVersion}
-                    model={dim.model}
-                    analyzedAt={dim.analyzedAt}
                     expanded={!collapsedDims.has(key)}
                     onToggle={() => toggleDim(key)}
                     onShowEvidence={() => setEvidence({ title: dim.title, items: dim.evidences })}
