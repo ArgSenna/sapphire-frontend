@@ -310,42 +310,40 @@ const innovationElements: Omit<ResearchElement, 'promptVersion' | 'model' | 'ana
     title: '新品竞争力（产品力×落地难度）',
     rating: 'strongBuy',
     summary: 'Blackwell B200/GB200性能较H100提升5倍、能效比提升25倍，对标AMD MI300X训练吞吐量领先40%。CUDA生态锁定切换成本极高（迁移成本占项目30-50%），但CoWoS封装产能缺口25%和对华出口管制是落地核心瓶颈。',
-    content: `性能/成本/ROI对标：Blackwell B200 FP8算力20 PFLOPS（H100为4 PFLOPS），单位算力成本下降约75%。GB200 NVL72机柜1.4 EFLOPS，客户TCO较H100方案节省约60%。对标AMD MI300X，MLPerf v4.1基准中B200训练吞吐量领先40%，推理延迟低32%；对标Intel Gaudi 3，性能领先约3倍但后者价格仅为1/3，生态不成熟（市场份额<3%）。ROI口径：客户部署B200后大模型训练周期缩短60-70%，推理成本降低80%，典型ROI 3-6个月回本。
+    content: `Blackwell架构实现代际跃升，B200性能较H100提升5倍、客户TCO节省约60%，对标AMD MI300X训练吞吐量领先40%、推理延迟低32%，产品力代差显著。
 
-替代路径：NVIDIA GPU是当前AI训练的事实标准，替代顺序为AMD MI系列→Google TPU→华为昇腾→Intel Gaudi。AMD为最接近替代者，但ROCm生态仅覆盖CUDA的40%，迁移需重写30-50%底层代码，周期6-12个月。Google TPU仅限自用+GCP客户，非通用替代。华为昇腾910B在中国市场份额约25%，但训练效率仅为A100的60-70%。
+CUDA生态构成极高切换成本——400万+开发者、5000万+累计下载，客户迁移至竞品需重写30-50%底层代码，迁移成本占项目投入35%，实际案例中头部云厂商评估后放弃迁移。这是NVIDIA最核心的护城河。
 
-POC→签约转化率：Blackwell产品无需传统POC流程——Hyperscaler客户（占收入45%）直接大额采购，企业客户通过DGX Cloud试用后转化率约65%（行业AI硬件平均约40%）。FY2026 Fortune 500客户覆盖从200家扩至380家，新客获取加速。
+商业化节奏快：Hyperscaler直接大额采购无需POC，企业客户DGX Cloud试用转化率65%，Fortune 500覆盖从200家扩至380家。从芯片发布到主力收入贡献仅18个月，较上代缩短25%。
 
-上线周期：从下单到部署，风冷方案约8-12周，液冷方案（GB200 NVL72）约16-20周（含机房改造）。从芯片发布到规模化收入贡献约18个月（Blackwell 2024Q1发布→2025Q3贡献60%数据中心收入），较上代Hopper的24个月缩短25%。
-
-部署门槛：GB200 NVL72机柜功耗约120kW，需液冷散热基础设施改造（增加约15%部署成本）。CoWoS先进封装月产能约6万片，需求约8万片，缺口25%（台积电计划2026H1扩至8.5万片）。美国对华出口管制限制中国市场（收入占比从22%降至8%，年化损失80-100亿美元）。合规要求：部分主权AI项目需美国政府审批。
-
-切换成本：评估"极高"。CUDA开发者超400万，累计下载超5000万次，PyTorch/TensorFlow/JAX均深度优化CUDA。客户迁移至AMD ROCm需重写30-50%底层代码，迁移周期6-12个月，总成本约项目投入的35%。某头部云厂商评估后放弃迁移。CUDA生态绑定是NVIDIA最核心的护城河。`,
+落地瓶颈集中在两方面：①CoWoS封装产能缺口25%（月产6万片vs需求8万片），台积电计划2026H1扩产；②美国对华出口管制持续收紧，中国市场收入占比从22%降至8%，年化损失80-100亿美元。`,
     evidences: [
-      { source: '性能/成本/ROI对标', url: 'https://investor.nvidia.com', date: '2025-12-15', snippet: 'B200 FP8算力20 PFLOPS（H100为4 PFLOPS），能效比提升25倍（推理）。GB200 NVL72单机柜1.4 EFLOPS。MLPerf v4.1：B200训练较H100快4.2倍，较MI300X快1.4倍；推理延迟较MI300X低32%。客户TCO较H100节省约60%。', reliability: 'high', children: [
+      { source: '性能/成本/ROI对标', url: 'https://investor.nvidia.com', date: '2025-12-15', snippet: 'B200 FP8算力20 PFLOPS（H100为4 PFLOPS），单位算力成本下降约75%。能效比提升25倍（推理）。GB200 NVL72单机柜1.4 EFLOPS。客户TCO较H100方案节省约60%。ROI口径：客户部署B200后大模型训练周期缩短60-70%，推理成本降低80%，典型ROI 3-6个月回本。', reliability: 'high', children: [
         { source: 'NVIDIA GTC 2025技术白皮书', url: 'https://investor.nvidia.com', date: '2025-11-20', snippet: 'Blackwell架构采用台积电4NP工艺，双芯片封装2080亿晶体管。第五代NVLink带宽1.8TB/s，较H100提升2倍。支持FP4精度，推理性能再翻倍。', reliability: 'high' },
-        { source: 'MLPerf Benchmark v4.1', url: 'https://mlcommons.org', date: '2025-12-10', snippet: 'B200在GPT-3 175B训练基准中较H100快4.2倍，较AMD MI300X快1.4倍。推理基准（Llama-2 70B）中B200延迟较MI300X低32%。', reliability: 'high' },
-        { source: '竞品定价对比', url: 'https://xueqiu.com/S/AMD', date: '2025-12-06', snippet: 'B200单卡约3-4万美元（较H100提升30%但性能提升5倍）。AMD MI300X约1.5万美元（性能差距40%）。Intel Gaudi 3定价更低但生态不成熟，份额<3%。', reliability: 'high' },
+        { source: 'MLPerf Benchmark v4.1', url: 'https://mlcommons.org', date: '2025-12-10', snippet: 'MLPerf v4.1基准：B200在GPT-3 175B训练中较H100快4.2倍，较AMD MI300X快1.4倍。推理基准（Llama-2 70B）中B200延迟较MI300X低32%。', reliability: 'high' },
+        { source: '竞品定价对比', url: 'https://xueqiu.com/S/AMD', date: '2025-12-06', snippet: 'B200单卡约3-4万美元（较H100提升30%但性能提升5倍），性价比大幅改善。AMD MI300X约1.5万美元（性能差距40%）。Intel Gaudi 3定价更低但生态不成熟，市场份额<3%。对标Intel Gaudi 3，NVIDIA性能领先约3倍但后者价格仅为1/3。', reliability: 'high' },
       ] },
-      { source: '替代路径与迁移成本', url: 'https://investor.nvidia.com', date: '2025-12-14', snippet: 'CUDA开发者超400万，累计下载超5000万次。PyTorch/TensorFlow/JAX均深度优化CUDA。客户迁移至ROCm需重写30-50%底层代码，迁移周期6-12个月。AMD ROCm生态覆盖约CUDA的40%。替代顺序：AMD MI→Google TPU→华为昇腾→Intel Gaudi。', reliability: 'high', children: [
-        { source: 'NVIDIA开发者大会数据', url: 'https://developer.nvidia.com', date: '2025-11-15', snippet: 'CUDA 12.x支持超800个加速库，覆盖AI训练/推理、HPC、图形渲染、自动驾驶等全场景。年新增开发者约60万。', reliability: 'high' },
-        { source: '客户迁移成本调研', url: 'https://xueqiu.com/S/NVDA', date: '2025-12-08', snippet: '某头部云厂商评估从CUDA迁移至ROCm：核心训练框架适配约3个月，自定义算子重写约6个月，总成本约项目投入的35%。最终放弃迁移。', reliability: 'medium' },
-        { source: '华为昇腾替代评估', url: 'https://xueqiu.com/S/NVDA', date: '2025-12-05', snippet: '华为昇腾910B在国内大模型训练中份额约25%，但CUDA→CANN迁移成本高，客户反馈训练效率仅为A100的60-70%，生态成熟度差距约3-5年。', reliability: 'medium' },
+      { source: '替代路径与迁移成本', url: 'https://investor.nvidia.com', date: '2025-12-14', snippet: 'CUDA开发者超400万，累计下载超5000万次。PyTorch/TensorFlow/JAX均深度优化CUDA。客户迁移至ROCm需重写30-50%底层代码，迁移周期6-12个月，总成本约项目投入的35%。替代顺序：AMD MI→Google TPU→华为昇腾→Intel Gaudi。NVIDIA GPU是当前AI训练的事实标准。', reliability: 'high', children: [
+        { source: 'NVIDIA开发者大会数据', url: 'https://developer.nvidia.com', date: '2025-11-15', snippet: 'CUDA 12.x支持超800个加速库，覆盖AI训练/推理、HPC、图形渲染、自动驾驶等全场景。年新增开发者约60万。切换成本评估"极高"——PyTorch/TensorFlow/JAX均深度绑定CUDA。', reliability: 'high' },
+        { source: '客户迁移成本调研', url: 'https://xueqiu.com/S/NVDA', date: '2025-12-08', snippet: '某头部云厂商评估从CUDA迁移至ROCm：核心训练框架适配约3个月，自定义算子重写约6个月，总成本约项目投入的35%。最终放弃迁移。AMD ROCm生态仅覆盖CUDA的40%。', reliability: 'medium' },
+        { source: '华为昇腾替代评估', url: 'https://xueqiu.com/S/NVDA', date: '2025-12-05', snippet: '华为昇腾910B在国内大模型训练中份额约25%，但CUDA→CANN迁移成本高，客户反馈训练效率仅为A100的60-70%，生态成熟度差距约3-5年。Google TPU仅限自用+GCP客户，非通用替代。', reliability: 'medium' },
       ] },
-      { source: 'POC转化与客户获取', url: 'https://investor.nvidia.com', date: '2025-12-20', snippet: 'FY2026Q3数据中心收入355亿美元（同比+93%）。Blackwell贡献约60%。Hyperscaler直接大额采购无需POC，企业客户通过DGX Cloud试用转化率约65%。Fortune 500覆盖从200家扩至380家。RPO约280亿美元。', reliability: 'high', children: [
+      { source: 'POC转化与客户获取', url: 'https://investor.nvidia.com', date: '2025-12-20', snippet: 'FY2026Q3数据中心收入355亿美元（同比+93%）。Blackwell贡献约60%。Hyperscaler客户（占收入45%）直接大额采购无需POC，企业客户通过DGX Cloud试用转化率约65%（行业AI硬件平均约40%）。Fortune 500覆盖从200家扩至380家，新客获取加速。RPO约280亿美元。', reliability: 'high', children: [
         { source: 'NVDA FY2026Q3财报', url: 'https://investor.nvidia.com', date: '2025-11-20', snippet: '总营收410亿美元（同比+78%），数据中心355亿（+93%），游戏38亿（+15%），汽车16亿（+55%）。毛利率74.5%，Non-GAAP EPS $0.82。', reliability: 'high' },
         { source: '大客户CapEx追踪', url: 'https://xueqiu.com/S/NVDA', date: '2025-12-15', snippet: 'Hyperscaler 2025年AI CapEx合计约2800亿美元（同比+45%）。Microsoft约800亿、Google约600亿、Meta约500亿、Amazon约500亿，NVIDIA GPU占AI CapEx约65-70%。', reliability: 'high' },
+        { source: '企业客户转化追踪', url: 'https://investor.nvidia.com', date: '2025-12-08', snippet: 'DGX Cloud试用企业客户约2800家，转化为付费客户约1820家，转化率65%。金融行业最高（72%），制造业次之（68%），零售（58%）。', reliability: 'high' },
       ] },
-      { source: '上线周期与部署门槛', url: 'https://xueqiu.com/S/NVDA', date: '2025-12-18', snippet: '风冷方案交付8-12周，液冷方案（GB200 NVL72）16-20周（含机房改造）。CoWoS月产能约6万片，需求约8万片，缺口25%。台积电计划2026H1扩至8.5万片/月。GB200机柜功耗120kW，需液冷改造增加约15%部署成本。', reliability: 'high', children: [
-        { source: '台积电法说会', url: 'https://investor.tsmc.com', date: '2025-12-12', snippet: 'CoWoS产能2025年底约6万片/月，2026Q2目标8.5万片。NVIDIA占CoWoS产能约55%，其余为AMD、Google TPU等。', reliability: 'high' },
-        { source: '供应链调研', url: 'https://xueqiu.com/S/NVDA', date: '2025-12-08', snippet: '液冷方案（Vertiv、Cooltera）交付周期16-20周，较传统风冷长约8周。GB200 NVL72机柜功耗约120kW，需配套液冷改造。', reliability: 'medium' },
+      { source: '上线周期与部署门槛', url: 'https://xueqiu.com/S/NVDA', date: '2025-12-18', snippet: '从下单到部署：风冷方案约8-12周，液冷方案（GB200 NVL72）约16-20周（含机房改造）。从芯片发布到规模化收入贡献约18个月（Blackwell 2024Q1发布→2025Q3贡献60%数据中心收入），较上代Hopper的24个月缩短25%。CoWoS月产能约6万片，需求约8万片，缺口25%。', reliability: 'high', children: [
+        { source: '台积电法说会', url: 'https://investor.tsmc.com', date: '2025-12-12', snippet: 'CoWoS产能2025年底约6万片/月，2026Q2目标8.5万片。NVIDIA占CoWoS产能约55%，其余为AMD、Google TPU等。产能缺口是当前Blackwell出货的核心瓶颈。', reliability: 'high' },
+        { source: '供应链调研', url: 'https://xueqiu.com/S/NVDA', date: '2025-12-08', snippet: '液冷方案（Vertiv、Cooltera）交付周期16-20周，较传统风冷长约8周。GB200 NVL72机柜功耗约120kW，需液冷散热基础设施改造（增加约15%部署成本）。', reliability: 'medium' },
+        { source: '产品上量追踪', url: 'https://xueqiu.com/S/NVDA', date: '2025-12-02', snippet: 'Blackwell出货节奏：2025Q1约5万颗→Q2约15万颗→Q3约30万颗→Q4预计45万颗。爬坡速度较Hopper快约40%，反映供应链协同效率提升。', reliability: 'high' },
       ] },
-      { source: '出口管制与地缘风险', url: 'https://xueqiu.com/S/NVDA', date: '2025-12-16', snippet: '美国对华AI芯片出口管制持续收紧，H20（中国特供版）性能受限。中国市场收入占比从2023年的22%降至2025年的约8%，年化损失约80-100亿美元。2025年10月BIS新规进一步限制算力密度阈值。', reliability: 'high', children: [
-        { source: 'BIS出口管制更新', url: 'https://www.commerce.gov', date: '2025-12-10', snippet: '2025年10月新规进一步限制算力密度阈值，H20面临合规风险。NVIDIA已准备H20替代方案但性能进一步缩水。', reliability: 'high' },
-        { source: '主权AI审批风险', url: 'https://xueqiu.com/S/NVDA', date: '2025-12-01', snippet: '主权AI项目受地缘政治影响较大，中东项目需美国政府审批。目前已获批项目执行顺利，但潜在管制风险需持续关注。', reliability: 'medium' },
+      { source: '出口管制与地缘风险', url: 'https://xueqiu.com/S/NVDA', date: '2025-12-16', snippet: '美国对华AI芯片出口管制持续收紧，H20（中国特供版）性能受限。中国市场收入占比从2023年的22%降至2025年的约8%，年化损失约80-100亿美元。2025年10月BIS新规进一步限制算力密度阈值。合规要求：部分主权AI项目需美国政府审批。', reliability: 'high', children: [
+        { source: 'BIS出口管制更新', url: 'https://www.commerce.gov', date: '2025-12-10', snippet: '2025年10月新规进一步限制算力密度阈值，H20面临合规风险。NVIDIA已准备H20替代方案但性能进一步缩水。美国正评估将管制扩展至中东部分国家。', reliability: 'high' },
+        { source: '主权AI审批风险', url: 'https://xueqiu.com/S/NVDA', date: '2025-12-01', snippet: '主权AI项目受地缘政治影响较大，中东项目需美国政府审批。目前已获批项目执行顺利，但潜在管制风险需持续关注。若管制扩展至中东，主权AI合同约30亿美元将受直接影响。', reliability: 'medium' },
       ] },
-      { source: '定价权与ASP趋势', url: 'https://investor.nvidia.com', date: '2025-12-12', snippet: 'GB200 NVL72机柜ASP约300万美元。数据中心GPU ASP同比+35%，毛利率维持74-76%。客户接受度高——AI训练TCO中GPU仅占35-40%，性能提升带来的效率收益远超价格增量。', reliability: 'high', children: [
-        { source: '定价策略分析', url: 'https://xueqiu.com/S/NVDA', date: '2025-12-10', snippet: 'B200单卡定价约3-4万美元，较H100的2.5-3万美元提升约30%，但性能提升5倍，性价比大幅改善。客户TCO分析显示B200较H100节省约60%总训练成本。', reliability: 'high' },
+      { source: '定价权与ASP趋势', url: 'https://investor.nvidia.com', date: '2025-12-12', snippet: 'GB200 NVL72机柜ASP约300万美元。数据中心GPU ASP同比+35%，毛利率维持74-76%。客户接受度高——AI训练TCO中GPU仅占35-40%，性能提升带来的效率收益远超价格增量。折扣纪律严格：Hyperscaler大额采购折扣约5-8%，企业客户基本原价，主权AI项目含软件服务溢价约10-15%。', reliability: 'high', children: [
+        { source: '定价策略分析', url: 'https://xueqiu.com/S/NVDA', date: '2025-12-10', snippet: 'B200单卡定价约3-4万美元，较H100的2.5-3万美元提升约30%，但性能提升5倍，性价比大幅改善。客户TCO分析显示B200较H100节省约60%总训练成本。AMD MI300X定价约为B200的40-50%但性能差距40%，价格竞争压力有限。', reliability: 'high' },
       ] },
     ],
   },
@@ -353,29 +351,29 @@ POC→签约转化率：Blackwell产品无需传统POC流程——Hyperscaler客
     title: '研发效率（投入→产出→商业化）',
     rating: 'strongBuy',
     summary: 'NVIDIA年研发超120亿美元（行业第一），费用率从14.2%降至12.5%体现收入杠杆。架构2年一代严格执行，每代性能提升4-5倍。从流片到主力收入贡献仅18个月，较上代缩短25%。每1美元研发产出约12美元营收，ROI行业最高。',
-    content: `研发费用率：FY2026前三季度研发费用约92亿美元（同比+28%），全年预计超120亿美元。费用率约12.5%，较FY2024的14.2%下降1.7pct——收入增速（+78%）远快于研发增速（+28%），费用杠杆效应显著。管理层指引研发费用率稳定在12-13%。与毛利关系：研发投入集中在下一代架构（Rubin约35%）和软件栈（约20%），每代新架构量产后毛利率提升2-3pct（Blackwell量产后毛利率从72%升至74.5%），研发投入与毛利改善呈正相关。对比AMD研发60亿（费用率25%）、Intel 160亿（含制造，费用率28%），NVIDIA研发ROI最高（每1美元研发产出约12美元营收，AMD约4美元，Intel约1美元）。
+    content: `NVIDIA年研发超120亿美元，费用率从14.2%降至12.5%，收入增速（+78%）远快于研发增速（+28%），费用杠杆效应显著。每1美元研发产出约12美元营收，ROI行业最高（AMD约4美元，Intel约1美元）。
 
-研发人均产出：研发团队约32000人（占总员工76000人的42%），人均年营收贡献约50万美元（FY2024约35万，同比+43%）。核心架构师团队稳定性极高，关键岗位流失率<3%（行业约8-10%）。研发人员平均薪酬约35万美元/年（含股票激励），较AMD高约20%，较Intel高约30%，Glassdoor评分4.5/5。专利累计超25000件，年新增约3000件（2025年3200件），覆盖GPU微架构35%、AI加速25%、互联技术20%、软件栈15%、汽车5%。
+架构迭代严格执行2年一代节奏：Ampere(2020)→Hopper(2022)→Blackwell(2024)→Rubin(2026E)，从未延迟，每代性能提升4-5倍。从芯片发布到主力收入贡献仅18个月，较上代缩短25%。
 
-研发到商业化周期：Blackwell时间线——2024Q1发布→2024Q3流片→2025Q1量产→2025Q3贡献60%数据中心收入，从发布到主力收入贡献约18个月，较Hopper的24个月缩短25%。出货爬坡：2025Q1约5万颗→Q2约15万颗→Q3约30万颗→Q4预计45万颗，爬坡速度较Hopper快约40%。架构迭代节奏严格：Ampere(2020)→Hopper(2022)→Blackwell(2024)→Rubin(2026E)，2年一代从未延迟，每代性能提升4-5倍、能效比提升3-5倍，保持对AMD约1-1.5代领先。
+研发投入与毛利改善呈强正相关：每代架构商业化后，研发费用率下降约2pct的同时毛利率提升约5pct。软件栈（ARR 20亿，毛利率90%）是增量毛利的重要来源。
 
-研发投入与毛利改善相关性：历史验证——Ampere时代（FY2022-2023）研发费用率15-16%，毛利率62-65%；Hopper时代（FY2024-2025）费用率14-15%，毛利率70-73%；Blackwell时代（FY2026）费用率12-13%，毛利率74-76%。每代架构商业化后，研发费用率下降约2pct的同时毛利率提升约5pct，核心驱动是新架构的定价权提升和软件栈的增量毛利贡献（软件毛利率约90%）。CUDA软件栈年更新2个大版本+12个小版本，确保硬件性能被充分释放。`,
+研发团队约32000人，核心架构师流失率<3%（行业8-10%），人才稳定性构成隐性壁垒。`,
     evidences: [
-      { source: '研发费用率与毛利关系', url: 'https://investor.nvidia.com', date: '2025-11-30', snippet: 'FY2026前三季度研发费用92亿美元（同比+28%），费用率12.5%（FY2024为14.2%）。收入增速+78%远快于研发增速+28%，费用杠杆显著。Blackwell量产后毛利率从72%升至74.5%，研发投入与毛利改善正相关。', reliability: 'high', children: [
+      { source: '研发费用率与毛利关系', url: 'https://investor.nvidia.com', date: '2025-11-30', snippet: 'FY2026前三季度研发费用92亿美元（同比+28%），全年预计超120亿美元，费用率12.5%（FY2024为14.2%）。收入增速+78%远快于研发增速+28%，费用杠杆显著。管理层指引研发费用率稳定在12-13%。Blackwell量产后毛利率从72%升至74.5%，研发投入与毛利改善正相关。', reliability: 'high', children: [
         { source: 'NVDA FY2026Q3财报', url: 'https://investor.nvidia.com', date: '2025-11-20', snippet: 'Q3研发费用32亿美元（同比+25%），占营收7.8%。研发投向：下一代Rubin架构约35%、Blackwell优化约25%、软件栈约20%、汽车/机器人约15%、其他5%。', reliability: 'high' },
-        { source: '行业研发ROI对比', url: 'https://xueqiu.com/S/NVDA', date: '2025-12-10', snippet: 'NVIDIA年研发120亿，每1美元研发产出约12美元营收。AMD年研发60亿，每1美元产出约4美元。Intel年研发160亿（含制造），每1美元产出约1美元。NVIDIA研发ROI行业最高。', reliability: 'high' },
+        { source: '行业研发ROI对比', url: 'https://xueqiu.com/S/NVDA', date: '2025-12-10', snippet: 'NVIDIA年研发120亿，每1美元研发产出约12美元营收。AMD年研发60亿（费用率25%），每1美元产出约4美元。Intel年研发160亿（含制造，费用率28%），每1美元产出约1美元。NVIDIA研发ROI行业最高。', reliability: 'high' },
       ] },
-      { source: '研发人均产出与专利', url: 'https://investor.nvidia.com', date: '2025-12-08', snippet: '研发团队约32000人，人均年营收贡献约50万美元（FY2024约35万，+43%）。核心架构师流失率<3%。累计专利超25000件，年新增约3000件，覆盖GPU微架构、NVLink互联、CUDA编译器、TensorRT推理优化等。', reliability: 'high', children: [
-        { source: '人才竞争力分析', url: 'https://xueqiu.com/S/NVDA', date: '2025-12-05', snippet: 'NVIDIA研发人员平均薪酬约35万美元/年（含股票激励），较AMD高约20%，较Intel高约30%。Glassdoor评分4.5/5，员工满意度行业最高。', reliability: 'medium' },
-        { source: '专利布局分析', url: 'https://investor.nvidia.com', date: '2025-12-01', snippet: '2025年新增专利3200件，其中GPU架构35%、AI加速25%、互联技术20%、软件栈15%、汽车5%。关键专利被引用次数行业第一。', reliability: 'high' },
+      { source: '研发人均产出与专利', url: 'https://investor.nvidia.com', date: '2025-12-08', snippet: '研发团队约32000人（占总员工76000人的42%），人均年营收贡献约50万美元（FY2024约35万，同比+43%）。核心架构师流失率<3%（行业约8-10%）。累计专利超25000件，年新增约3000件，覆盖GPU微架构、NVLink互联、CUDA编译器、TensorRT推理优化等。', reliability: 'high', children: [
+        { source: '人才竞争力分析', url: 'https://xueqiu.com/S/NVDA', date: '2025-12-05', snippet: 'NVIDIA研发人员平均薪酬约35万美元/年（含股票激励），较AMD高约20%，较Intel高约30%。Glassdoor评分4.5/5，员工满意度行业最高。关键岗位流失率<3%构成隐性壁垒。', reliability: 'medium' },
+        { source: '专利布局分析', url: 'https://investor.nvidia.com', date: '2025-12-01', snippet: '2025年新增专利3200件，其中GPU架构35%、AI加速25%、互联技术20%、软件栈15%、汽车5%。关键专利被引用次数行业第一。累计专利超25000件。', reliability: 'high' },
       ] },
-      { source: '研发到商业化周期', url: 'https://investor.nvidia.com', date: '2025-12-05', snippet: 'Blackwell时间线：2024Q1发布→2024Q3流片→2025Q1量产→2025Q3贡献60%数据中心收入。从发布到主力收入贡献约18个月，较Hopper的24个月缩短25%。', reliability: 'high', children: [
+      { source: '研发到商业化周期', url: 'https://investor.nvidia.com', date: '2025-12-05', snippet: 'Blackwell时间线：2024Q1发布→2024Q3流片→2025Q1量产→2025Q3贡献60%数据中心收入。从发布到主力收入贡献约18个月，较Hopper的24个月缩短25%。出货爬坡速度较Hopper快约40%。', reliability: 'high', children: [
         { source: '产品上量追踪', url: 'https://xueqiu.com/S/NVDA', date: '2025-12-02', snippet: 'Blackwell出货节奏：2025Q1约5万颗→Q2约15万颗→Q3约30万颗→Q4预计45万颗。爬坡速度较Hopper快约40%，反映供应链协同效率提升。', reliability: 'high' },
-        { source: '架构迭代节奏', url: 'https://investor.nvidia.com', date: '2025-12-10', snippet: '2年一代严格执行：Ampere(2020)→Hopper(2022)→Blackwell(2024)→Rubin(2026E)。Rubin预计采用台积电3nm+HBM4，性能较Blackwell再提升3-4倍。AMD MI400预计2026H2（间隔2年），Intel Falcon Shores延迟至2026Q4。', reliability: 'high' },
+        { source: '架构迭代节奏', url: 'https://investor.nvidia.com', date: '2025-12-10', snippet: '2年一代严格执行：Ampere(2020)→Hopper(2022)→Blackwell(2024)→Rubin(2026E)，从未延迟。每代性能提升4-5倍、能效比提升3-5倍，保持对AMD约1-1.5代领先。Rubin预计采用台积电3nm+HBM4，性能较Blackwell再提升3-4倍。AMD MI400预计2026H2，Intel Falcon Shores延迟至2026Q4。', reliability: 'high' },
       ] },
-      { source: '毛利改善历史相关性', url: 'https://investor.nvidia.com', date: '2025-12-12', snippet: '历史验证：Ampere时代研发费用率15-16%/毛利率62-65%→Hopper时代14-15%/70-73%→Blackwell时代12-13%/74-76%。每代架构商业化后费用率降约2pct、毛利率升约5pct。软件ARR 20亿（毛利率90%）是增量毛利的重要来源。', reliability: 'high', children: [
-        { source: 'CUDA软件迭代', url: 'https://developer.nvidia.com', date: '2025-11-28', snippet: 'CUDA 12.6发布，新增Blackwell专属优化（FP4支持、NVLink 5.0通信库）。TensorRT 10.x推理性能较9.x提升约35%。年更新2个大版本+12个小版本。', reliability: 'high' },
-        { source: '软件毛利贡献', url: 'https://investor.nvidia.com', date: '2025-12-05', snippet: 'AI Enterprise + CUDA Enterprise + Omniverse合计ARR约20亿美元，毛利率约90%，远高于硬件的73%。软件收入占比从FY2024的2%提升至约4%，管理层目标FY2028达10%。', reliability: 'high' },
+      { source: '毛利改善历史相关性', url: 'https://investor.nvidia.com', date: '2025-12-12', snippet: '历史验证：Ampere时代研发费用率15-16%/毛利率62-65%→Hopper时代14-15%/70-73%→Blackwell时代12-13%/74-76%。每代架构商业化后费用率降约2pct、毛利率升约5pct。核心驱动是新架构的定价权提升和软件栈的增量毛利贡献。', reliability: 'high', children: [
+        { source: 'CUDA软件迭代', url: 'https://developer.nvidia.com', date: '2025-11-28', snippet: 'CUDA 12.6发布，新增Blackwell专属优化（FP4支持、NVLink 5.0通信库）。TensorRT 10.x推理性能较9.x提升约35%。年更新2个大版本+12个小版本，确保硬件性能被充分释放。', reliability: 'high' },
+        { source: '软件毛利贡献', url: 'https://investor.nvidia.com', date: '2025-12-05', snippet: 'AI Enterprise + CUDA Enterprise + Omniverse合计ARR约20亿美元（毛利率约90%），远高于硬件的73%。软件收入占比从FY2024的2%提升至约4%，管理层目标FY2028达10%。软件ARR是增量毛利的重要来源。', reliability: 'high' },
       ] },
     ],
   },
@@ -383,33 +381,31 @@ POC→签约转化率：Blackwell产品无需传统POC流程——Hyperscaler客
     title: '商业化与留存（增长质量）',
     rating: 'strongBuy',
     summary: '数据中心收入同比+93%，Top50客户NRR约145%，客户结构从Hyperscaler（45%）向企业（30%）/主权AI（15%）多元化扩散。软件ARR突破20亿美元（毛利率90%），主权AI签约80亿美元成为新增长极。Hyperscaler客户100%留存且持续扩单。',
-    content: `NRR/留存：Top50数据中心客户NRR约145%（硬件换代+软件渗透双驱动），Hyperscaler客户100%留存且持续扩单。分层看：Hyperscaler NRR约160%（Microsoft从FY2024约50亿扩至FY2026E约120亿，Meta从约30亿扩至约80亿）；企业客户NRR约125%（模块渗透+用量扩展）；主权AI为新增客群，无历史NRR但合同周期2-3年锁定性强。驱动因素：硬件换代（Hopper→Blackwell）贡献约60%扩展，软件渗透（AI Enterprise）贡献约25%，新场景（推理/边缘）贡献约15%。
+    content: `数据中心收入同比+93%，增长质量高。Top50客户NRR约145%，Hyperscaler客户100%留存且持续扩单（Microsoft从50亿扩至120亿，Meta从30亿扩至80亿），企业客户NRR约125%。
 
-ARPU/单客收入：Hyperscaler年均采购约40-120亿美元（Top4合计占数据中心收入约35%）。企业客户（Fortune 500）平均合同规模约500万美元/年（较FY2024的300万增长67%），扩张来自"用量"（GPU集群扩容）和"模块"（从训练扩展到推理+AI Enterprise软件）。主权AI项目平均合同约3-5亿美元，硬件占60%、软件服务占25%、集成占15%。
+客户结构持续优化：Hyperscaler占比从55%降至45%，企业客户升至30%（Fortune 500覆盖380家），主权AI占15%（签约25个项目、合同80亿美元），客户多元化趋势明确。
 
-客户结构：Hyperscaler占数据中心收入约45%（FY2024为55%，集中度改善）。企业客户占30%（+8pct），Fortune 500覆盖从约200家扩至约380家。主权AI占15%（新增），约40国启动、NVIDIA签约25个项目。CSP/托管占10%。Top4（MSFT/GOOG/META/AMZN）占比从42%降至35%，Top10从55%降至48%，客户多元化趋势明确。
+软件ARR突破20亿美元（毛利率90%），AI Enterprise客户4500家，NIM微服务增速+120%，平台化转型初见成效。每1美元GPU硬件可带动约0.3-0.5美元软件订阅。
 
-订单/RPO：RPO（剩余履约义务）约280亿美元，同比+65%。主权AI合同总额约80亿美元（沙特NEOM约20亿、日本ABCI 3.0约10亿、法国约8亿、印度约6亿、新加坡约5亿），项目周期2-3年，取消风险低（政府背书）。Hyperscaler CapEx指引持续上调：Microsoft FY2026约800亿（+40%）、Google约600亿（+35%）、Meta约500亿（+30%），NVIDIA GPU占AI CapEx约65-70%。
-
-渠道转化效率：NVIDIA以直销为主（Hyperscaler/企业直接采购），渠道伙伴（OEM/SI）覆盖中小企业和主权AI集成。DGX Cloud作为试用入口，企业客户转化率约65%。销售周期：Hyperscaler约2-4周（标准化采购），企业客户约3-6个月（含POC和集成），主权AI约6-12个月（含政府审批）。销售费用率约5%（FY2024为6%），费用杠杆持续释放。
-
-价格与折扣：NVIDIA定价权极强——B200单卡约3-4万美元（较H100提升30%但性能提升5倍），客户接受度高（AI训练TCO中GPU仅占35-40%）。折扣纪律严格：Hyperscaler大额采购折扣约5-8%，企业客户基本原价，主权AI项目含软件服务溢价约10-15%。AMD MI300X定价约为B200的40-50%但性能差距40%，价格竞争压力有限。毛利率维持74-76%，定价权来自CUDA生态锁定和性能代差。`,
+定价权极强：B200较H100提价30%但性能提升5倍，客户接受度高。毛利率维持74-76%，折扣纪律严格。AMD价格竞争压力有限（定价低50%但性能差距40%）。`,
     evidences: [
-      { source: 'NRR与客户留存', url: 'https://xueqiu.com/S/NVDA', date: '2025-12-10', snippet: 'Top50数据中心客户NRR约145%。Microsoft GPU采购从FY2024约50亿扩至FY2026E约120亿（+140%），Meta从约30亿扩至约80亿（+167%）。Hyperscaler客户100%留存。企业客户Fortune 500覆盖从约200家扩至约380家。', reliability: 'high', children: [
-        { source: 'Hyperscaler CapEx追踪', url: 'https://xueqiu.com/S/NVDA', date: '2025-12-06', snippet: 'Microsoft FY2026 CapEx指引约800亿美元（+40%），其中AI基础设施约60%。Google约600亿（+35%），Meta约500亿（+30%）。NVIDIA GPU占AI CapEx约65-70%。', reliability: 'high' },
-        { source: '企业客户拓展', url: 'https://investor.nvidia.com', date: '2025-12-04', snippet: '企业AI部署案例：摩根大通（风控+交易）、丰田（自动驾驶训练）、辉瑞（药物发现）、沃尔玛（供应链优化）。企业客户平均合同规模约500万美元/年，较FY2024的300万增长67%。', reliability: 'high' },
+      { source: 'NRR与客户留存', url: 'https://xueqiu.com/S/NVDA', date: '2025-12-10', snippet: 'Top50数据中心客户NRR约145%（硬件换代+软件渗透双驱动）。Hyperscaler NRR约160%：Microsoft GPU采购从FY2024约50亿扩至FY2026E约120亿（+140%），Meta从约30亿扩至约80亿（+167%）。Hyperscaler客户100%留存。企业客户NRR约125%（模块渗透+用量扩展）。驱动因素：硬件换代贡献约60%扩展，软件渗透贡献约25%，新场景贡献约15%。', reliability: 'high', children: [
+        { source: 'Hyperscaler CapEx追踪', url: 'https://xueqiu.com/S/NVDA', date: '2025-12-06', snippet: 'Microsoft FY2026 CapEx指引约800亿美元（+40%），其中AI基础设施约60%。Google约600亿（+35%），Meta约500亿（+30%）。NVIDIA GPU占AI CapEx约65-70%。CapEx指引持续上调验证需求强劲。', reliability: 'high' },
+        { source: '企业客户拓展', url: 'https://investor.nvidia.com', date: '2025-12-04', snippet: '企业AI部署案例：摩根大通（风控+交易）、丰田（自动驾驶训练）、辉瑞（药物发现）、沃尔玛（供应链优化）。企业客户平均合同规模约500万美元/年（较FY2024的300万增长67%），扩张来自GPU集群扩容和从训练扩展到推理+AI Enterprise软件。', reliability: 'high' },
+        { source: '主权AI客群特征', url: 'https://xueqiu.com/S/NVDA', date: '2025-12-04', snippet: '主权AI为新增客群，无历史NRR但合同周期2-3年锁定性强。平均合同约3-5亿美元，硬件占60%、软件服务占25%、集成占15%。取消风险低（政府背书+战略优先级高）。', reliability: 'high' },
       ] },
-      { source: '客户结构与集中度', url: 'https://investor.nvidia.com', date: '2025-12-12', snippet: 'FY2026Q3数据中心收入355亿美元。客户结构：Hyperscaler约45%（160亿）、企业约30%（107亿）、主权AI约15%（53亿）、CSP/托管约10%（35亿）。Top4占比从42%降至35%，Top10从55%降至48%，客户多元化改善。', reliability: 'high', children: [
+      { source: '客户结构与集中度', url: 'https://investor.nvidia.com', date: '2025-12-12', snippet: 'FY2026Q3数据中心收入355亿美元。客户结构：Hyperscaler约45%（160亿）、企业约30%（107亿）、主权AI约15%（53亿）、CSP/托管约10%（35亿）。Top4（MSFT/GOOG/META/AMZN）占比从42%降至35%，Top10从55%降至48%，客户多元化改善。Hyperscaler年均采购约40-120亿美元。', reliability: 'high', children: [
         { source: 'NVDA FY2026Q3财报电话会', url: 'https://investor.nvidia.com', date: '2025-11-20', snippet: 'CEO黄仁勋：企业AI采用进入拐点，Fortune 500中约380家已部署NVIDIA AI平台，较去年增加约180家。主权AI是最快增长的新客群。', reliability: 'high' },
-        { source: '客户集中度趋势', url: 'https://xueqiu.com/S/NVDA', date: '2025-12-08', snippet: '大客户集中度持续下降：Top4占比FY2024 42%→FY2026Q3 35%，Top10从55%降至48%。企业和主权AI客户的增长稀释了Hyperscaler集中度。', reliability: 'high' },
+        { source: '客户集中度趋势', url: 'https://xueqiu.com/S/NVDA', date: '2025-12-08', snippet: '大客户集中度持续下降：Top4占比FY2024 42%→FY2026Q3 35%，Top10从55%降至48%。企业和主权AI客户的增长稀释了Hyperscaler集中度，增长基础更健康。', reliability: 'high' },
       ] },
-      { source: '订单/RPO与主权AI', url: 'https://investor.nvidia.com', date: '2025-12-06', snippet: 'RPO约280亿美元（同比+65%）。主权AI签约约25个项目，合同总额约80亿美元。沙特NEOM约20亿、日本ABCI 3.0约10亿、法国约8亿、印度约6亿、新加坡约5亿。主权AI收入从FY2025约20亿增至FY2026E约55亿。', reliability: 'high', children: [
-        { source: '主权AI项目追踪', url: 'https://xueqiu.com/S/NVDA', date: '2025-12-04', snippet: '主权AI驱动因素：数据主权要求、AI产业政策、地缘竞争。典型配置：数千颗GPU+DGX SuperPOD+AI Enterprise软件栈。项目周期2-3年，取消风险低（政府背书+战略优先级高）。', reliability: 'high' },
+      { source: '订单/RPO与主权AI', url: 'https://investor.nvidia.com', date: '2025-12-06', snippet: 'RPO（剩余履约义务）约280亿美元（同比+65%）。主权AI签约约25个项目，合同总额约80亿美元：沙特NEOM约20亿、日本ABCI 3.0约10亿、法国约8亿、印度约6亿、新加坡约5亿。主权AI收入从FY2025约20亿增至FY2026E约55亿，项目周期2-3年，取消风险低。', reliability: 'high', children: [
+        { source: '主权AI项目追踪', url: 'https://xueqiu.com/S/NVDA', date: '2025-12-04', snippet: '主权AI驱动因素：数据主权要求、AI产业政策、地缘竞争。典型配置：数千颗GPU+DGX SuperPOD+AI Enterprise软件栈。约40国启动主权AI计划，NVIDIA已签约25个项目。', reliability: 'high' },
+        { source: '渠道转化效率', url: 'https://investor.nvidia.com', date: '2025-12-10', snippet: 'NVIDIA以直销为主。销售周期：Hyperscaler约2-4周（标准化采购），企业客户约3-6个月（含POC和集成），主权AI约6-12个月（含政府审批）。销售费用率约5%（FY2024为6%），费用杠杆持续释放。', reliability: 'high' },
       ] },
-      { source: '软件ARR与收入质量', url: 'https://investor.nvidia.com', date: '2025-12-08', snippet: 'CUDA Enterprise + AI Enterprise + Omniverse合计ARR约20亿美元（同比+85%）。AI Enterprise订阅客户约4500家（+60%），年均ACV约25万美元。软件毛利率约90%，远高于硬件的73%。NIM微服务增速最快（+120%）。', reliability: 'high', children: [
-        { source: '软件产品拆解', url: 'https://investor.nvidia.com', date: '2025-12-05', snippet: 'AI Enterprise ARR约12亿（含NIM微服务、Triton推理服务器、cuOpt优化库），CUDA Enterprise约5亿，Omniverse约3亿。每1美元GPU硬件可带动约0.3-0.5美元软件订阅。', reliability: 'high' },
+      { source: '软件ARR与收入质量', url: 'https://investor.nvidia.com', date: '2025-12-08', snippet: 'CUDA Enterprise + AI Enterprise + Omniverse合计ARR约20亿美元（同比+85%）。AI Enterprise订阅客户约4500家（+60%），年均ACV约25万美元。软件毛利率约90%，远高于硬件的73%。NIM微服务增速最快（+120%）。每1美元GPU硬件可带动约0.3-0.5美元软件订阅。', reliability: 'high', children: [
+        { source: '软件产品拆解', url: 'https://investor.nvidia.com', date: '2025-12-05', snippet: 'AI Enterprise ARR约12亿（含NIM微服务、Triton推理服务器、cuOpt优化库），CUDA Enterprise约5亿，Omniverse约3亿。软件收入占比从FY2024的2%提升至约4%，管理层目标FY2028达10%。', reliability: 'high' },
       ] },
-      { source: '定价权与折扣纪律', url: 'https://investor.nvidia.com', date: '2025-12-12', snippet: 'GB200 NVL72机柜ASP约300万美元。数据中心GPU ASP同比+35%，毛利率维持74-76%。Hyperscaler大额采购折扣约5-8%，企业客户基本原价，主权AI含软件服务溢价10-15%。AMD MI300X定价约为B200的40-50%但性能差距40%，价格竞争压力有限。', reliability: 'high', children: [
+      { source: '定价权与折扣纪律', url: 'https://investor.nvidia.com', date: '2025-12-12', snippet: 'GB200 NVL72机柜ASP约300万美元。数据中心GPU ASP同比+35%，毛利率维持74-76%。折扣纪律严格：Hyperscaler大额采购折扣约5-8%，企业客户基本原价，主权AI含软件服务溢价10-15%。客户接受度高——AI训练TCO中GPU仅占35-40%，性能提升带来的效率收益远超价格增量。', reliability: 'high', children: [
         { source: '竞品价格压力评估', url: 'https://xueqiu.com/S/AMD', date: '2025-12-06', snippet: 'AMD MI300X定价约1.5万美元，约为B200的40-50%，但性能差距约40%且ROCm生态不成熟。Intel Gaudi 3定价更低但市场份额<3%。NVIDIA定价权来自CUDA生态锁定和性能代差，短期无实质性价格竞争压力。', reliability: 'medium' },
       ] },
     ],
@@ -418,34 +414,29 @@ ARPU/单客收入：Hyperscaler年均采购约40-120亿美元（Top4合计占数
     title: '竞争格局与公司竞争水平',
     rating: 'buy',
     summary: '竞争定位：领先。NVIDIA在AI加速芯片领域占据约80%市场份额，CUDA生态+架构迭代速度+全栈平台构成三重壁垒。AMD为最接近挑战者但性能差距约40%且生态覆盖仅40%。最大变量是Hyperscaler自研芯片（Google TPU、Amazon Trainium）对通用GPU的替代风险。',
-    content: `行业增长拆解（5个决定性变量）：①全球AI CapEx增速→直接决定GPU采购量（2025年约2800亿美元，+45%）；②大模型参数量增长→算力需求指数级扩张（每代模型算力需求增长约10倍）；③推理占比提升→从训练为主转向推理为主，扩大TAM约3倍；④Hyperscaler自研芯片进展→Google TPU v6、Amazon Trainium 2对NVIDIA份额的替代程度；⑤出口管制政策→限制中国市场（约占潜在TAM 15-20%）。传导关系：AI CapEx↑→GPU采购↑，但自研芯片↑→NVIDIA份额承压；推理占比↑→TAM扩大但竞争加剧。
+    content: `竞争定位：领先。NVIDIA在AI加速芯片领域占据约80%市场份额，CUDA生态+架构迭代速度+全栈平台构成三重壁垒。数据中心收入是AMD的约5倍。
 
-胜负手3条（均可验证）：①CUDA生态开发者增速维持>15%/年（当前400万+，年增60万，季度可验证——若增速降至<10%说明替代生态成熟）；②Blackwell→Rubin架构迭代按时交付（2026H2量产，半年度可验证——若延迟>6个月则AMD追赶窗口打开）；③Hyperscaler自研芯片占其AI算力比例<30%（当前约15-20%，半年度可验证——若突破30%说明通用GPU被实质性替代）。
+行业增长由5个决定性变量驱动：AI CapEx增速、大模型参数量增长、推理占比提升、Hyperscaler自研芯片进展、出口管制政策。其中推理占比从30%升至45%将扩大TAM约3倍，但竞争也更激烈。
 
-竞争定位：领先。证据：①AI加速芯片市场份额约80%（AMD约12%、Intel约3%、其他约5%）；②数据中心收入355亿美元/季，是AMD数据中心收入的约5倍；③CUDA生态400万+开发者，覆盖主流AI框架100%；④架构迭代保持对AMD约1-1.5代领先；⑤软件平台（AI Enterprise）开辟第二增长曲线，竞品无可比产品。
+胜负手3条（均可验证）：①CUDA开发者增速维持>15%/年；②Blackwell→Rubin架构按时交付；③Hyperscaler自研芯片占AI算力<30%。三条均为季度/半年度可跟踪指标。
 
-竞争对标表：
-产品力——NVIDIA B200性能领先AMD MI300X约40%（MLPerf验证），领先Intel Gaudi 3约3倍。差距来源：架构设计（双芯片封装+NVLink互联）和软件栈优化深度。可追赶性：中（AMD每代缩小约10%差距，但NVIDIA迭代速度同样快）。验证：MLPerf半年度基准测试。
-成本结构——NVIDIA毛利率74-76%，AMD约52%，Intel数据中心约40%。NVIDIA毛利率优势来自定价权（CUDA锁定）和规模效应（台积电最大客户之一）。可追赶性：低（CUDA生态锁定短期无法打破）。验证：季度财报毛利率跟踪。
-渠道/生态——NVIDIA CUDA 400万+开发者/800+加速库，AMD ROCm覆盖约40%。差距来源：CUDA积累15年+，ROCm起步晚约8年。可追赶性：低（生态迁移成本极高，需5年+追赶）。验证：开发者数量/框架支持度年度评估。
-交付与服务——NVIDIA DGX/HGX标准化交付+DGX Cloud试用，AMD依赖OEM合作伙伴。NVIDIA企业客户NPS约75（行业约60）。可追赶性：中（AMD通过OEM伙伴可部分弥补）。验证：NPS半年度调研。
-合规与资质——NVIDIA受美国出口管制影响最大（中国市场收入从22%降至8%），AMD同样受限但影响较小（中国收入占比约15%）。可追赶性：不适用（政策风险，非企业可控）。验证：BIS政策更新季度跟踪。`,
+最大变量是Hyperscaler自研芯片（Google TPU、Amazon Trainium）的替代风险——当前占AI算力15-20%且趋势上升，但训练场景仍高度依赖NVIDIA GPU（>80%），短期是补充而非替代。`,
     evidences: [
-      { source: '行业增长拆解', url: 'https://investor.nvidia.com', date: '2025-12-16', snippet: '决定性变量5个：①全球AI CapEx 2025年约2800亿（+45%）→GPU采购量；②大模型参数量增长→算力需求指数级扩张；③推理占比提升→TAM扩大约3倍；④Hyperscaler自研芯片→替代风险；⑤出口管制→限制中国市场。', reliability: 'high', children: [
+      { source: '行业增长拆解', url: 'https://investor.nvidia.com', date: '2025-12-16', snippet: '决定性变量5个：①全球AI CapEx 2025年约2800亿（+45%）→直接决定GPU采购量；②大模型参数量增长→算力需求指数级扩张（每代模型算力需求增长约10倍）；③推理占比提升→从训练为主转向推理为主，扩大TAM约3倍；④Hyperscaler自研芯片→替代风险；⑤出口管制→限制中国市场（约占潜在TAM 15-20%）。传导关系：AI CapEx↑→GPU采购↑，但自研芯片↑→NVIDIA份额承压。', reliability: 'high', children: [
         { source: 'Hyperscaler AI CapEx追踪', url: 'https://xueqiu.com/S/NVDA', date: '2025-12-14', snippet: '2025年全球AI CapEx约2800亿美元（+45%）。Microsoft约800亿、Google约600亿、Meta约500亿、Amazon约500亿。NVIDIA GPU占AI CapEx约65-70%，但Hyperscaler自研芯片占比从10%升至15-20%。', reliability: 'high' },
-        { source: '推理市场扩张', url: 'https://investor.nvidia.com', date: '2025-12-12', snippet: 'AI推理占数据中心GPU用量从2023年的约30%升至2025年的约45%，预计2027年达60%。推理市场竞争更激烈（AMD/Intel/自研芯片均瞄准推理场景），但NVIDIA凭借TensorRT优化仍领先。', reliability: 'high' },
+        { source: '推理市场扩张', url: 'https://investor.nvidia.com', date: '2025-12-12', snippet: 'AI推理占数据中心GPU用量从2023年的约30%升至2025年的约45%，预计2027年达60%。推理市场竞争更激烈（AMD/Intel/自研芯片均瞄准推理场景），但NVIDIA凭借TensorRT优化仍领先，推理份额约65%。', reliability: 'high' },
       ] },
-      { source: '胜负手验证', url: 'https://investor.nvidia.com', date: '2025-12-14', snippet: '胜负手3条：①CUDA开发者增速>15%/年（当前400万+，年增60万=15%，季度验证）；②Rubin架构2026H2按时量产（半年度验证）；③Hyperscaler自研芯片占AI算力<30%（当前15-20%，半年度验证）。', reliability: 'high', children: [
+      { source: '胜负手验证', url: 'https://investor.nvidia.com', date: '2025-12-14', snippet: '胜负手3条：①CUDA开发者增速>15%/年（当前400万+，年增60万=15%，季度验证——若增速降至<10%说明替代生态成熟）；②Rubin架构2026H2按时量产（半年度验证——若延迟>6个月则AMD追赶窗口打开）；③Hyperscaler自研芯片占AI算力<30%（当前15-20%，半年度验证——若突破30%说明通用GPU被实质性替代）。', reliability: 'high', children: [
         { source: 'Google TPU进展', url: 'https://xueqiu.com/S/GOOG', date: '2025-12-12', snippet: 'Google TPU v6（Trillium）2025Q3量产，性能较v5e提升约4倍。Google内部AI训练约40%使用TPU，60%使用NVIDIA GPU。TPU仅限GCP客户使用，非通用替代。', reliability: 'high' },
         { source: 'Amazon Trainium追踪', url: 'https://xueqiu.com/S/AMZN', date: '2025-12-10', snippet: 'Amazon Trainium 2 2025Q4量产，定位训练+推理。AWS内部约25%AI负载使用Trainium，75%仍用NVIDIA GPU。Trainium生态不成熟，第三方采用率低。', reliability: 'medium' },
       ] },
-      { source: '竞争定位与市场份额', url: 'https://xueqiu.com/S/NVDA', date: '2025-12-12', snippet: '竞争定位：领先。AI加速芯片市场份额：NVIDIA约80%、AMD约12%、Intel约3%、其他约5%。数据中心收入NVIDIA 355亿/季 vs AMD约70亿/季（约5倍差距）。CUDA 400万+开发者，架构领先AMD约1-1.5代。', reliability: 'high', children: [
-        { source: 'AMD竞争力评估', url: 'https://xueqiu.com/S/AMD', date: '2025-12-08', snippet: 'AMD MI300X在部分推理场景性价比接近B200（价格低50%，性能差距40%），ROCm生态改善中（PyTorch支持度从60%升至75%）。但大模型训练场景仍显著落后，客户迁移意愿低。', reliability: 'medium' },
+      { source: '竞争定位与市场份额', url: 'https://xueqiu.com/S/NVDA', date: '2025-12-12', snippet: '竞争定位：领先。AI加速芯片市场份额：NVIDIA约80%、AMD约12%、Intel约3%、其他约5%。数据中心收入NVIDIA 355亿/季 vs AMD约70亿/季（约5倍差距）。CUDA 400万+开发者，覆盖主流AI框架100%。架构迭代保持对AMD约1-1.5代领先。软件平台（AI Enterprise）开辟第二增长曲线，竞品无可比产品。', reliability: 'high', children: [
+        { source: 'AMD竞争力评估', url: 'https://xueqiu.com/S/AMD', date: '2025-12-08', snippet: 'AMD MI300X在部分推理场景性价比接近B200（价格低50%，性能差距40%），ROCm生态改善中（PyTorch支持度从60%升至75%）。但大模型训练场景仍显著落后，客户迁移意愿低。AMD每代缩小约10%差距，但NVIDIA迭代速度同样快。', reliability: 'medium' },
         { source: 'Intel竞争力评估', url: 'https://xueqiu.com/S/INTC', date: '2025-12-06', snippet: 'Intel Gaudi 3市场份额<3%，Falcon Shores延迟至2026Q4。Intel在AI加速领域持续失去份额，短期不构成实质威胁。', reliability: 'medium' },
       ] },
-      { source: '竞争对标表', url: 'https://xueqiu.com/S/NVDA', date: '2025-12-20', snippet: '五维对标：①产品力：NVIDIA B200领先MI300X约40%，可追赶性中（验证：MLPerf半年度）；②成本结构：毛利率NVIDIA 74% vs AMD 52%，可追赶性低（验证：季度财报）；③生态：CUDA 400万开发者 vs ROCm覆盖40%，可追赶性低（验证：年度开发者统计）；④交付：NVIDIA DGX标准化+DGX Cloud，NPS 75 vs AMD约60，可追赶性中；⑤合规：均受出口管制影响，NVIDIA影响更大（中国收入从22%降至8%）。', reliability: 'high', children: [
-        { source: '生态差距分析', url: 'https://developer.nvidia.com', date: '2025-12-15', snippet: 'CUDA积累15年+，800+加速库，覆盖AI/HPC/图形/自动驾驶全场景。AMD ROCm起步晚约8年，加速库约320个，主要覆盖AI训练/推理。生态差距需5年+追赶。', reliability: 'high' },
-        { source: '自研芯片替代评估', url: 'https://xueqiu.com/S/NVDA', date: '2025-12-10', snippet: 'Hyperscaler自研芯片（TPU/Trainium/MTIA）当前占其AI算力约15-20%，主要用于内部推理负载。训练场景仍高度依赖NVIDIA GPU（占比>80%）。自研芯片短期是补充而非替代。', reliability: 'high' },
+      { source: '竞争对标表', url: 'https://xueqiu.com/S/NVDA', date: '2025-12-20', snippet: '五维对标：①产品力：NVIDIA B200领先MI300X约40%（MLPerf验证），领先Intel Gaudi 3约3倍，差距来源为架构设计和软件栈优化深度，可追赶性中（验证：MLPerf半年度）；②成本结构：毛利率NVIDIA 74-76% vs AMD 52% vs Intel数据中心40%，优势来自定价权和规模效应，可追赶性低（验证：季度财报）；③生态：CUDA 400万开发者/800+加速库 vs ROCm覆盖40%/320个加速库，CUDA积累15年+，ROCm起步晚约8年，可追赶性低，需5年+追赶（验证：年度开发者统计）；④交付：NVIDIA DGX标准化+DGX Cloud，NPS 75 vs AMD约60，可追赶性中；⑤合规：均受出口管制影响，NVIDIA影响更大（中国收入从22%降至8%，AMD约15%），不可控。', reliability: 'high', children: [
+        { source: '生态差距分析', url: 'https://developer.nvidia.com', date: '2025-12-15', snippet: 'CUDA积累15年+，800+加速库，覆盖AI/HPC/图形/自动驾驶全场景。AMD ROCm起步晚约8年，加速库约320个，主要覆盖AI训练/推理。生态差距需5年+追赶。生态迁移成本极高是NVIDIA最深的护城河。', reliability: 'high' },
+        { source: '自研芯片替代评估', url: 'https://xueqiu.com/S/NVDA', date: '2025-12-10', snippet: 'Hyperscaler自研芯片（TPU/Trainium/MTIA）当前占其AI算力约15-20%，主要用于内部推理负载。训练场景仍高度依赖NVIDIA GPU（占比>80%）。自研芯片短期是补充而非替代，但趋势上升需持续跟踪。', reliability: 'high' },
       ] },
     ],
   },
@@ -453,34 +444,34 @@ ARPU/单客收入：Hyperscaler年均采购约40-120亿美元（Top4合计占数
     title: '经营阶段与KPI验证体系（创新型≥10项）',
     rating: 'buy',
     summary: '当前处于规模化放量期，Blackwell量产驱动数据中心收入同比+93%，12项KPI中10项绿灯、1项黄灯（出口管制）、1项需关注（Hyperscaler自研芯片占比上升）。下一阶段关键：Rubin按时量产、软件收入占比突破10%、推理市场份额维持>60%。',
-    content: `经营阶段判断：规模化放量期。证据5条：①Blackwell量产后6个月即贡献60%数据中心收入，产品-市场匹配度极高；②数据中心季度收入355亿美元（同比+93%），连续6季加速增长；③毛利率从Hopper时代的72%提升至74.5%，规模效应+定价权双重验证；④客户结构从Hyperscaler单一驱动向企业/主权AI多元化扩散，增长基础更健康；⑤软件ARR突破20亿美元，平台化转型初见成效。
+    content: `经营阶段判断：规模化放量期。Blackwell量产6个月即贡献60%数据中心收入，产品-市场匹配度极高。数据中心季度收入355亿美元（+93%），毛利率从72%升至74.5%，客户结构向企业/主权AI多元化扩散，软件ARR突破20亿美元。
 
-下一阶段必要条件3条（可跟踪）：①Rubin架构2026H2按时量产——若延迟>6个月，AMD MI400将缩小代差，市场份额面临侵蚀（半年度验证）；②软件收入占比从4%提升至10%——标志从硬件公司向平台公司转型成功（FY2028目标，年度验证）；③推理市场份额维持>60%——推理是未来最大增量市场，竞争最激烈（AMD/Intel/自研芯片均瞄准推理），份额守住=TAM扩张红利独享（半年度验证）。
+下一阶段必要条件3条：①Rubin 2026H2按时量产（延迟>6月=AMD追赶窗口打开）；②软件收入占比从4%提升至10%（标志平台化转型成功）；③推理市场份额维持>60%（竞争最激烈的增量市场）。
 
-阶段性风险3条：①Hyperscaler CapEx周期性回调——若2026年AI CapEx增速从+45%降至<15%，NVIDIA收入增速将显著放缓（对应行业增长变量①）；②自研芯片替代加速——若Hyperscaler自研芯片占其AI算力比例从20%升至>30%，通用GPU需求增速将低于AI CapEx增速（对应竞争格局胜负手③）；③出口管制进一步收紧——若限制扩展至中东/东南亚市场，主权AI增长极将受阻（对应出口管制变量）。
+阶段性风险3条：①Hyperscaler CapEx周期性回调（历史上曾从+35%骤降至+5%）；②自研芯片替代加速（当前占AI算力15-20%且上升）；③出口管制进一步收紧。
 
-KPI总览：12项中10项绿灯（✓），1项黄灯（△出口管制影响），1项需关注（✗Hyperscaler自研芯片占比上升趋势）。整体支持"规模化放量期"判断，增长质量高但需密切跟踪CapEx周期和自研芯片替代进展。`,
+KPI总览：12项中10项绿灯，1项黄灯（出口管制），1项需关注（自研芯片占比上升）。整体支持"规模化放量期"判断，增长质量高。`,
     evidences: [
-      { source: '经营阶段判断', url: 'https://investor.nvidia.com', date: '2025-12-20', snippet: '阶段：规模化放量期。证据5条：①Blackwell量产6个月贡献60%数据中心收入；②数据中心季度收入355亿（+93%），连续6季加速；③毛利率从72%升至74.5%；④客户结构多元化（Hyperscaler占比从55%降至45%）；⑤软件ARR突破20亿。', reliability: 'high', children: [
+      { source: '经营阶段判断', url: 'https://investor.nvidia.com', date: '2025-12-20', snippet: '阶段：规模化放量期。证据5条：①Blackwell量产6个月贡献60%数据中心收入，产品-市场匹配度极高；②数据中心季度收入355亿（+93%），连续6季加速增长；③毛利率从Hopper时代的72%提升至74.5%，规模效应+定价权双重验证；④客户结构从Hyperscaler单一驱动向企业/主权AI多元化扩散，增长基础更健康；⑤软件ARR突破20亿，平台化转型初见成效。', reliability: 'high', children: [
         { source: 'NVDA FY2026Q3财报', url: 'https://investor.nvidia.com', date: '2025-11-20', snippet: '总营收410亿美元（同比+78%），数据中心355亿（+93%）。毛利率74.5%（FY2024为72%）。Blackwell贡献约60%数据中心收入，量产爬坡速度较Hopper快40%。', reliability: 'high' },
         { source: '平台化转型进展', url: 'https://investor.nvidia.com', date: '2025-12-15', snippet: '软件ARR 20亿美元（+85%），AI Enterprise客户4500家。NIM微服务成为企业AI部署标准入口，增速+120%。软件收入占比从2%升至4%，目标FY2028达10%。', reliability: 'high' },
       ] },
-      { source: '下一阶段条件', url: 'https://investor.nvidia.com', date: '2025-12-17', snippet: '必要条件3条：①Rubin 2026H2按时量产（半年度验证，延迟>6月=AMD追赶窗口打开）；②软件收入占比→10%（年度验证，FY2028目标）；③推理市场份额>60%（半年度验证，竞争最激烈的增量市场）。', reliability: 'high', children: [
+      { source: '下一阶段条件', url: 'https://investor.nvidia.com', date: '2025-12-17', snippet: '必要条件3条：①Rubin 2026H2按时量产（半年度验证，延迟>6月=AMD MI400将缩小代差，市场份额面临侵蚀）；②软件收入占比→10%（年度验证，FY2028目标，标志从硬件公司向平台公司转型成功）；③推理市场份额>60%（半年度验证，推理是未来最大增量市场，AMD/Intel/自研芯片均瞄准推理，份额守住=TAM扩张红利独享）。', reliability: 'high', children: [
         { source: 'Rubin路线图', url: 'https://investor.nvidia.com', date: '2025-11-15', snippet: 'Rubin架构2026H2量产，采用台积电3nm+HBM4，单芯片算力较B200提升约3倍。Rubin Ultra 2027年推出。当前研发进度正常，无延迟信号。', reliability: 'high' },
         { source: '推理市场竞争', url: 'https://xueqiu.com/S/NVDA', date: '2025-12-13', snippet: '推理占AI算力从30%升至45%，预计2027年达60%。NVIDIA推理份额约65%（凭借TensorRT优化），AMD约15%，自研芯片约15%，Intel约5%。推理场景竞争比训练更激烈。', reliability: 'high' },
       ] },
-      { source: '阶段性风险', url: 'https://xueqiu.com/S/NVDA', date: '2025-12-15', snippet: '风险3条：①Hyperscaler CapEx周期性回调——若2026年AI CapEx增速降至<15%，NVIDIA收入增速将显著放缓；②自研芯片替代加速——若占比从20%升至>30%，通用GPU需求增速低于CapEx增速；③出口管制扩展至中东/东南亚，主权AI增长极受阻。', reliability: 'high', children: [
-        { source: 'CapEx周期分析', url: 'https://xueqiu.com/S/NVDA', date: '2025-12-13', snippet: '历史参考：2022年云CapEx增速从+35%骤降至+5%，NVIDIA数据中心收入增速从+83%降至+14%。当前AI CapEx增速+45%处于高位，2026年若宏观转弱存在回调风险。', reliability: 'high' },
+      { source: '阶段性风险', url: 'https://xueqiu.com/S/NVDA', date: '2025-12-15', snippet: '风险3条：①Hyperscaler CapEx周期性回调——若2026年AI CapEx增速从+45%降至<15%，NVIDIA收入增速将显著放缓（历史参考：2022年云CapEx增速从+35%骤降至+5%，NVIDIA数据中心收入增速从+83%降至+14%）；②自研芯片替代加速——若Hyperscaler自研芯片占AI算力从20%升至>30%，通用GPU需求增速将低于AI CapEx增速；③出口管制进一步收紧——若限制扩展至中东/东南亚市场，主权AI增长极将受阻。', reliability: 'high', children: [
+        { source: 'CapEx周期分析', url: 'https://xueqiu.com/S/NVDA', date: '2025-12-13', snippet: '历史参考：2022年云CapEx增速从+35%骤降至+5%，NVIDIA数据中心收入增速从+83%降至+14%。当前AI CapEx增速+45%处于历史高位，2026年若宏观转弱或AI ROI验证不及预期，存在回调风险。', reliability: 'high' },
         { source: '自研芯片进展追踪', url: 'https://xueqiu.com/S/GOOG', date: '2025-12-11', snippet: 'Google TPU v6性能较v5e提升4倍，内部AI训练约40%使用TPU。Amazon Trainium 2量产，AWS内部约25%AI负载使用。Meta MTIA v2用于推理。自研芯片占Hyperscaler AI算力约15-20%，趋势上升。', reliability: 'high' },
       ] },
-      { source: 'KPI表-新品竞争力（4项）', url: 'https://investor.nvidia.com', date: '2025-12-13', snippet: '①性能/成本/ROI对标：B200较H100性能提升5倍/TCO降60%，≥3倍代际提升=绿灯，半年度验证（MLPerf），关联收入/溢价；②POC转化率：企业客户DGX Cloud试用转化率65%（≥50%绿灯），季度验证，关联收入；③上线周期：风冷8-12周/液冷16-20周（≤20周绿灯），季度验证，关联收入；④切换成本：CUDA迁移成本占项目30-50%（≥20%绿灯），年度验证，关联溢价/留存。', reliability: 'high', children: [
+      { source: 'KPI表-新品竞争力（4项）', url: 'https://investor.nvidia.com', date: '2025-12-13', snippet: '①性能/成本/ROI对标：B200较H100性能提升5倍/TCO降60%，≥3倍代际提升=绿灯，半年度验证（MLPerf），关联收入/溢价；②POC转化率：企业客户DGX Cloud试用转化率65%（≥50%绿灯），季度验证，关联收入；③上线周期：风冷8-12周/液冷16-20周（≤20周绿灯），季度验证，关联收入确认节奏；④切换成本：CUDA迁移成本占项目30-50%（≥20%绿灯），年度验证，关联溢价/留存。四项均绿灯。', reliability: 'high', children: [
         { source: 'MLPerf最新数据', url: 'https://mlcommons.org', date: '2025-12-10', snippet: 'B200在GPT-3 175B训练基准中较H100快4.2倍，较MI300X快1.4倍。推理基准（Llama-2 70B）延迟较MI300X低32%。性能代差维持，绿灯。', reliability: 'high' },
-        { source: '企业客户转化追踪', url: 'https://investor.nvidia.com', date: '2025-12-08', snippet: 'DGX Cloud试用企业客户约2800家，转化为付费客户约1820家，转化率65%。金融行业最高（72%），制造业次之（68%），零售（58%）。', reliability: 'high' },
+        { source: '企业客户转化追踪', url: 'https://investor.nvidia.com', date: '2025-12-08', snippet: 'DGX Cloud试用企业客户约2800家，转化为付费客户约1820家，转化率65%。金融行业最高（72%），制造业次之（68%），零售（58%）。远超行业AI硬件平均转化率约40%。', reliability: 'high' },
       ] },
-      { source: 'KPI表-研发效率（3项）', url: 'https://investor.nvidia.com', date: '2025-12-11', snippet: '⑤研发费用率：12.5%（10-15%绿灯），季度验证（财报），关联利润；⑥研发人均产出：人均年营收50万美元（≥30万绿灯），半年度验证，关联利润；⑦研发→商业化周期：Blackwell 18个月（≤24月绿灯），每代架构验证，关联收入。三项均绿灯。', reliability: 'high', children: [
-        { source: 'FY2026Q3研发数据', url: 'https://investor.nvidia.com', date: '2025-11-20', snippet: 'Q3研发费用32亿美元，费用率7.8%（单季）/12.5%（TTM）。研发团队32000人，人均年营收贡献50万美元（FY2024为35万，+43%）。', reliability: 'high' },
+      { source: 'KPI表-研发效率（3项）', url: 'https://investor.nvidia.com', date: '2025-12-11', snippet: '⑤研发费用率：12.5%（10-15%绿灯），季度验证（财报），关联利润——管理层指引稳定在12-13%；⑥研发人均产出：人均年营收50万美元（≥30万绿灯），半年度验证，关联利润——FY2024约35万，同比+43%；⑦研发→商业化周期：Blackwell 18个月（≤24月绿灯），每代架构验证，关联收入——较Hopper的24个月缩短25%。三项均绿灯。', reliability: 'high', children: [
+        { source: 'FY2026Q3研发数据', url: 'https://investor.nvidia.com', date: '2025-11-20', snippet: 'Q3研发费用32亿美元，费用率7.8%（单季）/12.5%（TTM）。研发团队32000人（占总员工42%），人均年营收贡献50万美元（FY2024为35万，+43%）。核心架构师流失率<3%。', reliability: 'high' },
       ] },
-      { source: 'KPI表-商业化/竞争（5项）', url: 'https://xueqiu.com/S/NVDA', date: '2025-12-09', snippet: '⑧NRR：Top50客户约145%（≥120%绿灯），季度验证，关联收入；⑨ARPU：企业客户500万/年（同比+67%，≥+20%绿灯），季度验证，关联收入；⑩客户集中度：Top4占比35%（≤40%绿灯，FY2024为42%，改善），季度验证，关联风险；⑪RPO：280亿美元（同比+65%，≥+30%绿灯），季度验证，关联收入可见性；⑫竞品份额变化：NVIDIA约80%（≥70%绿灯），半年度验证，关联溢价。', reliability: 'high', children: [
+      { source: 'KPI表-商业化/竞争（5项）', url: 'https://xueqiu.com/S/NVDA', date: '2025-12-09', snippet: '⑧NRR：Top50客户约145%（≥120%绿灯），季度验证，关联收入——硬件换代贡献约60%扩展，软件渗透贡献约25%；⑨ARPU：企业客户500万/年（同比+67%，≥+20%绿灯），季度验证，关联收入——扩张来自GPU集群扩容和模块渗透；⑩客户集中度：Top4占比35%（≤40%绿灯，FY2024为42%，改善），季度验证，关联风险；⑪RPO：280亿美元（同比+65%，≥+30%绿灯），季度验证，关联收入可见性——覆盖约2个季度收入；⑫竞品份额变化：NVIDIA约80%（≥70%绿灯），半年度验证，关联溢价——份额微降但绝对收入大幅增长，市场扩大是主因。', reliability: 'high', children: [
         { source: '竞品份额追踪', url: 'https://xueqiu.com/S/AMD', date: '2025-12-07', snippet: 'AI加速芯片市场份额：NVIDIA约80%（FY2024约82%，微降）、AMD约12%（+2pct）、Intel约3%（持平）、自研芯片约5%（+2pct）。NVIDIA份额微降但绝对收入大幅增长，市场扩大是主因。', reliability: 'high' },
         { source: 'RPO与收入可见性', url: 'https://investor.nvidia.com', date: '2025-12-05', snippet: 'RPO 280亿美元，覆盖约2个季度收入。主权AI合同80亿（周期2-3年），Hyperscaler框架协议持续滚动。收入可见性行业最高。', reliability: 'high' },
       ] },
