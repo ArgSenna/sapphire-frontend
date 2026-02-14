@@ -46,7 +46,7 @@ export default function AppLayout() {
           <User className="h-6 w-6" />
         </button>
 
-        <h1 className="text-xl font-serif tracking-tight ml-2">manus</h1>
+        <h1 className="text-xl font-serif tracking-tight ml-2">keywisus</h1>
 
         <div className="flex items-center gap-3">
           <button className="p-1 text-slate-700 active:bg-slate-200 rounded-full relative">

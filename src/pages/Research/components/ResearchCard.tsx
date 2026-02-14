@@ -1,5 +1,3 @@
-import { useNavigate } from 'react-router-dom'
-
 import RatingBadge from './RatingBadge'
 
 import type { ResearchReport, ResearchType } from '@/api/types'
@@ -16,12 +14,10 @@ interface ResearchCardProps {
 }
 
 export default function ResearchCard({ report, onDelete }: ResearchCardProps) {
-  const navigate = useNavigate()
   const typeConfig = typeLabels[report.type]
 
   return (
     <div
-      onClick={() => navigate(`/features/research-reports/${report.id}`)}
       className="cursor-pointer rounded-xl border border-slate-200 bg-white p-4 shadow-sm transition-all hover:shadow-md active:bg-slate-50"
     >
       <div className="flex items-start justify-between gap-3">
