@@ -1,10 +1,10 @@
 import { useRef } from 'react'
 import { Outlet } from 'react-router-dom'
-import { Bell, Search, User, X } from 'lucide-react'
+import { Bell, Search, User } from 'lucide-react'
 
 import { cn } from '@/utils'
 import { useUserStore } from '@/stores/userStore'
-import Sidebar from './Sidebar'
+import PersonalPanel from './PersonalPanel'
 
 export default function AppLayout() {
   const { isDrawerOpen, openDrawer, closeDrawer } = useUserStore()
@@ -29,17 +29,11 @@ export default function AppLayout() {
         <div
           ref={drawerRef}
           className={cn(
-            "absolute inset-y-0 left-0 w-[85%] max-w-[320px] bg-slate-50 shadow-2xl transition-transform duration-300 ease-out",
-            isDrawerOpen ? "translate-x-0" : "-translate-x-full"
+            "absolute bottom-0 left-0 right-0 h-[92%] bg-transparent transition-transform duration-300 ease-out",
+            isDrawerOpen ? "translate-y-0" : "translate-y-full"
           )}
         >
-          <Sidebar />
-          <button
-            onClick={closeDrawer}
-            className="absolute top-4 right-4 p-2 text-slate-400 hover:text-slate-600"
-          >
-            <X className="h-6 w-6" />
-          </button>
+          <PersonalPanel />
         </div>
       </div>
 
