@@ -2,6 +2,9 @@ import { NavLink } from 'react-router-dom'
 import {
   BookOpen,
   Briefcase,
+  Clock,
+  BookMarked,
+  Zap,
 } from 'lucide-react'
 
 import { cn } from '@/utils'
@@ -11,6 +14,9 @@ const menuItems = [
   { label: 'Manus', type: 'header' },
   { to: '/features/portfolio', label: '投资组合', icon: Briefcase },
   { to: '/features/research-reports', label: '投研报告', icon: BookOpen },
+  { to: '/features/scheduled-tasks', label: '定时任务', icon: Clock, placeholder: true },
+  { to: '/features/knowledge', label: '知识', icon: BookMarked, placeholder: true },
+  { to: '/features/skills', label: '技能', icon: Zap, placeholder: true },
 ]
 
 export default function Sidebar() {

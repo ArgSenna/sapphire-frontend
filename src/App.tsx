@@ -8,6 +8,7 @@ import PortfolioPage from '@/pages/Portfolio'
 import PortfolioDetail from '@/pages/Portfolio/PortfolioDetail'
 import ResearchPage from '@/pages/Research'
 import ResearchDetail from '@/pages/Research/ResearchDetail'
+import PlaceholderPage from '@/pages/Placeholder'
 
 export default function App() {
   return (
@@ -19,6 +20,9 @@ export default function App() {
           <Route path="/features/portfolio/:id" element={<PortfolioDetail />} />
           <Route path="/features/research-reports" element={<ResearchPage />} />
           <Route path="/features/research-reports/:id" element={<ResearchDetail />} />
+          <Route path="/features/scheduled-tasks" element={<PlaceholderPage />} />
+          <Route path="/features/knowledge" element={<PlaceholderPage />} />
+          <Route path="/features/skills" element={<PlaceholderPage />} />
         </Route>
 
         {/* Chat Routes (Full Screen, outside AppLayout) */}
