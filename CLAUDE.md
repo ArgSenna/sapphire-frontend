@@ -18,13 +18,28 @@
 
 ## 项目概述
 
-本项目是 **AI赋能投资决策系统** 的前端原型，提供投资标的的全维度信息聚合与洞察功能。
-移动端为主要使用方式，必须以移动端体验为第一优先
+本项目是 **AI赋能投资决策系统** 的前端原型，以 AI 对话式交互为核心入口，提供投资组合管理、AI 多维度分析与标的深度研究功能。
+移动端为主要使用方式，必须以移动端体验为第一优先。采用浅色主题（`slate-50` 背景）。
 
-**技术栈**: Vite + React 18 + TypeScript + Tailwind CSS 4 + ECharts + Zustand
+**技术栈**: Vite + React 18 + TypeScript + Tailwind CSS 4 + ECharts + Zustand + Lucide React
+
+### 核心架构
+
+- **首页**: AI 会话列表（`/`），FAB 按钮进入新对话
+- **Chat**: 全屏聊天页面（`/chat/new`, `/chat/:id`），独立于 AppLayout
+- **个人面板**: 底部抽屉式面板（PersonalPanel），内嵌栈式子视图导航（viewStack），包含投资组合、投研报告、定时任务、知识、技能等子面板
+- **投资组合**: 通过个人面板访问，路由 `/features/portfolio`、`/features/portfolio/:id`
+- **投研报告**: 通过个人面板访问，路由 `/features/research-reports`、`/features/research-reports/:id`
+- **占位页面**: 定时任务/知识/技能（`/features/scheduled-tasks`、`/features/knowledge`、`/features/skills`）
+
+### 状态管理
+
+- **portfolioStore**: 投资组合 CRUD + UI 状态
+- **chatStore**: AI 对话会话列表 + 消息管理（含 mock sessions）
+- **userStore**: 用户信息 + 抽屉开关状态
 
 ## 补充信息
-需要查询项目结构，实现或设计方式时优先阅读 docs\architecture\architecture.md
+需要查询项目结构，实现或设计方式时优先阅读 docs\architecture.md
 项目对应的后端在E:\smyze\sapphire\backend，需要补充实现或设计方式时可查看, 当前使用Mock数据
 
 ## 构建/开发命令
@@ -97,7 +112,7 @@ import type { Stock } from '@/api/types'
 | 类型 | 规范 | 示例 |
 |------|------|------|
 | 组件 | PascalCase | `StockCard.tsx`, `SentimentChart` |
-| 页面目录 | PascalCase | `pages/Research/DataAggregation/` |
+| 页面目录 | PascalCase | `pages/Research/`, `pages/Chat/` |
 | 工具函数 | camelCase | `formatPrice()`, `getChangeColor()` |
 | 类型/接口 | PascalCase | `interface StockDetail`, `type SentimentPolarity` |
 | 常量 | camelCase 或 UPPER_SNAKE | `const statusColors = {}` |
@@ -131,14 +146,15 @@ function Card({ title, children }: CardProps) {
 
 - 使用 `cn()` 工具函数合并条件类名 (基于 clsx)
 - 优先使用 Tailwind 原子类，避免自定义 CSS
-- 深色主题为主，使用 `slate` 色系作为基础色
+- 浅色主题为主，使用 `slate-50` 背景色，`slate` 色系作为基础色
+- 图标统一使用 Lucide React
 
 ```typescript
 import { cn } from '@/utils'
 
 <div className={cn(
   'rounded-lg border p-4',
-  isActive ? 'border-amber-500 bg-amber-500/10' : 'border-slate-700'
+  isActive ? 'border-amber-500 bg-amber-500/10' : 'border-slate-200'
 )}>
 ```
 
@@ -201,6 +217,8 @@ if (!data) return <EmptyState />
 export const mockStocks: Stock[] = [...]
 export function generateMockStockDetail(code: string): StockDetail | null {...}
 ```
+
+**注意**: `investmentData.ts` 包含紫金矿业(601899)的完整投资驱动型研究报告固定数据，作为标准研究报告的参考模板。
 
 ## 部署
 
