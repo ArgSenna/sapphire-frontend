@@ -1,11 +1,42 @@
 import { create } from 'zustand'
 
+export type ToolName = 'web_search' | 'database_query' | 'document_read' | 'data_analysis' | 'chart_generate' | 'report_write'
+export type StepStatus = 'pending' | 'running' | 'done' | 'error'
+export type TaskStatus = 'idle' | 'running' | 'done' | 'error'
+
+export interface ToolCall {
+    id: string
+    name: ToolName
+    label: string
+    paramsSummary: string
+    resultSummary: string
+    timestamp: number
+    duration: number
+}
+
+export interface Step {
+    id: string
+    title: string
+    status: StepStatus
+    duration: number
+    summary: string
+    toolCalls: ToolCall[]
+}
+
+export interface AgentExecution {
+    status: TaskStatus
+    steps: Step[]
+    totalDuration: number
+    tokenUsage: { input: number; output: number }
+}
+
 export interface Message {
     id: string
     role: 'user' | 'assistant'
     content: string
     timestamp: number
     attachments?: string[]
+    agentExecution?: AgentExecution
 }
 
 export interface Session {
@@ -24,6 +55,8 @@ interface ChatState {
     addSession: (session: Session) => void
     addMessage: (sessionId: string, message: Message) => void
     setCurrentSession: (sessionId: string) => void
+    updateMessage: (sessionId: string, messageId: string, updater: (msg: Message) => Message) => void
+    updateSession: (sessionId: string, partial: Partial<Session>) => void
 }
 
 const mockSessions: Session[] = [
@@ -88,5 +121,18 @@ export const useChatStore = create<ChatState>((set) => ({
             [sessionId]: [...(state.messages[sessionId] || []), message]
         }
     })),
-    setCurrentSession: (sessionId) => set({ currentSessionId: sessionId })
+    setCurrentSession: (sessionId) => set({ currentSessionId: sessionId }),
+    updateMessage: (sessionId, messageId, updater) => set((state) => {
+        const msgs = state.messages[sessionId]
+        if (!msgs) return state
+        return {
+            messages: {
+                ...state.messages,
+                [sessionId]: msgs.map((m) => m.id === messageId ? updater(m) : m)
+            }
+        }
+    }),
+    updateSession: (sessionId, partial) => set((state) => ({
+        sessions: state.sessions.map((s) => s.id === sessionId ? { ...s, ...partial } : s)
+    }))
 }))
