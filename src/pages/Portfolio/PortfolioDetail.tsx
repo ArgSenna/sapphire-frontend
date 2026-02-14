@@ -36,11 +36,11 @@ export default function PortfolioDetail() {
   if (!current) return <EmptyState message="组合不存在" />
 
   return (
-    <div>
+    <div className="mx-auto max-w-4xl px-4 py-4 sm:py-6 bg-slate-50 min-h-screen">
       <div className="mb-6">
         <button
-          onClick={() => navigate('/portfolio')}
-          className="mb-3 flex items-center gap-1 rounded-lg py-1.5 text-xs text-slate-500 hover:text-slate-300 active:text-slate-300"
+          onClick={() => navigate('/features/portfolio')}
+          className="mb-3 flex items-center gap-1 rounded-lg py-1.5 text-xs text-slate-500 hover:text-slate-700 active:text-slate-700"
         >
           <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
@@ -49,12 +49,12 @@ export default function PortfolioDetail() {
         </button>
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-xl font-semibold text-slate-100">{current.name}</h1>
+            <h1 className="text-xl font-semibold text-slate-900">{current.name}</h1>
             <p className="mt-1 text-xs text-slate-500">{current.description}</p>
           </div>
           <button
             onClick={() => openForm(current.id)}
-            className="rounded-lg border border-slate-700 px-3 py-1.5 text-xs text-slate-400 hover:bg-slate-800 hover:text-slate-200"
+            className="rounded-lg border border-slate-200 px-3 py-1.5 text-xs text-slate-600 hover:bg-slate-100 hover:text-slate-700"
           >
             编辑组合
           </button>

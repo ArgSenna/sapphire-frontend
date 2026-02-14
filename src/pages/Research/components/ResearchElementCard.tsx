@@ -14,7 +14,7 @@ export default function ResearchElementCard({ element, expanded, onToggle, onSho
   return (
     <div className={cn(
       'rounded-lg border transition-colors',
-      expanded ? 'border-slate-700 bg-slate-800/50' : 'border-slate-800 bg-slate-900/30',
+      expanded ? 'border-slate-200 bg-slate-50' : 'border-slate-200 bg-white',
     )}>
       <button
         onClick={onToggle}
@@ -22,7 +22,7 @@ export default function ResearchElementCard({ element, expanded, onToggle, onSho
       >
         <RatingBadge rating={element.rating} />
         <div className="flex-1 min-w-0">
-          <span className="text-sm font-medium text-slate-200">{element.title}</span>
+          <span className="text-sm font-medium text-slate-800">{element.title}</span>
         </div>
         <svg
           className={cn('h-4 w-4 shrink-0 text-slate-500 transition-transform', expanded && 'rotate-180')}
@@ -33,8 +33,8 @@ export default function ResearchElementCard({ element, expanded, onToggle, onSho
       </button>
 
       {expanded && (
-        <div className="border-t border-slate-800 px-3.5 py-3.5 sm:px-4 sm:py-4">
-          <div className="whitespace-pre-wrap text-sm leading-relaxed text-slate-300">
+        <div className="border-t border-slate-200 px-3.5 py-3.5 sm:px-4 sm:py-4">
+          <div className="whitespace-pre-wrap text-sm leading-relaxed text-slate-600">
             {element.content}
             {' '}
             <button

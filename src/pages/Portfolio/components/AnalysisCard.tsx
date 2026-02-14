@@ -20,7 +20,7 @@ export default function AnalysisCard({
   return (
     <div className={cn(
       'rounded-lg border transition-colors',
-      expanded ? 'border-slate-700 bg-slate-800/50' : 'border-slate-800 bg-slate-900/30',
+      expanded ? 'border-slate-200 bg-slate-50' : 'border-slate-200 bg-white',
     )}>
       <button
         onClick={onToggle}
@@ -28,7 +28,7 @@ export default function AnalysisCard({
       >
         <SignalLight color={signal} />
         <div className="flex-1">
-          <span className="text-sm font-medium text-slate-200">{title}</span>
+          <span className="text-sm font-medium text-slate-800">{title}</span>
           <p className="mt-0.5 text-xs text-slate-500">{summary}</p>
         </div>
         <svg
@@ -40,8 +40,8 @@ export default function AnalysisCard({
       </button>
 
       {expanded && (
-        <div className="border-t border-slate-800 px-3.5 py-3.5 sm:px-4 sm:py-4">
-          <div className="whitespace-pre-wrap text-sm leading-relaxed text-slate-300">
+        <div className="border-t border-slate-200 px-3.5 py-3.5 sm:px-4 sm:py-4">
+          <div className="whitespace-pre-wrap text-sm leading-relaxed text-slate-600">
             {content}
             {' '}
             <button

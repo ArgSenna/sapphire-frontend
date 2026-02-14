@@ -5,7 +5,9 @@ import HomePage from '@/pages/Home'
 import ChatPage from '@/pages/Chat'
 
 import PortfolioPage from '@/pages/Portfolio'
+import PortfolioDetail from '@/pages/Portfolio/PortfolioDetail'
 import ResearchPage from '@/pages/Research'
+import ResearchDetail from '@/pages/Research/ResearchDetail'
 
 export default function App() {
   return (
@@ -14,8 +16,9 @@ export default function App() {
         <Route element={<AppLayout />}>
           <Route path="/" element={<HomePage />} />
           <Route path="/features/portfolio" element={<PortfolioPage />} />
+          <Route path="/features/portfolio/:id" element={<PortfolioDetail />} />
           <Route path="/features/research-reports" element={<ResearchPage />} />
-          {/* Other feature routes... */}
+          <Route path="/features/research-reports/:id" element={<ResearchDetail />} />
         </Route>
 
         {/* Chat Routes (Full Screen, outside AppLayout) */}

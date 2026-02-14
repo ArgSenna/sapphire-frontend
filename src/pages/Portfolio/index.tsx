@@ -39,7 +39,7 @@ export default function PortfolioPage() {
               portfolio={p}
               onEdit={() => openForm(p.id)}
               onDelete={() => setDeleteId(p.id)}
-              onClick={() => navigate(`/portfolio/${p.id}`)}
+              onClick={() => navigate(`/features/portfolio/${p.id}`)}
             />
           ))}
         </div>

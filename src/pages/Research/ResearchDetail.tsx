@@ -30,7 +30,7 @@ export default function ResearchDetail() {
     if (!id) return
     api.research.getById(id)
       .then(r => {
-        if (!r) navigate('/research', { replace: true })
+        if (!r) navigate('/features/research-reports', { replace: true })
         else {
           setReport(r)
           setExpandedSet(new Set(r.elements.map((_, i) => i)))
@@ -58,7 +58,7 @@ export default function ResearchDetail() {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-24">
-        <div className="h-6 w-6 animate-spin rounded-full border-2 border-slate-600 border-t-amber-400" />
+        <div className="h-6 w-6 animate-spin rounded-full border-2 border-slate-300 border-t-slate-900" />
       </div>
     )
   }
@@ -68,10 +68,10 @@ export default function ResearchDetail() {
   const typeConfig = typeLabels[report.type]
 
   return (
-    <div className="mx-auto max-w-2xl px-4 py-4 sm:py-6">
+    <div className="mx-auto max-w-2xl px-4 py-4 sm:py-6 bg-slate-50 min-h-screen">
       <button
-        onClick={() => navigate('/research')}
-        className="mb-4 flex items-center gap-1 text-sm text-slate-500 hover:text-slate-300"
+        onClick={() => navigate('/features/research-reports')}
+        className="mb-4 flex items-center gap-1 text-sm text-slate-500 hover:text-slate-700"
       >
         <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
           <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
@@ -80,12 +80,12 @@ export default function ResearchDetail() {
       </button>
 
       {/* 报告头部 */}
-      <div className="mb-6 rounded-lg border border-slate-800 bg-slate-900/50 p-4">
+      <div className="mb-6 rounded-lg border border-slate-200 bg-white shadow-sm p-4">
         <div className="flex items-start justify-between gap-3">
           <div>
             <div className="flex items-center gap-2">
-              <h1 className="text-lg font-semibold text-slate-100">{report.stockName}</h1>
-              <span className="text-sm text-slate-600">{report.stockCode}</span>
+              <h1 className="text-lg font-semibold text-slate-900">{report.stockName}</h1>
+              <span className="text-sm text-slate-500">{report.stockCode}</span>
             </div>
             <div className="mt-2 flex flex-wrap items-center gap-2">
               <span className={`inline-flex rounded-full px-2 py-0.5 text-xs font-medium ${typeConfig.color}`}>
@@ -95,22 +95,22 @@ export default function ResearchDetail() {
             </div>
           </div>
         </div>
-        <div className="mt-3 flex flex-wrap gap-3 text-[11px] text-slate-600">
+        <div className="mt-3 flex flex-wrap gap-3 text-[11px] text-slate-500">
           <span>生成时间: {new Date(report.createdAt).toLocaleString('zh-CN')}</span>
         </div>
       </div>
 
       {/* 总体结论 */}
       <div className="mb-4">
-        <h2 className="mb-2 text-sm font-medium text-slate-300">总体结论</h2>
-        <div className="rounded-lg border border-slate-800 bg-slate-900/30 p-4">
-          <p className="text-sm leading-relaxed text-slate-300">{report.conclusion}</p>
+        <h2 className="mb-2 text-sm font-medium text-slate-700">总体结论</h2>
+        <div className="rounded-lg border border-slate-200 bg-white p-4">
+          <p className="text-sm leading-relaxed text-slate-600">{report.conclusion}</p>
         </div>
       </div>
 
       {/* 要素分析 */}
       <div className="mb-4">
-        <h2 className="mb-2 text-sm font-medium text-slate-300">要素分析</h2>
+        <h2 className="mb-2 text-sm font-medium text-slate-700">要素分析</h2>
         <div className="space-y-2">
           {report.elements.map((el, i) => (
             <ResearchElementCard
@@ -126,10 +126,10 @@ export default function ResearchDetail() {
 
       {/* AI反方意见 */}
       <div className="mb-4">
-        <h2 className="mb-2 text-sm font-medium text-slate-300">AI 反方意见</h2>
+        <h2 className="mb-2 text-sm font-medium text-slate-700">AI 反方意见</h2>
         <div className={cn(
           'rounded-lg border transition-colors',
-          counterExpanded ? 'border-slate-700 bg-slate-800/50' : 'border-slate-800 bg-slate-900/30',
+          counterExpanded ? 'border-slate-200 bg-slate-50' : 'border-slate-200 bg-white',
         )}>
           <button
             onClick={() => setCounterExpanded(!counterExpanded)}
@@ -139,7 +139,7 @@ export default function ResearchDetail() {
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
             </svg>
             <div className="flex-1 min-w-0">
-              <span className="text-sm font-medium text-slate-200">反方观点</span>
+              <span className="text-sm font-medium text-slate-800">反方观点</span>
             </div>
             <svg
               className={cn('h-4 w-4 shrink-0 text-slate-500 transition-transform', counterExpanded && 'rotate-180')}
@@ -150,8 +150,8 @@ export default function ResearchDetail() {
           </button>
 
           {counterExpanded && (
-            <div className="border-t border-slate-800 px-3.5 py-3.5 sm:px-4 sm:py-4">
-              <div className="whitespace-pre-wrap text-sm leading-relaxed text-slate-300">
+            <div className="border-t border-slate-200 px-3.5 py-3.5 sm:px-4 sm:py-4">
+              <div className="whitespace-pre-wrap text-sm leading-relaxed text-slate-600">
                 {report.counterArgument.content}
                 {' '}
                 <button
@@ -168,10 +168,10 @@ export default function ResearchDetail() {
 
       {/* 研究员补充意见 */}
       <div className="mb-8">
-        <h2 className="mb-2 text-sm font-medium text-slate-300">研究员补充意见</h2>
+        <h2 className="mb-2 text-sm font-medium text-slate-700">研究员补充意见</h2>
         {report.researcherNotes ? (
           <div className="space-y-3">
-            <div className="rounded-lg border border-slate-800 bg-slate-900/30 p-4">
+            <div className="rounded-lg border border-slate-200 bg-white p-4">
               <div className="mb-2 flex items-center gap-2">
                 <svg className="h-4 w-4 text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.64 0 8.577 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.64 0-8.577-3.007-9.963-7.178z" />
@@ -181,13 +181,13 @@ export default function ResearchDetail() {
               </div>
               <ul className="space-y-1.5">
                 {report.researcherNotes.keyVariables.map((v, i) => (
-                  <li key={i} className="text-sm leading-relaxed text-slate-400">
+                  <li key={i} className="text-sm leading-relaxed text-slate-500">
                     <span className="mr-1.5 text-cyan-500/60">•</span>{v}
                   </li>
                 ))}
               </ul>
             </div>
-            <div className="rounded-lg border border-slate-800 bg-slate-900/30 p-4">
+            <div className="rounded-lg border border-slate-200 bg-white p-4">
               <div className="mb-2 flex items-center gap-2">
                 <svg className="h-4 w-4 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
@@ -196,13 +196,13 @@ export default function ResearchDetail() {
               </div>
               <ul className="space-y-1.5">
                 {report.researcherNotes.hardConstraints.map((c, i) => (
-                  <li key={i} className="text-sm leading-relaxed text-slate-400">
+                  <li key={i} className="text-sm leading-relaxed text-slate-500">
                     <span className="mr-1.5 text-red-500/60">•</span>{c}
                   </li>
                 ))}
               </ul>
             </div>
-            <div className="rounded-lg border border-slate-800 bg-slate-900/30 p-4">
+            <div className="rounded-lg border border-slate-200 bg-white p-4">
               <div className="mb-2 flex items-center gap-2">
                 <svg className="h-4 w-4 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" />
@@ -211,7 +211,7 @@ export default function ResearchDetail() {
               </div>
               <ul className="space-y-1.5">
                 {report.researcherNotes.tradingPlan.map((p, i) => (
-                  <li key={i} className="text-sm leading-relaxed text-slate-400">
+                  <li key={i} className="text-sm leading-relaxed text-slate-500">
                     <span className="mr-1.5 text-amber-500/60">•</span>{p}
                   </li>
                 ))}
@@ -219,8 +219,8 @@ export default function ResearchDetail() {
             </div>
           </div>
         ) : (
-          <div className="rounded-lg border border-dashed border-slate-800 bg-slate-900/20 p-4">
-            <p className="text-sm italic text-slate-600">暂无研究员补充意见。此区域将由研究员手动填写补充分析。</p>
+          <div className="rounded-lg border border-dashed border-slate-300 bg-slate-50 p-4">
+            <p className="text-sm italic text-slate-400">暂无研究员补充意见。此区域将由研究员手动填写补充分析。</p>
           </div>
         )}
       </div>

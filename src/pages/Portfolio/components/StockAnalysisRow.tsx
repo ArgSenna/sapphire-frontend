@@ -43,16 +43,16 @@ export default function StockAnalysisRow({ stock, expanded, onToggle }: StockAna
   }
 
   return (
-    <div className="rounded-xl border border-slate-800 bg-slate-900/30 transition-colors hover:border-slate-700">
+    <div className="rounded-xl border border-slate-200 bg-white shadow-sm transition-colors hover:border-slate-300">
       <div
         className="flex cursor-pointer items-center gap-3 px-4 py-3.5 sm:gap-4 sm:px-5 sm:py-4"
         onClick={() => onToggle(stock.code)}
       >
         <div className="min-w-0 flex-1">
           <div className="flex items-center gap-2">
-            <span className="font-medium text-slate-100">{stock.name}</span>
-            <span className="text-xs text-slate-600">{stock.code}</span>
-            <span className="rounded bg-slate-800 px-1.5 py-0.5 text-[10px] text-slate-500">{stock.sector}</span>
+            <span className="font-medium text-slate-900">{stock.name}</span>
+            <span className="text-xs text-slate-500">{stock.code}</span>
+            <span className="rounded bg-slate-100 px-1.5 py-0.5 text-[10px] text-slate-500">{stock.sector}</span>
           </div>
           {quote && (
             <div className="mt-1 flex items-center gap-3 text-xs">
@@ -72,7 +72,7 @@ export default function StockAnalysisRow({ stock, expanded, onToggle }: StockAna
       </div>
 
       {expanded && (
-        <div className="border-t border-slate-800 px-4 py-3 sm:px-5 sm:py-4">
+        <div className="border-t border-slate-200 px-4 py-3 sm:px-5 sm:py-4">
           {!analysis ? (
             <Spinner className="py-6" />
           ) : (

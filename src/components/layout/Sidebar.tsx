@@ -2,10 +2,6 @@ import { NavLink } from 'react-router-dom'
 import {
   BookOpen,
   Briefcase,
-  Database,
-  Cpu,
-  Link as LinkIcon,
-  User
 } from 'lucide-react'
 
 import { cn } from '@/utils'
@@ -15,14 +11,6 @@ const menuItems = [
   { label: 'Manus', type: 'header' },
   { to: '/features/portfolio', label: '投资组合', icon: Briefcase },
   { to: '/features/research-reports', label: '投研报告', icon: BookOpen },
-  // Removed Mail Manus and Cloud Browser as requested
-  // { to: '/features/mail', label: 'Mail Manus', icon: Mail },
-  { to: '/features/data', label: '数据管理', icon: Database },
-  // { to: '/features/cloud-browser', label: '云浏览器', icon: Cloud },
-  { to: '/features/skills', label: '技能', icon: Cpu },
-  { to: '/features/connectors', label: '连接器', icon: LinkIcon },
-  { label: '通用', type: 'header' },
-  { to: '/settings/account', label: '账号', icon: User },
 ]
 
 export default function Sidebar() {

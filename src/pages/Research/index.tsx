@@ -70,7 +70,7 @@ export default function ResearchPage() {
         onClose={() => setShowCreate(false)}
         onCreated={report => {
           setShowCreate(false)
-          navigate(`/research/${report.id}`)
+          navigate(`/features/research-reports/${report.id}`)
         }}
       />
     </div>
