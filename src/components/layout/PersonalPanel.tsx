@@ -427,7 +427,7 @@ function ResearchDetailView({ id, onBack }: { id: string; onBack: () => void }) 
 
 // ======== Main Component ========
 export default function PersonalPanel() {
-    const { user, closeDrawer } = useUserStore()
+    const { user, closeDrawer, isDrawerOpen } = useUserStore()
     const { openForm: openPortfolioForm } = usePortfolioStore()
     const [viewStack, setViewStack] = useState<ViewType[]>(['main'])
     const [detailId, setDetailId] = useState<string | null>(null)
@@ -435,9 +435,19 @@ export default function PersonalPanel() {
 
     // Gesture State
     const containerRef = useRef<HTMLDivElement>(null)
+
+    // Reset transform when drawer opens to fix drag-to-close residue
+    useEffect(() => {
+        if (isDrawerOpen && containerRef.current) {
+            containerRef.current.style.transform = ''
+            containerRef.current.style.transition = ''
+        }
+    }, [isDrawerOpen])
+    const scrollRef = useRef<HTMLDivElement>(null)
     const touchStartY = useRef<number>(0)
     const touchCurrentY = useRef<number>(0)
     const isDragging = useRef<boolean>(false)
+    const canDismiss = useRef<boolean>(false)
 
     const currentView = viewStack[viewStack.length - 1] ?? 'main'
 
@@ -463,6 +473,7 @@ export default function PersonalPanel() {
     }
 
     // --- Touch Handlers for Drag-to-Close ---
+    // Works on both the drag handle and content area (when scrolled to top)
     const handleTouchStart = (e: React.TouchEvent) => {
         const container = containerRef.current
         const touch = e.touches[0]
@@ -470,23 +481,36 @@ export default function PersonalPanel() {
 
         touchStartY.current = touch.clientY
         touchCurrentY.current = touch.clientY
-        isDragging.current = true
-
-        container.style.transition = 'none'
+        isDragging.current = false
+        // Allow dismiss if scrollable area is at top (or touch is on the drag handle itself)
+        const scrollEl = scrollRef.current
+        canDismiss.current = !scrollEl || scrollEl.scrollTop <= 0
     }
 
     const handleTouchMove = (e: React.TouchEvent) => {
         const container = containerRef.current
-        if (!isDragging.current || !container) return
-
         const touch = e.touches[0]
-        if (!touch) return
+        if (!container || !touch) return
+
         touchCurrentY.current = touch.clientY
         const deltaY = touchCurrentY.current - touchStartY.current
 
-        if (deltaY > 0) {
-            container.style.transform = `translateY(${deltaY}px)`
+        // Re-check scroll position on each move — user may have scrolled to top during the gesture
+        const scrollEl = scrollRef.current
+        if (!canDismiss.current && scrollEl && scrollEl.scrollTop <= 0 && deltaY > 0) {
+            canDismiss.current = true
+            touchStartY.current = touch.clientY // reset start so the panel doesn't jump
         }
+
+        if (!canDismiss.current || deltaY <= 0) return
+
+        // Start dragging on first qualifying move
+        if (!isDragging.current) {
+            isDragging.current = true
+            container.style.transition = 'none'
+        }
+
+        container.style.transform = `translateY(${deltaY}px)`
     }
 
     const handleTouchEnd = () => {
@@ -546,7 +570,7 @@ export default function PersonalPanel() {
             </div>
 
             {/* Menu Items */}
-            <div className="flex-1 overflow-y-auto px-4 pb-8 space-y-1">
+            <div ref={scrollRef} className="flex-1 overflow-y-auto px-4 pb-8 space-y-1">
                 {menuItems.map((item, index) => {
                     if (item.type === 'header') {
                         return (
@@ -673,7 +697,7 @@ export default function PersonalPanel() {
                     )}
                 </div>
 
-                <div className="flex-1 overflow-y-auto">
+                <div ref={scrollRef} className="flex-1 overflow-y-auto">
                     {renderSubViewContent(view)}
                 </div>
             </div>
@@ -684,14 +708,12 @@ export default function PersonalPanel() {
         <div
             ref={containerRef}
             className="flex h-full flex-col bg-slate-50 text-slate-900 rounded-t-3xl overflow-hidden relative"
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
         >
-            {/* Drag Handle Area */}
-            <div
-                className="w-full pt-3 pb-1 flex justify-center cursor-grab active:cursor-grabbing touch-none"
-                onTouchStart={handleTouchStart}
-                onTouchMove={handleTouchMove}
-                onTouchEnd={handleTouchEnd}
-            >
+            {/* Drag Handle */}
+            <div className="w-full pt-3 pb-1 flex justify-center cursor-grab active:cursor-grabbing">
                 <div className="w-10 h-1 rounded-full bg-slate-300" />
             </div>
 
