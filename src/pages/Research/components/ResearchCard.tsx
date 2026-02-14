@@ -22,16 +22,16 @@ export default function ResearchCard({ report, onDelete }: ResearchCardProps) {
   return (
     <div
       onClick={() => navigate(`/research/${report.id}`)}
-      className="cursor-pointer rounded-lg border border-slate-800 bg-slate-900/30 p-4 transition-colors hover:border-slate-700 hover:bg-slate-800/40 active:bg-slate-800/60"
+      className="cursor-pointer rounded-xl border border-slate-200 bg-white p-4 shadow-sm transition-all hover:shadow-md active:bg-slate-50"
     >
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0 flex-1">
           <div className="flex items-center gap-2">
-            <span className="text-sm font-medium text-slate-100">{report.stockName}</span>
-            <span className="text-xs text-slate-600">{report.stockCode}</span>
+            <span className="text-sm font-bold text-slate-900">{report.stockName}</span>
+            <span className="text-xs text-slate-500">{report.stockCode}</span>
           </div>
           <div className="mt-2 flex flex-wrap items-center gap-2">
-            <span className={`inline-flex rounded-full px-2 py-0.5 text-xs font-medium ${typeConfig.color}`}>
+            <span className={`inline-flex rounded-full px-2 py-0.5 text-[10px] font-medium ${typeConfig.color}`}>
               {typeConfig.label}
             </span>
             <RatingBadge rating={report.rating} />
@@ -39,7 +39,7 @@ export default function ResearchCard({ report, onDelete }: ResearchCardProps) {
         </div>
         <button
           onClick={e => { e.stopPropagation(); onDelete(report.id) }}
-          className="shrink-0 rounded-lg p-2 text-slate-600 hover:bg-slate-800 hover:text-slate-400"
+          className="shrink-0 rounded-lg p-2 text-slate-400 hover:bg-slate-100 hover:text-slate-600"
           aria-label="删除报告"
         >
           <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -47,7 +47,7 @@ export default function ResearchCard({ report, onDelete }: ResearchCardProps) {
           </svg>
         </button>
       </div>
-      <div className="mt-3 text-[11px] text-slate-600">
+      <div className="mt-3 text-[10px] text-slate-400 font-medium">
         {new Date(report.createdAt).toLocaleString('zh-CN')}
       </div>
     </div>

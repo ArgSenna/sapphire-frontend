@@ -1,10 +1,8 @@
 import { NavLink } from 'react-router-dom'
 import {
-  Calendar,
   BookOpen,
-  Mail,
+  Briefcase,
   Database,
-  Cloud,
   Cpu,
   Link as LinkIcon,
   User
@@ -15,11 +13,12 @@ import { useUserStore } from '@/stores/userStore'
 
 const menuItems = [
   { label: 'Manus', type: 'header' },
-  { to: '/features/daily-analysis', label: '定时任务', icon: Calendar },
-  { to: '/features/knowledge', label: '知识', icon: BookOpen },
-  { to: '/features/mail', label: 'Mail Manus', icon: Mail },
+  { to: '/features/portfolio', label: '投资组合', icon: Briefcase },
+  { to: '/features/research-reports', label: '投研报告', icon: BookOpen },
+  // Removed Mail Manus and Cloud Browser as requested
+  // { to: '/features/mail', label: 'Mail Manus', icon: Mail },
   { to: '/features/data', label: '数据管理', icon: Database },
-  { to: '/features/cloud-browser', label: '云浏览器', icon: Cloud },
+  // { to: '/features/cloud-browser', label: '云浏览器', icon: Cloud },
   { to: '/features/skills', label: '技能', icon: Cpu },
   { to: '/features/connectors', label: '连接器', icon: LinkIcon },
   { label: '通用', type: 'header' },
@@ -49,15 +48,6 @@ export default function Sidebar() {
           </svg>
         </div>
       </div>
-
-      {/* Points Card (Hidden as requested, but keeping structure if needed later) */}
-      {/* 
-      <div className="px-4 pb-4">
-        <div className="rounded-xl bg-white p-4 shadow-sm border border-slate-100">
-           ...
-        </div>
-      </div>
-      */}
 
       {/* Menu Items */}
       <div className="flex-1 overflow-y-auto px-4 py-2 space-y-1">

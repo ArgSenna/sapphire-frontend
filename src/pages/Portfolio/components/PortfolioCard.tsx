@@ -26,18 +26,18 @@ export default function PortfolioCard({ portfolio, onEdit, onDelete, onClick }: 
 
   return (
     <div
-      className="group cursor-pointer rounded-xl border border-slate-800 bg-slate-900/50 p-4 transition-all hover:border-slate-700 hover:bg-slate-900/80 active:bg-slate-900/80"
+      className="group cursor-pointer rounded-xl border border-slate-200 bg-white p-4 shadow-sm transition-all hover:shadow-md active:bg-slate-50"
       onClick={onClick}
     >
       <div className="flex items-start justify-between">
         <div className="min-w-0 flex-1">
-          <h3 className="text-base font-medium text-slate-100">{portfolio.name}</h3>
+          <h3 className="text-base font-bold text-slate-900">{portfolio.name}</h3>
           <p className="mt-1 text-xs text-slate-500 line-clamp-2">{portfolio.description}</p>
         </div>
         <div className="ml-3 flex gap-1">
           <button
             onClick={e => { e.stopPropagation(); onEdit() }}
-            className="rounded-lg p-2 text-slate-500 hover:bg-slate-800 hover:text-slate-300 active:bg-slate-800"
+            className="rounded-lg p-2 text-slate-400 hover:bg-slate-100 hover:text-slate-600 active:bg-slate-200"
             aria-label="编辑"
           >
             <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -46,7 +46,7 @@ export default function PortfolioCard({ portfolio, onEdit, onDelete, onClick }: 
           </button>
           <button
             onClick={e => { e.stopPropagation(); onDelete() }}
-            className="rounded-lg p-2 text-slate-500 hover:bg-red-500/10 hover:text-red-400 active:bg-red-500/10"
+            className="rounded-lg p-2 text-slate-400 hover:bg-red-50 hover:text-red-500 active:bg-red-100"
             aria-label="删除"
           >
             <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -57,7 +57,7 @@ export default function PortfolioCard({ portfolio, onEdit, onDelete, onClick }: 
       </div>
 
       <div className="mt-3 flex items-center justify-between">
-        <span className="text-xs text-slate-600">{portfolio.stocks.length} 只标的</span>
+        <span className="text-xs text-slate-500 font-medium">{portfolio.stocks.length} 只标的</span>
         {portfolio.stocks.length > 0 && (
           <div className="flex items-center gap-3 text-xs text-slate-500">
             <span className="flex items-center gap-1"><SignalLight color="green" size="sm" /> {signals.green}</span>
@@ -67,7 +67,7 @@ export default function PortfolioCard({ portfolio, onEdit, onDelete, onClick }: 
         )}
       </div>
 
-      <div className="mt-2 text-[10px] text-slate-700">
+      <div className="mt-2 text-[10px] text-slate-400 font-medium">
         更新于 {portfolio.updatedAt}
       </div>
     </div>

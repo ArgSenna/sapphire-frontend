@@ -18,12 +18,12 @@ export default function PortfolioPage() {
   if (loading && portfolios.length === 0) return <Spinner />
 
   return (
-    <div>
+    <div className="mx-auto max-w-4xl px-4 py-4 sm:py-6 bg-slate-50 min-h-screen">
       <div className="mb-6 flex items-center justify-between">
-        <h1 className="text-xl font-semibold text-slate-100">投资组合</h1>
+        <h1 className="text-lg font-bold text-slate-900">投资组合</h1>
         <button
           onClick={() => openForm()}
-          className="rounded-lg bg-amber-600 px-4 py-2 text-sm text-white hover:bg-amber-700"
+          className="rounded-lg bg-black px-4 py-2 text-sm text-white hover:bg-slate-800 transition-colors"
         >
           + 新建组合
         </button>

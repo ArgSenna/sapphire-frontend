@@ -4,8 +4,8 @@ import { AppLayout } from '@/components/layout'
 import HomePage from '@/pages/Home'
 import ChatPage from '@/pages/Chat'
 
-import DailyAnalysisPage from '@/pages/Features/DailyAnalysis'
-import ResearchReportsPage from '@/pages/Features/ResearchReports'
+import PortfolioPage from '@/pages/Portfolio'
+import ResearchPage from '@/pages/Research'
 
 export default function App() {
   return (
@@ -13,8 +13,8 @@ export default function App() {
       <Routes>
         <Route element={<AppLayout />}>
           <Route path="/" element={<HomePage />} />
-          <Route path="/features/daily-analysis" element={<DailyAnalysisPage />} />
-          <Route path="/features/knowledge" element={<ResearchReportsPage />} /> {/* Mapping knowledge to reports for now, or create separate if strict */}
+          <Route path="/features/portfolio" element={<PortfolioPage />} />
+          <Route path="/features/research-reports" element={<ResearchPage />} />
           {/* Other feature routes... */}
         </Route>
 

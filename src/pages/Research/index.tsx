@@ -33,26 +33,26 @@ export default function ResearchPage() {
   }
 
   return (
-    <div className="mx-auto max-w-2xl px-4 py-4 sm:py-6">
+    <div className="mx-auto max-w-2xl px-4 py-4 sm:py-6 bg-slate-50 min-h-screen">
       <div className="mb-4 flex items-center justify-between sm:mb-6">
-        <h1 className="text-lg font-semibold text-slate-100">标的研究</h1>
+        <h1 className="text-lg font-bold text-slate-900">投研报告</h1>
         <button
           onClick={() => setShowCreate(true)}
-          className="rounded-lg bg-amber-500 px-3 py-1.5 text-sm font-medium text-slate-900 hover:bg-amber-400"
+          className="rounded-lg bg-black px-3 py-1.5 text-sm font-medium text-white hover:bg-slate-800 transition-colors"
         >
           新建研究
         </button>
       </div>
 
       {reports.length === 0 ? (
-        <div className="flex flex-col items-center justify-center py-20 text-slate-500">
-          <svg className="mb-3 h-12 w-12 text-slate-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1}>
+        <div className="flex flex-col items-center justify-center py-20 text-slate-400">
+          <svg className="mb-3 h-12 w-12 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
           </svg>
           <p className="text-sm">暂无研究报告</p>
           <button
             onClick={() => setShowCreate(true)}
-            className="mt-3 text-sm text-amber-500 hover:text-amber-400"
+            className="mt-3 text-sm text-slate-900 font-medium hover:text-slate-700"
           >
             创建第一份研究
           </button>

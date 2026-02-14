@@ -3,11 +3,11 @@ import { cn } from '@/utils'
 import type { Rating } from '@/api/types'
 
 const ratingConfig: Record<Rating, { label: string; color: string }> = {
-  strongBuy: { label: '强烈推荐', color: 'bg-red-500/20 text-red-400 border-red-500/30' },
-  buy: { label: '推荐', color: 'bg-orange-400/20 text-orange-400 border-orange-400/30' },
-  neutral: { label: '中性', color: 'bg-slate-400/20 text-slate-400 border-slate-400/30' },
-  reduce: { label: '减持', color: 'bg-teal-400/20 text-teal-400 border-teal-400/30' },
-  sell: { label: '卖出', color: 'bg-green-500/20 text-green-400 border-green-500/30' },
+  strongBuy: { label: '强烈推荐', color: 'bg-red-50 white text-red-600 border border-red-100' },
+  buy: { label: '推荐', color: 'bg-orange-50 text-orange-600 border border-orange-100' },
+  neutral: { label: '中性', color: 'bg-slate-100 text-slate-600 border border-slate-200' },
+  reduce: { label: '减持', color: 'bg-teal-50 text-teal-600 border border-teal-100' },
+  sell: { label: '卖出', color: 'bg-green-50 text-green-600 border border-green-100' },
 }
 
 export default function RatingBadge({ rating, size = 'sm' }: { rating: Rating; size?: 'sm' | 'lg' }) {
